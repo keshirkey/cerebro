@@ -1,0 +1,302 @@
+-- phpMyAdmin SQL Dump
+-- version 3.3.9
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Mar 19, 2013 at 04:00 AM
+-- Server version: 5.5.8
+-- PHP Version: 5.3.5
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `cerebro`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comic`
+--
+
+CREATE TABLE IF NOT EXISTS `comic` (
+  `seriesID` int(10) unsigned DEFAULT NULL,
+  `subtitle` varchar(128) DEFAULT NULL,
+  `writerID` int(10) unsigned DEFAULT NULL,
+  `penciller` varchar(128) DEFAULT NULL,
+  `inker` varchar(128) DEFAULT NULL,
+  `colorist` varchar(128) DEFAULT NULL,
+  `letterer` varchar(128) DEFAULT NULL,
+  `coverpenciller` varchar(128) DEFAULT NULL,
+  `covercolorist` varchar(128) DEFAULT NULL,
+  `volume` smallint(6) DEFAULT NULL,
+  `number` smallint(6) DEFAULT NULL,
+  `limitedseries` varchar(128) DEFAULT NULL,
+  `pubmonth` varchar(128) DEFAULT NULL,
+  `pubyear` smallint(4) DEFAULT NULL,
+  `familyID` int(10) unsigned DEFAULT NULL,
+  `publisherID` int(10) unsigned DEFAULT NULL,
+  `comicID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `isbn` int(11) DEFAULT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`comicID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `comic`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer`
+--
+
+CREATE TABLE IF NOT EXISTS `customer` (
+  `firstname` varchar(128) DEFAULT NULL,
+  `lastname` varchar(128) DEFAULT NULL,
+  `username` varchar(128) DEFAULT NULL,
+  `email` varchar(128) DEFAULT NULL,
+  `roleID` smallint(6) DEFAULT NULL,
+  `collectorID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`collectorID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `customer`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `family`
+--
+
+CREATE TABLE IF NOT EXISTS `family` (
+  `familyname` varchar(128) DEFAULT NULL,
+  `publisherID` int(10) unsigned DEFAULT NULL,
+  `familyID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`familyID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `family`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `in_list`
+--
+
+CREATE TABLE IF NOT EXISTS `in_list` (
+  `in_listID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `comicID` int(11) DEFAULT NULL,
+  `listID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`in_listID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `in_list`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `list`
+--
+
+CREATE TABLE IF NOT EXISTS `list` (
+  `listID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(350) DEFAULT NULL,
+  `collectorID` int(11) DEFAULT NULL,
+  `tagID` int(11) DEFAULT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`listID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `list`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `owned`
+--
+
+CREATE TABLE IF NOT EXISTS `owned` (
+  `ownedID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `comicID` int(11) DEFAULT NULL,
+  `collectorID` int(11) DEFAULT NULL,
+  `purchasedate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ownedID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `owned`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `publisher`
+--
+
+CREATE TABLE IF NOT EXISTS `publisher` (
+  `publishername` varchar(128) DEFAULT NULL,
+  `startyear` int(10) unsigned DEFAULT NULL,
+  `endyear` int(10) unsigned DEFAULT NULL,
+  `email` varchar(128) DEFAULT NULL,
+  `publisherID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`publisherID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `publisher`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `review`
+--
+
+CREATE TABLE IF NOT EXISTS `review` (
+  `reviewID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `collectorID` int(11) DEFAULT NULL,
+  `comicID` int(11) DEFAULT NULL,
+  `stars` smallint(6) DEFAULT NULL,
+  `text` varchar(5000) DEFAULT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`reviewID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `review`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role`
+--
+
+CREATE TABLE IF NOT EXISTS `role` (
+  `roletype` varchar(128) DEFAULT NULL,
+  `permissions` varchar(128) DEFAULT NULL,
+  `roleID` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`roleID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `role`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `series`
+--
+
+CREATE TABLE IF NOT EXISTS `series` (
+  `seriestitle` varchar(128) DEFAULT NULL,
+  `seriesID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `publisherID` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`seriesID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `series`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tag`
+--
+
+CREATE TABLE IF NOT EXISTS `tag` (
+  `tagname` varchar(128) DEFAULT NULL,
+  `tagID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `tagtypeID` smallint(6) DEFAULT NULL,
+  PRIMARY KEY (`tagID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `tag`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tagged`
+--
+
+CREATE TABLE IF NOT EXISTS `tagged` (
+  `taggedID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `comicID` int(11) DEFAULT NULL,
+  `collectorID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`taggedID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `tagged`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tagtype`
+--
+
+CREATE TABLE IF NOT EXISTS `tagtype` (
+  `tagtypeID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `tagtype` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`tagtypeID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `tagtype`
+--
+
+INSERT INTO `tagtype` (`tagtypeID`, `tagtype`) VALUES
+(1, 'comic'),
+(2, 'list');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `writer`
+--
+
+CREATE TABLE IF NOT EXISTS `writer` (
+  `firstname` varchar(128) DEFAULT NULL,
+  `lastname` varchar(128) DEFAULT NULL,
+  `birthyear` smallint(4) DEFAULT NULL,
+  `writerID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`writerID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `writer`
+--
+
