@@ -2,7 +2,6 @@
 
 // Add.php -- Adds new record to the database and displays add form
 
-
 //load data from login.php and connect to mysql server
 require_once 'login.php'; 
 $db_server = mysql_connect($db_hostname, $db_username, $db_password);
