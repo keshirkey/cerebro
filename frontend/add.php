@@ -218,11 +218,10 @@ if (isset($_POST['series']) && isset($_POST['writerfirst']) && isset($_POST['wri
     }
     
 //display session messages
-session_start();
 if (isset($_SESSION['msg'])) {
     echo ('<p style="color:green;">' . $_SESSION['msg'] . '</p>');
     unset($_SESSION['msg']);
-
+    }
 
 //create form and output to browser    
 echo <<<_END
