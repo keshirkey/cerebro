@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 01, 2013 at 10:11 PM
+-- Generation Time: Apr 01, 2013 at 10:21 PM
 -- Server version: 5.5.8
 -- PHP Version: 5.3.5
 
@@ -227,8 +227,8 @@ INSERT INTO `family` (`familyname`, `publisherID`, `familyID`) VALUES
 
 CREATE TABLE IF NOT EXISTS `image` (
   `imageID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `image` blob,
   `comicID` int(11) DEFAULT NULL,
+  `image` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`imageID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
