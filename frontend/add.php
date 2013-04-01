@@ -15,7 +15,7 @@ or die("Unable to select database: " . mysql_error());
 
 //check for data in POST array, put into variables
 session_start();
-if (isset($_POST['series']) && isset($_POST['writerfirst']) && isset($_POST['writerlast']) && isset($_POST['artistfirst']) && isset($_POST['artistlast']) &&  isset($_POST['inkerfirst']) && isset($_POST['inkerlast']) && isset($_POST['coloristfirst']) && isset($_POST['coloristlast']) && isset($_POST['lettererfirst']) && isset($_POST['lettererlast']) && isset($_POST['coverartistfirst']) && isset($_POST['coverartistlast']) && isset($_POST['covercoloristfirst']) && isset($_POST['covercoloristlast']) && isset($_POST['volume']) && isset($_POST['number']) && isset($_POST['limitedseries']) && isset($_POST['subtitle']) && isset($_POST['pubmonth']) && isset($_POST['pubyear']) &&  isset($_POST['family']) && isset($_POST['publisher']) && isset($_POST['isbn'])
+if (isset($_POST['series']) && isset($_POST['writerfirst']) && isset($_POST['writerlast']) && isset($_POST['artistfirst']) && isset($_POST['artistlast']) &&  isset($_POST['inkerfirst']) && isset($_POST['inkerlast']) && isset($_POST['coloristfirst']) && isset($_POST['coloristlast']) && isset($_POST['lettererfirst']) && isset($_POST['lettererlast']) && isset($_POST['coverartistfirst']) && isset($_POST['coverartistlast']) && isset($_POST['coverinkerfirst']) && isset($_POST['coverinkerlast']) && isset($_POST['covercoloristfirst']) && isset($_POST['covercoloristlast']) && isset($_POST['volume']) && isset($_POST['number']) && isset($_POST['limitedseries']) && isset($_POST['subtitle']) && isset($_POST['pubmonth']) && isset($_POST['pubyear']) &&  isset($_POST['family']) && isset($_POST['publisher']) && isset($_POST['isbn'])
 ) {
     $series = get_post('series');
     $writerfirst = get_post('writerfirst');
@@ -30,6 +30,8 @@ if (isset($_POST['series']) && isset($_POST['writerfirst']) && isset($_POST['wri
     $lettererlast = get_post('lettererlast');
     $coverartistfirst = get_post('coverartistfirst');
     $coverartistlast = get_post('coverartistlast');
+    $coverinkerfirst = get_post('coverinkerfirst');
+    $coverinkerlast = get_post('coverinkerlast');
     $covercoloristfirst = get_post('covercoloristfirst');
     $covercoloristlast = get_post('covercoloristlast');
     $volume = get_post('volume');
@@ -52,6 +54,7 @@ if (isset($_POST['series']) && isset($_POST['writerfirst']) && isset($_POST['wri
     $check_colorist = mysql_query("SELECT * FROM colorist WHERE firstname = '$coloristfirst' AND lastname = '$coloristlast'");
     $check_letterer = mysql_query("SELECT * FROM letterer WHERE firstname = '$lettererfirst' AND lastname = '$lettererlast'");
     $check_coverartist = mysql_query("SELECT * FROM coverartist WHERE firstname = '$coverartistfirst' AND lastname = '$coverartistlast'");
+    $check_coverinker = mysql_query("SELECT * FROM coverinker WHERE firstname = '$coverinkerfirst' AND lastname = '$coverinkerlast'");
     $check_covercolorist = mysql_query("SELECT * FROM covercolorist WHERE firstname = '$covercoloristfirst' AND lastname = '$covercoloristlast'");
     $check_family = mysql_query("SELECT * FROM family WHERE familyname = '$family'");
     $check_publisher = mysql_query("SELECT * FROM publisher WHERE publishername = '$publisher'");
@@ -176,6 +179,20 @@ if (isset($_POST['series']) && isset($_POST['writerfirst']) && isset($_POST['wri
         $coverartistID = mysql_insert_id();
         }
         
+    //check if coverinker exists in db. if so, get coverinker ID. if not, add and get coverinker ID.     
+    if (mysql_num_rows($check_coverinker) > 0) {
+        $string = "SELECT * FROM coverinker WHERE firstname = '$coverinkerfirst' AND lastname = '$coverinkerlast'";
+        $result = mysql_query($string, $db_server);
+        $row = mysql_fetch_row($result);
+        $coverinkerID = $row[2];
+        }
+    else {
+        $query_coverinker = "INSERT INTO coverinker (firstname, lastname) VALUES ('$coverinkerfirst', '$coverinkerlast')";
+        $result = mysql_query("SELECT firstname, lastname FROM coverinker");
+        if (!mysql_query($query_coverinker, $db_server)) {echo "INSERT failed: $query<br />" . mysql_error() . "<br /><br />";}
+        $coverinkerID = mysql_insert_id();
+        }
+        
     //check if covercolorist exists in db. if so, get covercolorist ID. if not, add and get covercolorist ID.     
     if (mysql_num_rows($check_covercolorist) > 0) {
         $string = "SELECT * FROM covercolorist WHERE firstname = '$covercoloristfirst' AND lastname = '$covercoloristlast'";
@@ -206,7 +223,7 @@ if (isset($_POST['series']) && isset($_POST['writerfirst']) && isset($_POST['wri
         
         
     //insert all collected information & ids into comic table
-    $query_comic = "INSERT INTO comic (seriesID, volume, number, subtitle, limitedseries, pubmonth, pubyear, isbn, writerID, artistID, inkerID, coloristID, lettererID, coverartistID, covercoloristID, familyID, publisherID) VALUES ('$seriesID', '$volume', '$number', '$subtitle', '$limitedseries', '$pubmonth', '$pubyear', '$isbn', '$writerID', '$artistID', '$inkerID', '$coloristID', '$lettererID', '$coverartistID', '$covercoloristID', '$familyID', '$publisherID')";
+    $query_comic = "INSERT INTO comic (seriesID, volume, number, subtitle, limitedseries, pubmonth, pubyear, isbn, writerID, artistID, inkerID, coloristID, lettererID, coverartistID, coverinkerID, covercoloristID, familyID, publisherID) VALUES ('$seriesID', '$volume', '$number', '$subtitle', '$limitedseries', '$pubmonth', '$pubyear', '$isbn', '$writerID', '$artistID', '$inkerID', '$coloristID', '$lettererID', '$coverartistID', '$coverinkerID', '$covercoloristID', '$familyID', '$publisherID')";
     $result = mysql_query("SELECT seriesID FROM comic");
     if (!mysql_query($query_comic, $db_server)) {echo "INSERT failed: $query<br />" . mysql_error() . "<br /><br />";}
     
@@ -239,6 +256,7 @@ Inker: <input type="text" name="inkerfirst"/>(first name)&nbsp;&nbsp;<input type
 Colorist: <input type="text" name="coloristfirst"/>(first name)&nbsp;&nbsp;<input type="text" name="coloristlast"/>(last name)
 Letterer: <input type="text" name="lettererfirst"/>(first name)&nbsp;&nbsp;<input type="text" name="lettererlast"/>(last name)
 Cover Artist: <input type="text" name="coverartistfirst"/>(first name)&nbsp;&nbsp;<input type="text" name="coverartistlast"/>(last name)
+Cover Inker: <input type="text" name="coverinkerfirst"/>(first name)&nbsp;&nbsp;<input type="text" name="coverinkerlast"/>(last name)
 Cover Colorist: <input type="text" name="covercoloristfirst"/>(first name)&nbsp;&nbsp;<input type="text" name="covercoloristlast"/>(last name)
 Limited Series?: <input type="radio" name="limitedseries" value="Yes"/>Yes&nbsp;&nbsp;<input type="radio" name="limitedseries" value="No"/>No
 Published date: <input type="text" name="pubmonth"/>mm&nbsp;&nbsp;<input type="text" name="pubyear"/>yyyy
