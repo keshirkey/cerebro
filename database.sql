@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 27, 2013 at 05:25 PM
+-- Generation Time: Apr 01, 2013 at 07:10 PM
 -- Server version: 5.5.8
 -- PHP Version: 5.3.5
 
@@ -58,12 +58,15 @@ CREATE TABLE IF NOT EXISTS `collector` (
   `collectorID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `password` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`collectorID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `collector`
 --
 
+INSERT INTO `collector` (`firstname`, `lastname`, `username`, `email`, `roleID`, `collectorID`, `password`) VALUES
+('Laurinda', 'Weisse', 'lweisse', 'testing', NULL, 5, 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3'),
+('L', 'W', 'lweisse', '127.0.0.1', NULL, 7, '961195ebb2eaeeb8a76e92f5e78ab3021a2976ca');
 
 -- --------------------------------------------------------
 
@@ -114,6 +117,7 @@ CREATE TABLE IF NOT EXISTS `comic` (
   `comicID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `isbn` bigint(11) DEFAULT NULL,
   `adddate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `coverinker` int(11) DEFAULT NULL,
   PRIMARY KEY (`comicID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
@@ -121,14 +125,14 @@ CREATE TABLE IF NOT EXISTS `comic` (
 -- Dumping data for table `comic`
 --
 
-INSERT INTO `comic` (`seriesID`, `subtitle`, `writerID`, `artistID`, `inkerID`, `coloristID`, `lettererID`, `coverartistID`, `covercoloristID`, `volume`, `number`, `limitedseries`, `pubmonth`, `pubyear`, `familyID`, `publisherID`, `comicID`, `isbn`, `adddate`) VALUES
-(4, NULL, 2, 1, NULL, NULL, 1, 1, NULL, 1, 11, NULL, 'March', 2013, NULL, 3, 1, 985301166, '2013-03-27 12:01:01'),
-(3, NULL, 4, 2, NULL, 2, 2, 2, 2, 1, 26, NULL, 'May', 2013, 1, 1, 2, 2147483647, '2013-03-27 12:05:08'),
-(5, NULL, 5, 3, 1, 3, 3, 3, NULL, 1, 26, NULL, 'September', 2012, NULL, 2, 3, 1617682148, '2013-03-27 12:09:32'),
-(2, NULL, 2, 4, 2, 4, 4, 4, 1, 1, 9, NULL, 'May', 2013, 1, 1, 4, 5960607900, '2013-03-27 12:17:19'),
-(2, NULL, 2, 4, 2, 4, 4, 4, 1, 1, 5, NULL, 'May', 2013, 1, 1, 5, NULL, '2013-03-27 12:19:03'),
-(2, NULL, 2, 4, 2, 4, 4, 4, 1, 1, 6, NULL, 'May', 2013, 1, 1, 7, NULL, '2013-03-27 12:20:07'),
-(1, NULL, 3, 5, NULL, 5, 2, 6, 3, 3, 24, NULL, 'May', 2013, NULL, 1, 8, NULL, '2013-03-27 12:21:57');
+INSERT INTO `comic` (`seriesID`, `subtitle`, `writerID`, `artistID`, `inkerID`, `coloristID`, `lettererID`, `coverartistID`, `covercoloristID`, `volume`, `number`, `limitedseries`, `pubmonth`, `pubyear`, `familyID`, `publisherID`, `comicID`, `isbn`, `adddate`, `coverinker`) VALUES
+(4, NULL, 2, 1, NULL, NULL, 1, 1, NULL, 1, 11, NULL, 'March', 2013, NULL, 3, 1, 985301166, '2013-03-27 12:01:01', NULL),
+(3, NULL, 4, 2, NULL, 2, 2, 2, 2, 1, 26, NULL, 'May', 2013, 1, 1, 2, 2147483647, '2013-03-27 12:05:08', NULL),
+(5, NULL, 5, 3, 1, 3, 3, 3, NULL, 1, 26, NULL, 'September', 2012, NULL, 2, 3, 1617682148, '2013-03-27 12:09:32', NULL),
+(2, NULL, 2, 4, 2, 4, 4, 4, 1, 1, 9, NULL, 'May', 2013, 1, 1, 4, 5960607900, '2013-03-27 12:17:19', NULL),
+(2, NULL, 2, 4, 2, 4, 4, 4, 1, 1, 5, NULL, 'May', 2013, 1, 1, 5, NULL, '2013-03-27 12:19:03', NULL),
+(2, NULL, 2, 4, 2, 4, 4, 4, 1, 1, 6, NULL, 'May', 2013, 1, 1, 7, NULL, '2013-03-27 12:20:07', NULL),
+(1, NULL, 3, 5, NULL, 5, 2, 6, 3, 3, 24, NULL, 'May', 2013, NULL, 1, 8, NULL, '2013-03-27 12:21:57', NULL);
 
 -- --------------------------------------------------------
 
