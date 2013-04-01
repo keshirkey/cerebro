@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 01, 2013 at 09:25 PM
+-- Generation Time: Apr 01, 2013 at 10:11 PM
 -- Server version: 5.5.8
 -- PHP Version: 5.3.5
 
@@ -190,8 +190,8 @@ INSERT INTO `covercolorist` (`firstname`, `lastname`, `coverartistID`) VALUES
 CREATE TABLE IF NOT EXISTS `coverinker` (
   `firstname` varchar(128) DEFAULT NULL,
   `lastname` varchar(128) DEFAULT NULL,
-  `coverartistID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`coverartistID`)
+  `coverinkerID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`coverinkerID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
