@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 02, 2013 at 02:07 AM
+-- Generation Time: Apr 02, 2013 at 10:27 PM
 -- Server version: 5.5.8
 -- PHP Version: 5.3.5
 
@@ -22,15 +22,33 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `author`
+--
+
+CREATE TABLE IF NOT EXISTS `author` (
+  `authorID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `firstname` varchar(128) DEFAULT NULL,
+  `lastname` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`authorID`),
+  UNIQUE KEY `name_index` (`firstname`,`lastname`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `author`
+--
+
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `authorship`
 --
 
 CREATE TABLE IF NOT EXISTS `authorship` (
-  `firstname` varchar(128) DEFAULT NULL,
-  `lastname` varchar(128) DEFAULT NULL,
   `authorshipID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `comicID` int(11) DEFAULT NULL,
   `roleID` int(11) DEFAULT NULL,
+  `contributorID` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`authorshipID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -54,7 +72,8 @@ CREATE TABLE IF NOT EXISTS `collector` (
   `collectorID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `password` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`collectorID`),
-  UNIQUE KEY `username_index` (`username`)
+  UNIQUE KEY `username_index` (`username`),
+  UNIQUE KEY `email_index` (`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
 
 --
@@ -110,7 +129,8 @@ CREATE TABLE IF NOT EXISTS `family` (
   `familyname` varchar(128) DEFAULT NULL,
   `publisherID` int(10) unsigned DEFAULT NULL,
   `familyID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`familyID`)
+  PRIMARY KEY (`familyID`),
+  UNIQUE KEY `familyname_index` (`familyname`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
@@ -256,7 +276,8 @@ CREATE TABLE IF NOT EXISTS `publisher` (
   `endyear` int(10) unsigned DEFAULT NULL,
   `email` varchar(128) DEFAULT NULL,
   `publisherID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`publisherID`)
+  PRIMARY KEY (`publisherID`),
+  UNIQUE KEY `publishername` (`publishername`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
@@ -298,7 +319,8 @@ CREATE TABLE IF NOT EXISTS `review` (
 CREATE TABLE IF NOT EXISTS `role` (
   `roleID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `rolename` varchar(128) DEFAULT NULL,
-  PRIMARY KEY (`roleID`)
+  PRIMARY KEY (`roleID`),
+  UNIQUE KEY `rolename` (`rolename`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
@@ -311,10 +333,10 @@ INSERT INTO `role` (`roleID`, `rolename`) VALUES
 (3, 'coverartist'),
 (4, 'covercolorist'),
 (5, 'coverinker'),
+(9, 'editor'),
 (6, 'inker'),
 (7, 'letterer'),
-(8, 'writer'),
-(9, 'editor');
+(8, 'writer');
 
 -- --------------------------------------------------------
 
@@ -326,7 +348,8 @@ CREATE TABLE IF NOT EXISTS `series` (
   `seriestitle` varchar(128) DEFAULT NULL,
   `seriesID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `publisherID` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`seriesID`)
+  PRIMARY KEY (`seriesID`),
+  UNIQUE KEY `seriestitle` (`seriestitle`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
