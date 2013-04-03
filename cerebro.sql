@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 3.3.9
+-- version 3.5.2.2
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Apr 02, 2013 at 10:27 PM
--- Server version: 5.5.8
--- PHP Version: 5.3.5
+-- Host: 127.0.0.1
+-- Generation Time: Apr 03, 2013 at 06:08 AM
+-- Server version: 5.5.27
+-- PHP Version: 5.4.7
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -18,7 +19,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- Database: `cerebro`
 --
-
+Magellan#1
 -- --------------------------------------------------------
 
 --
@@ -33,11 +34,6 @@ CREATE TABLE IF NOT EXISTS `author` (
   UNIQUE KEY `name_index` (`firstname`,`lastname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
---
--- Dumping data for table `author`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -48,14 +44,10 @@ CREATE TABLE IF NOT EXISTS `authorship` (
   `authorshipID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `comicID` int(11) DEFAULT NULL,
   `roleID` int(11) DEFAULT NULL,
-  `contributorID` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`authorshipID`)
+  `authorID` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`authorshipID`),
+  UNIQUE KEY `constraint_name` (`roleID`,`authorID`,`comicID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `authorship`
---
-
 
 -- --------------------------------------------------------
 
@@ -103,7 +95,8 @@ CREATE TABLE IF NOT EXISTS `comic` (
   `comicID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `isbn` bigint(11) DEFAULT NULL,
   `adddate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`comicID`)
+  PRIMARY KEY (`comicID`),
+  UNIQUE KEY `constraint_comic` (`seriesID`,`volume`,`number`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
@@ -111,13 +104,13 @@ CREATE TABLE IF NOT EXISTS `comic` (
 --
 
 INSERT INTO `comic` (`seriesID`, `subtitle`, `volume`, `number`, `limitedseries`, `pubmonth`, `pubyear`, `familyID`, `publisherID`, `comicID`, `isbn`, `adddate`) VALUES
-(4, NULL, 1, 11, NULL, 0, 2013, NULL, 3, 1, 985301166, '2013-03-27 12:01:01'),
-(3, NULL, 1, 26, NULL, 0, 2013, 1, 1, 2, 2147483647, '2013-03-27 12:05:08'),
-(5, NULL, 1, 26, NULL, 0, 2012, NULL, 2, 3, 1617682148, '2013-03-27 12:09:32'),
-(2, NULL, 1, 9, NULL, 0, 2013, 1, 1, 4, 5960607900, '2013-03-27 12:17:19'),
-(2, NULL, 1, 5, NULL, 0, 2013, 1, 1, 5, NULL, '2013-03-27 12:19:03'),
-(2, NULL, 1, 6, NULL, 0, 2013, 1, 1, 7, NULL, '2013-03-27 12:20:07'),
-(1, NULL, 3, 24, NULL, 0, 2013, NULL, 1, 8, NULL, '2013-03-27 12:21:57');
+(4, NULL, 1, 11, NULL, 0, 2013, NULL, 3, 1, 985301166, '2013-03-27 16:01:01'),
+(3, NULL, 1, 26, NULL, 0, 2013, 1, 1, 2, 2147483647, '2013-03-27 16:05:08'),
+(5, NULL, 1, 26, NULL, 0, 2012, NULL, 2, 3, 1617682148, '2013-03-27 16:09:32'),
+(2, NULL, 1, 9, NULL, 0, 2013, 1, 1, 4, 5960607900, '2013-03-27 16:17:19'),
+(2, NULL, 1, 5, NULL, 0, 2013, 1, 1, 5, NULL, '2013-03-27 16:19:03'),
+(2, NULL, 1, 6, NULL, 0, 2013, 1, 1, 7, NULL, '2013-03-27 16:20:07'),
+(1, NULL, 3, 24, NULL, 0, 2013, NULL, 1, 8, NULL, '2013-03-27 16:21:57');
 
 -- --------------------------------------------------------
 
@@ -153,11 +146,6 @@ CREATE TABLE IF NOT EXISTS `image` (
   PRIMARY KEY (`imageID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
---
--- Dumping data for table `image`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -171,11 +159,6 @@ CREATE TABLE IF NOT EXISTS `in_list` (
   `collectorID` int(11) DEFAULT NULL,
   PRIMARY KEY (`in_listID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `in_list`
---
-
 
 -- --------------------------------------------------------
 
@@ -192,11 +175,6 @@ CREATE TABLE IF NOT EXISTS `list` (
   `listdescription` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`listID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `list`
---
-
 
 -- --------------------------------------------------------
 
@@ -241,11 +219,6 @@ CREATE TABLE IF NOT EXISTS `owned` (
   PRIMARY KEY (`ownedID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
---
--- Dumping data for table `owned`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -259,11 +232,6 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   PRIMARY KEY (`permissionID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
---
--- Dumping data for table `permissions`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -272,8 +240,6 @@ CREATE TABLE IF NOT EXISTS `permissions` (
 
 CREATE TABLE IF NOT EXISTS `publisher` (
   `publishername` varchar(128) DEFAULT NULL,
-  `startyear` int(10) unsigned DEFAULT NULL,
-  `endyear` int(10) unsigned DEFAULT NULL,
   `email` varchar(128) DEFAULT NULL,
   `publisherID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`publisherID`),
@@ -284,10 +250,10 @@ CREATE TABLE IF NOT EXISTS `publisher` (
 -- Dumping data for table `publisher`
 --
 
-INSERT INTO `publisher` (`publishername`, `startyear`, `endyear`, `email`, `publisherID`) VALUES
-('Marvel Comics', 1939, NULL, NULL, 1),
-('Cryptozoic Entertainment', 2010, NULL, NULL, 2),
-('Image Comics', 1992, NULL, NULL, 3);
+INSERT INTO `publisher` (`publishername`, `email`, `publisherID`) VALUES
+('Marvel Comics', NULL, 1),
+('Cryptozoic Entertainment', NULL, 2),
+('Image Comics', NULL, 3);
 
 -- --------------------------------------------------------
 
@@ -304,11 +270,6 @@ CREATE TABLE IF NOT EXISTS `review` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`reviewID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `review`
---
-
 
 -- --------------------------------------------------------
 
@@ -376,11 +337,6 @@ CREATE TABLE IF NOT EXISTS `tag` (
   PRIMARY KEY (`tagID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
---
--- Dumping data for table `tag`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -394,11 +350,6 @@ CREATE TABLE IF NOT EXISTS `tagged` (
   `tagID` int(11) DEFAULT NULL,
   PRIMARY KEY (`taggedID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `tagged`
---
-
 
 -- --------------------------------------------------------
 
@@ -419,3 +370,7 @@ CREATE TABLE IF NOT EXISTS `tagtype` (
 INSERT INTO `tagtype` (`tagtypeID`, `tagtype`) VALUES
 (1, 'comic'),
 (2, 'list');
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
