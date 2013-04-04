@@ -34,201 +34,168 @@ if (isset($_POST['series']) && isset($_POST['writerfirst']) && isset($_POST['wri
     $coverinkerlast = get_post('coverinkerlast');
     $covercoloristfirst = get_post('covercoloristfirst');
     $covercoloristlast = get_post('covercoloristlast');
-    $volume = get_post('volume');
-    $number = get_post('number');
+    $volume = get_post('volume') + 0;
+    $number = get_post('number') + 0;
     $limitedseries = get_post('limitedseries');
     $subtitle = get_post('subtitle');  
-    $pubmonth = get_post('pubmonth');  
-    $pubyear = get_post('pubyear');
+    $pubmonth = get_post('pubmonth') + 0;  
+    $pubyear = get_post('pubyear') + 0;
     $family = get_post('family');
     $publisher = get_post('publisher');
-    $isbn = get_post('isbn');
+    $isbn = get_post('isbn') + 0; 
            
-    //check if records are already there
-    $check_series = mysql_query("SELECT * FROM series WHERE seriestitle = '$series'");
-    $check_volume = mysql_query("SELECT * FROM comic WHERE volume = '$volume'");
-    $check_number = mysql_query("SELECT * FROM comic WHERE number = '$number'");
-    $check_writer = mysql_query("SELECT * FROM writer WHERE firstname = '$writerfirst' AND lastname = '$writerlast'");
-    $check_artist = mysql_query("SELECT * FROM artist WHERE firstname = '$artistfirst' AND lastname = '$artistlast'");
-    $check_inker = mysql_query("SELECT * FROM inker WHERE firstname = '$inkerfirst' AND lastname = '$inkerlast'");
-    $check_colorist = mysql_query("SELECT * FROM colorist WHERE firstname = '$coloristfirst' AND lastname = '$coloristlast'");
-    $check_letterer = mysql_query("SELECT * FROM letterer WHERE firstname = '$lettererfirst' AND lastname = '$lettererlast'");
-    $check_coverartist = mysql_query("SELECT * FROM coverartist WHERE firstname = '$coverartistfirst' AND lastname = '$coverartistlast'");
-    $check_coverinker = mysql_query("SELECT * FROM coverinker WHERE firstname = '$coverinkerfirst' AND lastname = '$coverinkerlast'");
-    $check_covercolorist = mysql_query("SELECT * FROM covercolorist WHERE firstname = '$covercoloristfirst' AND lastname = '$covercoloristlast'");
-    $check_family = mysql_query("SELECT * FROM family WHERE familyname = '$family'");
-    $check_publisher = mysql_query("SELECT * FROM publisher WHERE publishername = '$publisher'");
     
-     //check if publisher exists in db. if so, get publisher ID. if not, add and get publisher ID.     
-    if (mysql_num_rows($check_publisher) > 0) {
-        $string = "SELECT * FROM publisher WHERE publishername = '$publisher'";
-        $result = mysql_query($string, $db_server);
-        $row = mysql_fetch_row($result);
-        $publisherID = $row[4];
-        }
-    else {
-        $query_publisher = "INSERT INTO publisher (publishername) VALUES ('$publisher')";
-        $result = mysql_query("SELECT publishername FROM publisher");
-        if (!mysql_query($query_publisher, $db_server)) {echo "INSERT failed: $query<br />" . mysql_error() . "<br /><br />";}
-        $publisherID = mysql_insert_id();
-        }
+    //retrieve roleIDs from the role table
+    $string = "SELECT roleID FROM role WHERE rolename = 'writer'";
+    $result = mysql_query($string, $db_server);
+    $row = mysql_fetch_row($result);
+    $roleID_writer = $row[0];
     
-    //if series is there, save seriesID to pass to comic table
-    if (mysql_num_rows($check_series) > 0) {
-        $string = "SELECT * FROM series WHERE seriestitle = '$series'";
-        $result = mysql_query($string, $db_server);
-        $row = mysql_fetch_row($result);
-        $seriesID = $row[1];
-        //check if series, volume, and number all exist at once; if so, do not add
-        if (mysql_num_rows($check_series) > 0 && mysql_num_rows($check_volume) > 0 && mysql_num_rows($check_number) > 0) {
-            echo("Comic already exists in the database.");
-            return;
-            }
-        }
+    $string = "SELECT roleID FROM role WHERE rolename = 'artist'";
+    $result = mysql_query($string, $db_server);
+    $row = mysql_fetch_row($result);
+    $roleID_artist = $row[0];
     
-    //if series is not there, insert series record
-    //run the actual query, generate error if it doesn't work. if it works, get the generated ID.
-    else {
-        $query_series = "INSERT INTO series (seriestitle, publisherID) VALUES ('$series', '$publisherID')";
-        $result = mysql_query("SELECT seriestitle FROM series");
-            if (!mysql_query($query_series, $db_server)) {echo "INSERT failed: $query<br />" . mysql_error() . "<br /><br />";}
-        $seriesID = mysql_insert_id();
-        }
-        
-   //check if writer exists in db. if so, get writer ID. if not, add and get writer ID.     
-    if (mysql_num_rows($check_writer) > 0) {
-        $string = "SELECT * FROM writer WHERE firstname = '$writerfirst' AND lastname = '$writerlast'";
-        $result = mysql_query($string, $db_server);
-        $row = mysql_fetch_row($result);
-        $writerID = $row[3];
-        }
-    else {
-        $query_writer = "INSERT INTO writer (firstname, lastname) VALUES ('$writerfirst', '$writerlast')";
-        $result = mysql_query("SELECT firstname, lastname FROM writer");
-        if (!mysql_query($query_writer, $db_server)) {echo "INSERT failed: $query<br />" . mysql_error() . "<br /><br />";}
-        $writerID = mysql_insert_id();
-        }
+    $string = "SELECT roleID FROM role WHERE rolename = 'inker'";
+    $result = mysql_query($string, $db_server);
+    $row = mysql_fetch_row($result);
+    $roleID_inker = $row[0];
     
-    //check if artist exists in db. if so, get artist ID. if not, add and get artist ID.     
-    if (mysql_num_rows($check_artist) > 0) {
-        $string = "SELECT * FROM artist WHERE firstname = '$artistfirst' AND lastname = '$artistlast'";
-        $result = mysql_query($string, $db_server);
-        $row = mysql_fetch_row($result);
-        $artistID = $row[2];
-        }
-    else {
-        $query_artist = "INSERT INTO artist (firstname, lastname) VALUES ('$artistfirst', '$artistlast')";
-        $result = mysql_query("SELECT firstname, lastname FROM artist");
-        if (!mysql_query($query_artist, $db_server)) {echo "INSERT failed: $query<br />" . mysql_error() . "<br /><br />";}
-        $artistID = mysql_insert_id();
-        }
-        
-    //check if inker exists in db. if so, get inker ID. if not, add and get inker ID.     
-    if (mysql_num_rows($check_inker) > 0) {
-        $string = "SELECT * FROM inker WHERE firstname = '$inkerfirst' AND lastname = '$inkerlast'";
-        $result = mysql_query($string, $db_server);
-        $row = mysql_fetch_row($result);
-        $inkerID = $row[2];
-        }
-    else {
-        $query_inker = "INSERT INTO inker (firstname, lastname) VALUES ('$inkerfirst', '$inkerlast')";
-        $result = mysql_query("SELECT firstname, lastname FROM inker");
-        if (!mysql_query($query_inker, $db_server)) {echo "INSERT failed: $query<br />" . mysql_error() . "<br /><br />";}
-        $inkerID = mysql_insert_id();
-        }
-        
-     //check if colorist exists in db. if so, get colorist ID. if not, add and get colorist ID.     
-    if (mysql_num_rows($check_colorist) > 0) {
-        $string = "SELECT * FROM colorist WHERE firstname = '$coloristfirst' AND lastname = '$coloristlast'";
-        $result = mysql_query($string, $db_server);
-        $row = mysql_fetch_row($result);
-        $coloristID = $row[2];
-        }
-    else {
-        $query_colorist = "INSERT INTO colorist (firstname, lastname) VALUES ('$coloristfirst', '$coloristlast')";
-        $result = mysql_query("SELECT firstname, lastname FROM colorist");
-        if (!mysql_query($query_colorist, $db_server)) {echo "INSERT failed: $query<br />" . mysql_error() . "<br /><br />";}
-        $coloristID = mysql_insert_id();
-        }
-        
-    //check if letterer exists in db. if so, get letterer ID. if not, add and get letterer ID.     
-    if (mysql_num_rows($check_letterer) > 0) {
-        $string = "SELECT * FROM letterer WHERE firstname = '$lettererfirst' AND lastname = '$lettererlast'";
-        $result = mysql_query($string, $db_server);
-        $row = mysql_fetch_row($result);
-        $lettererID = $row[2];
-        }
-    else {
-        $query_letterer = "INSERT INTO letterer (firstname, lastname) VALUES ('$lettererfirst', '$lettererlast')";
-        $result = mysql_query("SELECT firstname, lastname FROM letterer");
-        if (!mysql_query($query_letterer, $db_server)) {echo "INSERT failed: $query<br />" . mysql_error() . "<br /><br />";}
-        $lettererID = mysql_insert_id();
-        }
-        
-    //check if coverartist exists in db. if so, get coverartist ID. if not, add and get coverartist ID.     
-    if (mysql_num_rows($check_coverartist) > 0) {
-        $string = "SELECT * FROM coverartist WHERE firstname = '$coverartistfirst' AND lastname = '$coverartistlast'";
-        $result = mysql_query($string, $db_server);
-        $row = mysql_fetch_row($result);
-        $coverartistID = $row[2];
-        }
-    else {
-        $query_coverartist = "INSERT INTO coverartist (firstname, lastname) VALUES ('$coverartistfirst', '$coverartistlast')";
-        $result = mysql_query("SELECT firstname, lastname FROM coverartist");
-        if (!mysql_query($query_coverartist, $db_server)) {echo "INSERT failed: $query<br />" . mysql_error() . "<br /><br />";}
-        $coverartistID = mysql_insert_id();
-        }
-        
-    //check if coverinker exists in db. if so, get coverinker ID. if not, add and get coverinker ID.     
-    if (mysql_num_rows($check_coverinker) > 0) {
-        $string = "SELECT * FROM coverinker WHERE firstname = '$coverinkerfirst' AND lastname = '$coverinkerlast'";
-        $result = mysql_query($string, $db_server);
-        $row = mysql_fetch_row($result);
-        $coverinkerID = $row[2];
-        }
-    else {
-        $query_coverinker = "INSERT INTO coverinker (firstname, lastname) VALUES ('$coverinkerfirst', '$coverinkerlast')";
-        $result = mysql_query("SELECT firstname, lastname FROM coverinker");
-        if (!mysql_query($query_coverinker, $db_server)) {echo "INSERT failed: $query<br />" . mysql_error() . "<br /><br />";}
-        $coverinkerID = mysql_insert_id();
-        }
-        
-    //check if covercolorist exists in db. if so, get covercolorist ID. if not, add and get covercolorist ID.     
-    if (mysql_num_rows($check_covercolorist) > 0) {
-        $string = "SELECT * FROM covercolorist WHERE firstname = '$covercoloristfirst' AND lastname = '$covercoloristlast'";
-        $result = mysql_query($string, $db_server);
-        $row = mysql_fetch_row($result);
-        $covercoloristID = $row[2];
-        }
-    else {
-        $query_covercolorist = "INSERT INTO covercolorist (firstname, lastname) VALUES ('$covercoloristfirst', '$covercoloristlast')";
-        $result = mysql_query("SELECT firstname, lastname FROM covercolorist");
-        if (!mysql_query($query_covercolorist, $db_server)) {echo "INSERT failed: $query<br />" . mysql_error() . "<br /><br />";}
-        $covercoloristID = mysql_insert_id();
-        }
+    $string = "SELECT roleID FROM role WHERE rolename = 'colorist'";
+    $result = mysql_query($string, $db_server);
+    $row = mysql_fetch_row($result);
+    $roleID_colorist = $row[0];
     
-    //check if family exists in db. if so, get family ID. if not, add and get family ID.     
-    if (mysql_num_rows($check_family) > 0) {
-        $string = "SELECT * FROM family WHERE familyname = '$family'";
-        $result = mysql_query($string, $db_server);
-        $row = mysql_fetch_row($result);
-        $familyID = $row[2];
-        }
-    else {
-        $query_family = "INSERT INTO family (familyname, publisherID) VALUES ('$family', '$publisherID')";
-        $result = mysql_query("SELECT familyname FROM family");
-        if (!mysql_query($query_family, $db_server)) {echo "INSERT failed: $query<br />" . mysql_error() . "<br /><br />";}
-        $familyID = mysql_insert_id();
-        }
-        
-        
-    //insert all collected information & ids into comic table
-    $query_comic = "INSERT INTO comic (seriesID, volume, number, subtitle, limitedseries, pubmonth, pubyear, isbn, writerID, artistID, inkerID, coloristID, lettererID, coverartistID, coverinkerID, covercoloristID, familyID, publisherID) VALUES ('$seriesID', '$volume', '$number', '$subtitle', '$limitedseries', '$pubmonth', '$pubyear', '$isbn', '$writerID', '$artistID', '$inkerID', '$coloristID', '$lettererID', '$coverartistID', '$coverinkerID', '$covercoloristID', '$familyID', '$publisherID')";
-    $result = mysql_query("SELECT seriesID FROM comic");
-    if (!mysql_query($query_comic, $db_server)) {echo "INSERT failed: $query<br />" . mysql_error() . "<br /><br />";}
+    $string = "SELECT roleID FROM role WHERE rolename = 'letterer'";
+    $result = mysql_query($string, $db_server);
+    $row = mysql_fetch_row($result);
+    $roleID_letterer = $row[0];
     
-    //add message to session saying it worked and go back to index
-    session_start();
+    $string = "SELECT roleID FROM role WHERE rolename = 'coverartist'";
+    $result = mysql_query($string, $db_server);
+    $row = mysql_fetch_row($result);
+    $roleID_coverartist = $row[0];
+    
+    $string = "SELECT roleID FROM role WHERE rolename = 'coverinker'";
+    $result = mysql_query($string, $db_server);
+    $row = mysql_fetch_row($result);
+    $roleID_coverinker = $row[0];
+    
+    $string = "SELECT roleID FROM role WHERE rolename = 'covercolorist'";
+    $result = mysql_query($string, $db_server);
+    $row = mysql_fetch_row($result);
+    $roleID_covercolorist = $row[0];
+    
+     //insert publisher into db and get ID  
+    if ($publisher == "") {$publisher = "NULL";}  
+    $query_publisher = "INSERT IGNORE INTO publisher (publishername) VALUES ('$publisher')";
+    if (!mysql_query($query_publisher, $db_server)) {echo "INSERT failed: $query_publisher<br />" . mysql_error() . "<br /><br />";}
+    $publisherid = mysql_insert_id();
+      
+    //insert series into db and get ID
+    if ($series == "") {$series = "NULL";}  
+    $query_series = "INSERT IGNORE INTO series (seriestitle, publisherID) VALUES ('$series', '$publisherid')";
+    if (!mysql_query($query_series, $db_server)) {echo "INSERT failed: $query_series<br />" . mysql_error() . "<br /><br />";}
+    $seriesid = mysql_insert_id();
+        
+    //insert family into db and get ID     
+    if ($family == "") {$family = "NULL";}  
+    $query_family = "INSERT IGNORE INTO family (familyname, publisherID) VALUES ('$family', '$publisherid')";
+    if (!mysql_query($query_family, $db_server)) {echo "INSERT failed: $query_family<br />" . mysql_error() . "<br /><br />";}
+    $familyid = mysql_insert_id();
+    
+    //check user-submitted data for blank fields, insert NULL into blanks, otherwise use user data
+    $X_subtitle = $subtitle == "" ? "NULL" : "'".$subtitle."'";
+    $X_limitedseries = $limitedseries == "" ? "NULL" : "'".$limitedseries."'";
+        
+    //insert collected information & ids into comic table, collect comicID
+    $query_comic = "INSERT INTO comic (seriesID, volume, number, subtitle, limitedseries, monthid, pubyear, isbn, familyID, publisherID) VALUES ('$seriesid', '$volume', '$number', '$X_subtitle', '$X_limitedseries', '$pubmonth', '$pubyear', '$isbn', '$familyid', '$publisherid')";
+    if (!mysql_query($query_comic, $db_server)) {echo "INSERT failed: $query_comic<br />" . mysql_error() . "<br /><br />";
+    $comicid = mysql_insert_id();
+    }
+        
+   //insert writer info into db and get ID     
+    if ($writerfirst == "") {$writerfirst = "NULL";} 
+    if ($writerlast == "") {$writerlast = "NULL";}
+    $query_writer = "INSERT IGNORE INTO author (firstname, lastname) VALUES ('$writerfirst', '$writerlast')";
+    if (!mysql_query($query_writer, $db_server)) {echo "INSERT failed: $query_writer<br />" . mysql_error() . "<br /><br />";}
+    $writerid = mysql_insert_id();
+    
+    //insert artist info into db and get ID     
+    if ($artistfirst == "") {$artistfirst = "NULL";} 
+    if ($artistlast == "") {$artistlast = "NULL";}
+    $query_artist = "INSERT IGNORE INTO author (firstname, lastname) VALUES ('$artistfirst', '$artistlast')";
+    if (!mysql_query($query_artist, $db_server)) {echo "INSERT failed: $query_artist<br />" . mysql_error() . "<br /><br />";}
+    $artistid = mysql_insert_id();
+    
+    //insert inker info into db and get ID     
+    if ($inkerfirst == "") {$inkerfirst = "NULL";} 
+    if ($inkerlast == "") {$inkerlast = "NULL";}
+    $query_inker = "INSERT IGNORE INTO author (firstname, lastname) VALUES ('$inkerfirst', '$inkerlast')";
+    if (!mysql_query($query_inker, $db_server)) {echo "INSERT failed: $query_inker<br />" . mysql_error() . "<br /><br />";}
+    $inkerid = mysql_insert_id();
+    
+    //insert colorist info into db and get ID     
+    if ($coloristfirst == "") {$coloristfirst = "NULL";} 
+    if ($coloristlast == "") {$coloristlast = "NULL";}
+    $query_colorist = "INSERT IGNORE INTO author (firstname, lastname) VALUES ('$coloristfirst', '$coloristlast')";
+    if (!mysql_query($query_colorist, $db_server)) {echo "INSERT failed: $query_colorist<br />" . mysql_error() . "<br /><br />";}
+    $coloristid = mysql_insert_id();
+    
+    //insert letterer info into db and get ID     
+    if ($lettererfirst == "") {$lettererfirst = "NULL";} 
+    if ($lettererlast == "") {$lettererlast = "NULL";}
+    $query_letterer = "INSERT IGNORE INTO author (firstname, lastname) VALUES ('$lettererfirst', '$lettererlast')";
+    if (!mysql_query($query_letterer, $db_server)) {echo "INSERT failed: $query_letterer<br />" . mysql_error() . "<br /><br />";}
+    $lettererid = mysql_insert_id();
+    
+    //insert coverartist info into db and get ID     
+    if ($coverartistfirst == "") {$coverartistfirst = "NULL";} 
+    if ($coverartistlast == "") {$coverartistlast = "NULL";}
+    $query_coverartist = "INSERT IGNORE INTO author (firstname, lastname) VALUES ('$coverartistfirst', '$coverartistlast')";
+    if (!mysql_query($query_coverartist, $db_server)) {echo "INSERT failed: $query_coverartist<br />" . mysql_error() . "<br /><br />";}
+    $coverartistid = mysql_insert_id();
+    
+    //insert coverinker info into db and get ID     
+    if ($coverinkerfirst == "") {$coverinkerfirst = "NULL";} 
+    if ($coverinkerlast == "") {$coverinkerlast = "NULL";}
+    $query_coverinker = "INSERT IGNORE INTO author (firstname, lastname) VALUES ('$coverinkerfirst', '$coverinkerlast')";
+    if (!mysql_query($query_coverinker, $db_server)) {echo "INSERT failed: $query_coverinker<br />" . mysql_error() . "<br /><br />";}
+    $coverinkerid = mysql_insert_id();
+    
+    //insert covercolorist info into db and get ID     
+    if ($covercoloristfirst == "") {$covercoloristfirst = "NULL";} 
+    if ($covercoloristlast == "") {$covercoloristlast = "NULL";}
+    $query_covercolorist = "INSERT IGNORE INTO author (firstname, lastname) VALUES ('$covercoloristfirst', '$covercoloristlast')";
+    if (!mysql_query($query_covercolorist, $db_server)) {echo "INSERT failed: $query_covercolorist<br />" . mysql_error() . "<br /><br />";}
+    $covercoloristid = mysql_insert_id();
+    
+    //insert info into authorship table
+    $query_authorship_writer = "INSERT IGNORE INTO authorship (comicID, roleID, authorID) VALUES ('$comicid', '$roleID_writer', '$writerid')";
+    if (!mysql_query($query_authorship_writer, $db_server)) {echo "INSERT failed: $query_authorship_writer<br />" . mysql_error() . "<br /><br />";}
+    
+    $query_authorship_artist = "INSERT IGNORE INTO authorship (comicID, roleID, authorID) VALUES ('$comicid', '$roleID_artist', '$artistid')";
+    if (!mysql_query($query_authorship_artist, $db_server)) {echo "INSERT failed: $query_authorship_artist<br />" . mysql_error() . "<br /><br />";}
+    
+    $query_authorship_inker = "INSERT IGNORE INTO authorship (comicID, roleID, authorID) VALUES ('$comicid', '$roleID_inker', '$inkerid')";
+    if (!mysql_query($query_authorship_inker, $db_server)) {echo "INSERT failed: $query_authorship_inker<br />" . mysql_error() . "<br /><br />";}
+    
+    $query_authorship_colorist = "INSERT IGNORE INTO authorship (comicID, roleID, authorID) VALUES ('$comicid', '$roleID_colorist', '$coloristid')";
+    if (!mysql_query($query_authorship_colorist, $db_server)) {echo "INSERT failed: $query_authorship_colorist<br />" . mysql_error() . "<br /><br />";}
+    
+    $query_authorship_letterer = "INSERT IGNORE INTO authorship (comicID, roleID, authorID) VALUES ('$comicid', '$roleID_letterer', '$lettererid')";
+    if (!mysql_query($query_authorship_letterer, $db_server)) {echo "INSERT failed: $query_authorship_letterer<br />" . mysql_error() . "<br /><br />";}
+    
+    $query_authorship_coverartist = "INSERT IGNORE INTO authorship (comicID, roleID, authorID) VALUES ('$comicid', '$roleID_coverartist', '$coverartistid')";
+    if (!mysql_query($query_authorship_coverartist, $db_server)) {echo "INSERT failed: $query_authorship_coverartist<br />" . mysql_error() . "<br /><br />";}
+    
+    $query_authorship_coverinker = "INSERT IGNORE INTO authorship (comicID, roleID, authorID) VALUES ('$comicid', '$roleID_coverinker', '$coverinkerid')";
+    if (!mysql_query($query_authorship_coverinker, $db_server)) {echo "INSERT failed: $query_authorship_coverinker<br />" . mysql_error() . "<br /><br />";}
+    
+    $query_authorship_covercolorist = "INSERT IGNORE INTO authorship (comicID, roleID, authorID) VALUES ('$comicid', '$roleID_covercolorist', '$covercoloristid')";
+    if (!mysql_query($query_authorship_covercolorist, $db_server)) {echo "INSERT failed: $query_authorship_covercolorist<br />" . mysql_error() . "<br /><br />";}
+    
+    //add message to session saying it worked and reload page
     $_SESSION['msg'] = "Record added successfully";
     header('Location: add.php');
     return; 
@@ -271,7 +238,8 @@ mysql_close($db_server);
 
 //get_post function to sanitize user data
 function get_post($var) {
+    if (!isset($_POST[$var]) && strlen($_POST[$var]) < 1) {return false;}
     return mysql_real_escape_string($_POST[$var]);
-}
+    }
 
 ?>
