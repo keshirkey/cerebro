@@ -118,7 +118,7 @@ if (isset($_POST['series']) && isset($_POST['writerfirst']) && isset($_POST['wri
     $X_limitedseries = $limitedseries == "" ? "NULL" : "'".$limitedseries."'";
         
     //insert collected information & ids into comic table, collect comicID
-    $query_comic = "INSERT INTO comic (seriesID, volume, number, subtitle, limitedseries, monthid, pubyear, isbn, familyID, publisherID) VALUES ('$seriesid', '$volume', '$number', '$X_subtitle', '$X_limitedseries', '$pubmonth', '$pubyear', '$isbn', '$familyid', '$publisherid')";
+    $query_comic = "INSERT INTO comic (seriesID, volume, number, subtitle, limitedseries, monthid, pubyear, isbn, familyID, publisherID) VALUES ('$seriesid', '$volume', '$number', $X_subtitle, $X_limitedseries, '$pubmonth', '$pubyear', '$isbn', '$familyid', '$publisherid')";
     if (!mysql_query($query_comic, $db_server)) {echo "INSERT failed: $query_comic<br />" . mysql_error() . "<br /><br />";
     $comicid = mysql_insert_id();
     }
