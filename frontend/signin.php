@@ -23,9 +23,15 @@ $result=mysql_query($sql);
 $count=mysql_num_rows($result);
 $row=mysql_fetch_row($result);
 var_dump($row);
+
+$sql2="SELECT collectorID FROM collector WHERE username='$username' and password='$password'";
+$result2=mysql_query($sql2);
+$row2=mysql_fetch_row($result2);
+var_dump($row2);
 // If result matched $username and $password, table row must be 1 row
 if($count==1){
  $_SESSION['username'] = $row[0];
+ $_SESSION['collectorid']=$row2[0];
 
 header("location: index.php");
 }
