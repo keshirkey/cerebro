@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 //load data from login.php and connect to mysql server
 require_once 'login.php'; 
 $db_server = mysql_connect($db_hostname, $db_username, $db_password);
@@ -22,12 +22,18 @@ or die("Unable to select database: " . mysql_error());
 
 <body>
 <h1>CEREBRO!</h1>
+<p><a href="registration.php">Register</a></p>
+<p><a href="signin.php">Log In</a></p>
+
 <hr>
 <?php
-
+//will allow identification of users via session; currently displaying only this when session is set
+if ( isset($_SESSION['username']) ) {
+   echo('<p>Welcome '.htmlentities($_SESSION['username']). ' You have logged in.</p>'."\n");
+   echo('<p><a href="logout.php">Logout</a></p>'."\n");
+   
+}
 $result = mysql_query("SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY pubyear DESC, monthid DESC");
-
-
 
 while ($row = mysql_fetch_row($result) ) {
 $seriesID = $row[0];
@@ -39,8 +45,17 @@ echo($row[3]);
 echo("<br/>");
 echo($row[4]);
 echo("<br/><br/>");
-$string = "SELECT * FROM owned WHERE comicID = '$row[7]' AND collectorID = '5'";
-$owned_result = mysql_num_rows($string);
+//eventually want to change the collectorID to pull username from session and set it that way
+//I think the problem is with the comicID section
+$string = "SELECT ownedID FROM owned WHERE comicID = '$row[7]' AND collectorID = '24'";
+//info is making it into the string properly
+
+$result3=mysql_query($string);
+
+$owned_result = mysql_num_rows($result3);
+//printing only owned results, so the variable's not executing
+
+
 if ($owned_result > 0) {
     $owned = "owned";
     }
