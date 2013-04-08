@@ -22,21 +22,48 @@ or die("Unable to select database: " . mysql_error());
 
 <body>
 <h1>CEREBRO!</h1>
-
+<hr>
 <?php
 
-//testing retrieving some stuff from the database
-$result = mysql_query("SELECT firstname, lastname, birthyear FROM writer");
+$result = mysql_query("SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY pubyear DESC, monthid DESC");
+
+
+
 while ($row = mysql_fetch_row($result) ) {
-echo (htmlentities($row[0]));
-echo (htmlentities($row[1]));
-echo (htmlentities($row[2]));
-echo (htmlentities($row[3]));
-}
+$seriesID = $row[0];
+$query = mysql_query("SELECT seriestitle FROM series WHERE seriesID = '$seriesID'");
+$series_row = mysql_fetch_row($query);
+echo($series_row[0]);
+echo("<br/>");
+echo($row[3]);
+echo("<br/>");
+echo($row[4]);
+echo("<br/><br/>");
+$string = "SELECT * FROM owned WHERE comicID = '$row[7]' AND collectorID = '5'";
+$owned_result = mysql_query($string);
+if (!$owned_result) {
+    $owned = "not owned";
+    }
+else {
+    $owned = "owned";
+    }
 
+//$owned = !$owned_result ? "owned" : "not owned";
 ?>
+<div id ="onHover">
+    <p>
+        <?php
+        echo($owned);
+        echo("<br/>");
+        ?>
+    review<br/>
+    add to list<br/>
+    </p>
+</div>
 
-
+    <?php
+    }
+    ?>
 
 </body>
 </html>
