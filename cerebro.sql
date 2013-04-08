@@ -1,14 +1,20 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.1
+-- version 3.5.2.2
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Apr 08, 2013 at 06:47 AM
+-- Host: 127.0.0.1
+-- Generation Time: Apr 09, 2013 at 12:00 AM
 -- Server version: 5.5.25
--- PHP Version: 5.4.4
+-- PHP Version: 5.4.7
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `cerebro`
@@ -20,7 +26,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `author`
 --
 
-CREATE TABLE `author` (
+CREATE TABLE IF NOT EXISTS `author` (
   `authorID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `firstname` varchar(128) DEFAULT NULL,
   `lastname` varchar(128) DEFAULT NULL,
@@ -129,7 +135,7 @@ INSERT INTO `author` (`authorID`, `firstname`, `lastname`) VALUES
 -- Table structure for table `authorship`
 --
 
-CREATE TABLE `authorship` (
+CREATE TABLE IF NOT EXISTS `authorship` (
   `authorshipID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `comicID` int(11) unsigned DEFAULT NULL,
   `roleID` int(11) unsigned DEFAULT NULL,
@@ -428,7 +434,7 @@ INSERT INTO `authorship` (`authorshipID`, `comicID`, `roleID`, `authorID`) VALUE
 -- Table structure for table `collector`
 --
 
-CREATE TABLE `collector` (
+CREATE TABLE IF NOT EXISTS `collector` (
   `firstname` varchar(128) DEFAULT NULL,
   `lastname` varchar(128) DEFAULT NULL,
   `username` varchar(128) DEFAULT NULL,
@@ -440,7 +446,7 @@ CREATE TABLE `collector` (
   UNIQUE KEY `username_index` (`username`),
   UNIQUE KEY `email_index` (`email`),
   KEY `permissionID` (`permissionID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
 
 --
 -- Dumping data for table `collector`
@@ -448,7 +454,9 @@ CREATE TABLE `collector` (
 
 INSERT INTO `collector` (`firstname`, `lastname`, `username`, `email`, `permissionID`, `collectorID`, `password`) VALUES
 ('Laurinda', 'Weisse', 'lweisse', 'testing', NULL, 5, 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3'),
-('test', 'test', 'test', 'test', NULL, 21, 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3');
+('test', 'test', 'test', 'test', NULL, 22, 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3'),
+('blah', 'blah', 'blah', 'blah', NULL, 23, '5bf1fd927dfb8679496a2e6cf00cbe50c1c87145'),
+('llw', 'llw', 'llw', 'llw', NULL, 24, '29b50a9a7dca2f2683410214fc14e604178fb765');
 
 -- --------------------------------------------------------
 
@@ -456,7 +464,7 @@ INSERT INTO `collector` (`firstname`, `lastname`, `username`, `email`, `permissi
 -- Table structure for table `comic`
 --
 
-CREATE TABLE `comic` (
+CREATE TABLE IF NOT EXISTS `comic` (
   `seriesID` int(10) unsigned DEFAULT NULL,
   `subtitle` varchar(128) DEFAULT NULL,
   `volume` smallint(6) DEFAULT NULL,
@@ -523,7 +531,7 @@ INSERT INTO `comic` (`seriesID`, `subtitle`, `volume`, `number`, `limitedseries`
 -- Table structure for table `family`
 --
 
-CREATE TABLE `family` (
+CREATE TABLE IF NOT EXISTS `family` (
   `familyname` varchar(128) DEFAULT NULL,
   `publisherID` int(10) unsigned DEFAULT NULL,
   `familyID` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -548,7 +556,7 @@ INSERT INTO `family` (`familyname`, `publisherID`, `familyID`) VALUES
 -- Table structure for table `image`
 --
 
-CREATE TABLE `image` (
+CREATE TABLE IF NOT EXISTS `image` (
   `imageID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `comicID` int(10) unsigned DEFAULT NULL,
   `image` varchar(1000) DEFAULT NULL,
@@ -562,7 +570,7 @@ CREATE TABLE `image` (
 -- Table structure for table `in_list`
 --
 
-CREATE TABLE `in_list` (
+CREATE TABLE IF NOT EXISTS `in_list` (
   `in_listID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `comicID` int(10) unsigned DEFAULT NULL,
   `listID` int(10) unsigned DEFAULT NULL,
@@ -579,7 +587,7 @@ CREATE TABLE `in_list` (
 -- Table structure for table `list`
 --
 
-CREATE TABLE `list` (
+CREATE TABLE IF NOT EXISTS `list` (
   `listID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(350) DEFAULT NULL,
   `collectorID` int(10) unsigned DEFAULT NULL,
@@ -597,7 +605,7 @@ CREATE TABLE `list` (
 -- Table structure for table `months`
 --
 
-CREATE TABLE `months` (
+CREATE TABLE IF NOT EXISTS `months` (
   `monthID` int(10) unsigned NOT NULL,
   `name` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`monthID`)
@@ -627,7 +635,7 @@ INSERT INTO `months` (`monthID`, `name`) VALUES
 -- Table structure for table `owned`
 --
 
-CREATE TABLE `owned` (
+CREATE TABLE IF NOT EXISTS `owned` (
   `ownedID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `comicID` int(10) unsigned DEFAULT NULL,
   `collectorID` int(10) unsigned DEFAULT NULL,
@@ -635,7 +643,16 @@ CREATE TABLE `owned` (
   PRIMARY KEY (`ownedID`),
   KEY `comicID` (`comicID`),
   KEY `collectorID` (`collectorID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `owned`
+--
+
+INSERT INTO `owned` (`ownedID`, `comicID`, `collectorID`, `adddate`) VALUES
+(2, 1, 24, '2013-04-08 20:35:37'),
+(3, 2, 24, '2013-04-08 21:10:33'),
+(4, 16, 24, '2013-04-08 21:10:33');
 
 -- --------------------------------------------------------
 
@@ -643,7 +660,7 @@ CREATE TABLE `owned` (
 -- Table structure for table `permissions`
 --
 
-CREATE TABLE `permissions` (
+CREATE TABLE IF NOT EXISTS `permissions` (
   `permissiontype` varchar(128) DEFAULT NULL,
   `permissions` varchar(128) DEFAULT NULL,
   `permissionID` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
@@ -656,7 +673,7 @@ CREATE TABLE `permissions` (
 -- Table structure for table `publisher`
 --
 
-CREATE TABLE `publisher` (
+CREATE TABLE IF NOT EXISTS `publisher` (
   `publishername` varchar(128) DEFAULT NULL,
   `email` varchar(128) DEFAULT NULL,
   `publisherID` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -682,7 +699,7 @@ INSERT INTO `publisher` (`publishername`, `email`, `publisherID`) VALUES
 -- Table structure for table `review`
 --
 
-CREATE TABLE `review` (
+CREATE TABLE IF NOT EXISTS `review` (
   `reviewID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `collectorID` int(10) unsigned DEFAULT NULL,
   `comicID` int(10) unsigned DEFAULT NULL,
@@ -700,7 +717,7 @@ CREATE TABLE `review` (
 -- Table structure for table `role`
 --
 
-CREATE TABLE `role` (
+CREATE TABLE IF NOT EXISTS `role` (
   `roleID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `rolename` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`roleID`),
@@ -728,7 +745,7 @@ INSERT INTO `role` (`roleID`, `rolename`) VALUES
 -- Table structure for table `series`
 --
 
-CREATE TABLE `series` (
+CREATE TABLE IF NOT EXISTS `series` (
   `seriestitle` varchar(128) DEFAULT NULL,
   `seriesID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `publisherID` int(10) unsigned DEFAULT NULL,
@@ -760,7 +777,7 @@ INSERT INTO `series` (`seriestitle`, `seriesID`, `publisherID`) VALUES
 -- Table structure for table `tag`
 --
 
-CREATE TABLE `tag` (
+CREATE TABLE IF NOT EXISTS `tag` (
   `tagname` varchar(128) DEFAULT NULL,
   `tagID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `tagtypeID` int(10) unsigned DEFAULT NULL,
@@ -774,7 +791,7 @@ CREATE TABLE `tag` (
 -- Table structure for table `tagged`
 --
 
-CREATE TABLE `tagged` (
+CREATE TABLE IF NOT EXISTS `tagged` (
   `taggedID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `comicID` int(10) unsigned DEFAULT NULL,
   `collectorID` int(10) unsigned DEFAULT NULL,
@@ -791,7 +808,7 @@ CREATE TABLE `tagged` (
 -- Table structure for table `tagtype`
 --
 
-CREATE TABLE `tagtype` (
+CREATE TABLE IF NOT EXISTS `tagtype` (
   `tagtypeID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `tagtype` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`tagtypeID`)
@@ -891,3 +908,7 @@ ALTER TABLE `tagged`
   ADD CONSTRAINT `tagged_ibfk_3` FOREIGN KEY (`tagID`) REFERENCES `tag` (`tagID`),
   ADD CONSTRAINT `tagged_ibfk_1` FOREIGN KEY (`comicID`) REFERENCES `comic` (`comicID`),
   ADD CONSTRAINT `tagged_ibfk_2` FOREIGN KEY (`collectorID`) REFERENCES `collector` (`collectorID`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
