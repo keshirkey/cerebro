@@ -40,12 +40,12 @@ echo("<br/>");
 echo($row[4]);
 echo("<br/><br/>");
 $string = "SELECT * FROM owned WHERE comicID = '$row[7]' AND collectorID = '5'";
-$owned_result = mysql_query($string);
-if (!$owned_result) {
-    $owned = "not owned";
+$owned_result = mysql_num_rows($string);
+if ($owned_result > 0) {
+    $owned = "owned";
     }
 else {
-    $owned = "owned";
+    $owned = "not owned";
     }
 
 //$owned = !$owned_result ? "owned" : "not owned";
