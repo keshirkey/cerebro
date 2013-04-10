@@ -22,11 +22,13 @@ or die("Unable to select database: " . mysql_error());
 
 <body>
 <h1>CEREBRO!</h1>
-<p><a href="registration.php">Register</a></p>
-<p><a href="signin.php">Log In</a></p>
 
 <hr>
 <?php
+if (!isset($_SESSION['username'])){
+ echo('<p><a href="registration.php">Register</a></p>');
+ echo('<p><a href="signin.php">Log In</a></p>');
+}
 //will allow identification of users via session; currently displaying only this when session is set
 if ( isset($_SESSION['username']) ) {
    echo('<p>Welcome '.htmlentities($_SESSION['username']). ' You have logged in.</p>'."\n");
@@ -45,30 +47,30 @@ echo($row[3]);
 echo("<br/>");
 echo($row[4]);
 echo("<br/><br/>");
-//eventually want to change the collectorID to pull username from session and set it that way
-//I think the problem is with the comicID section
-$string = "SELECT ownedID FROM owned WHERE comicID = '$row[7]' AND collectorID = '24'";
-//info is making it into the string properly
-
-$result3=mysql_query($string);
-
-$owned_result = mysql_num_rows($result3);
-//printing only owned results, so the variable's not executing
 
 
-if ($owned_result > 0) {
+if (isset($_SESSION['collectorid']) ){
+ $string = "SELECT ownedID FROM owned WHERE comicID = '$row[7]' AND collectorID = '".addslashes($_SESSION['collectorid'])."' ";
+ $result3=mysql_query($string);
+
+ $owned_result = mysql_num_rows($result3);
+
+ if ($owned_result > 0) {
     $owned = "owned";
+	
     }
-else {
+ else {
     $owned = "not owned";
     }
+echo $owned;	
+	
+}
 
-//$owned = !$owned_result ? "owned" : "not owned";
 ?>
 <div id ="onHover">
     <p>
         <?php
-        echo($owned);
+ //       echo($owned);
         echo("<br/>");
         ?>
     review<br/>
