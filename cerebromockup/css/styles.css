@@ -1,0 +1,177 @@
+@charset "utf-8";
+/* CSS Document */
+
+html{
+	position: relative;
+	min-height: 100%;
+}
+
+body {
+	margin: 0 0 25px;
+	overflow-y: scroll;
+	background-color:#ffffff;
+}
+
+h1 {
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 1.625em;     
+}
+
+#maincontent {
+	width: 75%;
+	min-width: 75%;
+	min-height: 100%;
+	background-color: #D2EEEB;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 125px;
+}
+
+#header {
+	width: 75%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+header {
+	background-color:grey;
+	position: fixed;
+	height: 116px;
+	top: 0;
+	z-index: 10;
+}
+
+footer {
+	position: absolute;
+	bottom: 0;
+	height: 25px;
+	background-color: grey;
+	margin-top: 25px;
+}
+
+/*    Header    */
+
+header,
+footer  {
+	width: 100%;
+}
+
+#searchwrap {
+	clear: both;
+	float: left;
+	padding-top: 40px;
+	width: 19.0%;
+	padding-left: 4%;
+}
+
+#searchbox {
+	display: inline-block;
+	width: 75%;
+}
+
+#searchwrap a {
+	font-size: 0.75em;
+	padding-top: 5px;
+	width: 75%;
+	float: left;
+	text-align: right;
+}
+
+#searchwrap img {
+	display: inline-block;
+	width: 20px;
+	padding-left: 5px;
+	margin-bottom: -5px;
+}
+
+#logo {
+	width: 54%;
+	float: left;
+	text-align: center;
+}
+
+#logo img {
+	display: inline-block;
+	vertical-align: middle;
+	z-index: 10;
+}
+
+nav {
+	float: right;
+	width: 20.0%;
+	padding-left: 3%;
+}
+
+nav ul {
+	list-style-type: none;
+	padding-top: 34px;
+	float: right;
+	width: 100%;
+}
+
+nav ul li {
+	font-size: 1em;
+	display: inline;
+	text-align: right;
+	padding-left: 7%;
+}
+
+.grid_1 span {
+	background-color: grey;
+}
+
+.grid_1,
+.grid_2,
+.grid_3,
+.grid_4 {
+	display: inline;
+	float: left;
+	position: relative;
+	margin-left: 1%;
+	margin-right: 1%;
+	background-color:#A5F1EA;
+}
+
+#maincontent .grid_1,
+#maincontent .grid_2,
+#maincontent .grid_3,
+#maincontent .grid_4 {
+	width: 23.0%;
+	position: static;
+}
+
+#maincontent ul {
+	list-style-type: none;
+}
+
+#maincontent ul li {
+	display: inline;
+	padding-right: 1.5%;
+}
+
+#maincontent ul,
+#filters {
+	display: inline;
+}
+
+#pleft,
+#pright {
+	display: inline;
+}
+
+#pright {
+	padding-left: 50%;
+}
+
+#filters {
+	padding-left: 42%;
+}
+
+#rowtwo {
+	position: relative;
+	margin-top: 5px;
+}
+
+footer p {
+	text-align: center;
+}
