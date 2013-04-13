@@ -17,7 +17,7 @@ or die("Unable to select database: " . mysql_error());
  	<html lang="en">
     <meta charset="UTF-8">
     <title>Cerebro - Your Brain on Comics</title>
-    <base href="http://localhost:8888/cerebro/">
+    <base href="http://localhost:8888/cerebro/cerebromockup/">
     <link rel="stylesheet" type="text/css" href="css/styles.css" title="Default Stylesheet" media="all"/>
  </head>
  <body>
@@ -30,7 +30,7 @@ or die("Unable to select database: " . mysql_error());
         	</div>
 
         	<div id="logo">
-        		<img src="images/cerebrologo.png" alt="Cerebro Logo" height="116" width="250">
+        		<img src="images/cerebro_logo.gif" alt="Cerebro Logo" height="116" width="250">
         	</div>
 
         	<nav>
@@ -113,21 +113,28 @@ $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubye
 
 //run the query and output
 $result = mysql_query($query);
-$n = 0;
 while ($row = mysql_fetch_row($result) ) {
 $seriesID = $row[0];
 $query = mysql_query("SELECT seriestitle FROM series WHERE seriesID = '$seriesID'");
 $series_row = mysql_fetch_row($query);
-$n = $n + 1;
-echo('<div class="grid_1"><span>Comic ');
-echo($n);
-echo("<br/>");
+echo('<div class="grid_1"><span>');
+?>
+
+<div class="cover">
+    <img src="../frontend/static/images/Amazing_Spider-Man_Vol_1_688.jpg" height="400">
+</div>
+
+<div id="textbox">
+    <p class="alignleft">
+
+<?php
 echo($series_row[0]);
-echo("<br/>");
+echo('</p><p class="alignright">');
 echo($row[3]);
-echo("<br/>");
+echo(", &nbsp");
 echo($row[4]);
-echo("<br/><br/>");
+echo("</p>");
+echo('<div class="clear"></div></div>');
 echo("</span></div>");
 
 
@@ -149,101 +156,6 @@ echo $owned;
 }
 
 ?>
- <!--   			<div class="grid_1"><span>Comic 1
-    				<p>
-    					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna leo, placerat eget iaculis at, convallis vitae purus. Sed sapien massa, elementum id accumsan quis, fringilla volutpat urna. Mauris nec leo vitae odio ornare aliquet eu in elit. Sed dui nibh, congue at egestas ut, congue quis leo. Fusce dictum fermentum fermentum. Nunc aliquam pharetra odio, vel malesuada neque convallis a. In nec dolor nulla.
-    				</p>
-				</span></div>
-
-    			<div class="grid_1"><span>Comic 2
-    				<p>
-    					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna leo, placerat eget iaculis at, convallis vitae purus. Sed sapien massa, elementum id accumsan quis, fringilla volutpat urna. Mauris nec leo vitae odio ornare aliquet eu in elit. Sed dui nibh, congue at egestas ut, congue quis leo. Fusce dictum fermentum fermentum. Nunc aliquam pharetra odio, vel malesuada neque convallis a. In nec dolor nulla.
-    				</p>
-    			</span></div>
-
-    			<div class="grid_1"><span>Comic 3
-    				<p>
-    					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna leo, placerat eget iaculis at, convallis vitae purus. Sed sapien massa, elementum id accumsan quis, fringilla volutpat urna. Mauris nec leo vitae odio ornare aliquet eu in elit. Sed dui nibh, congue at egestas ut, congue quis leo. Fusce dictum fermentum fermentum. Nunc aliquam pharetra odio, vel malesuada neque convallis a. In nec dolor nulla.
-    				</p>
-    			</span></div>
-
-    			<div class="grid_1"><span>Comic 4
-    				<p>
-    					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna leo, placerat eget iaculis at, convallis vitae purus. Sed sapien massa, elementum id accumsan quis, fringilla volutpat urna. Mauris nec leo vitae odio ornare aliquet eu in elit. Sed dui nibh, congue at egestas ut, congue quis leo. Fusce dictum fermentum fermentum. Nunc aliquam pharetra odio, vel malesuada neque convallis a. In nec dolor nulla.
-    				</p>
-    			</span></div>
-
-    			<div class="grid_2"><span>Comic 5
-    				<p>
-    					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna leo, placerat eget iaculis at, convallis vitae purus. Sed sapien massa, elementum id accumsan quis, fringilla volutpat urna. Mauris nec leo vitae odio ornare aliquet eu in elit. Sed dui nibh, congue at egestas ut, congue quis leo. Fusce dictum fermentum fermentum. Nunc aliquam pharetra odio, vel malesuada neque convallis a. In nec dolor nulla.
-    				</p>
-    			</span></div>
-
-    			<div class="grid_2"><span>Comic 6
-    				<p>
-    					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna leo, placerat eget iaculis at, convallis vitae purus. Sed sapien massa, elementum id accumsan quis, fringilla volutpat urna. Mauris nec leo vitae odio ornare aliquet eu in elit. Sed dui nibh, congue at egestas ut, congue quis leo. Fusce dictum fermentum fermentum. Nunc aliquam pharetra odio, vel malesuada neque convallis a. In nec dolor nulla.
-    				</p>
-    			</span></div>
-
-    			<div class="grid_2"><span>Comic 7
-    				<p>
-    					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna leo, placerat eget iaculis at, convallis vitae purus. Sed sapien massa, elementum id accumsan quis, fringilla volutpat urna. Mauris nec leo vitae odio ornare aliquet eu in elit. Sed dui nibh, congue at egestas ut, congue quis leo. Fusce dictum fermentum fermentum. Nunc aliquam pharetra odio, vel malesuada neque convallis a. In nec dolor nulla.
-    				</p>
-    			</span></div>
-
-    			<div class="grid_2"><span>Comic 8
-    				<p>
-    					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna leo, placerat eget iaculis at, convallis vitae purus. Sed sapien massa, elementum id accumsan quis, fringilla volutpat urna. Mauris nec leo vitae odio ornare aliquet eu in elit. Sed dui nibh, congue at egestas ut, congue quis leo. Fusce dictum fermentum fermentum. Nunc aliquam pharetra odio, vel malesuada neque convallis a. In nec dolor nulla.
-    				</p>
-    			</span></div>
-
-    			<div class="grid_3"><span>Comic 9
-    				<p>
-    					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna leo, placerat eget iaculis at, convallis vitae purus. Sed sapien massa, elementum id accumsan quis, fringilla volutpat urna. Mauris nec leo vitae odio ornare aliquet eu in elit. Sed dui nibh, congue at egestas ut, congue quis leo. Fusce dictum fermentum fermentum. Nunc aliquam pharetra odio, vel malesuada neque convallis a. In nec dolor nulla.
-    				</p>
-    			</span></div>
-
-    			<div class="grid_3"><span>Comic 10
-    				<p>
-    					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna leo, placerat eget iaculis at, convallis vitae purus. Sed sapien massa, elementum id accumsan quis, fringilla volutpat urna. Mauris nec leo vitae odio ornare aliquet eu in elit. Sed dui nibh, congue at egestas ut, congue quis leo. Fusce dictum fermentum fermentum. Nunc aliquam pharetra odio, vel malesuada neque convallis a. In nec dolor nulla.
-    				</p>
-    			</span></div>
-
-    			<div class="grid_3"><span>Comic 11
-    				<p>
-    					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna leo, placerat eget iaculis at, convallis vitae purus. Sed sapien massa, elementum id accumsan quis, fringilla volutpat urna. Mauris nec leo vitae odio ornare aliquet eu in elit. Sed dui nibh, congue at egestas ut, congue quis leo. Fusce dictum fermentum fermentum. Nunc aliquam pharetra odio, vel malesuada neque convallis a. In nec dolor nulla.
-    				</p>
-    			</span></div>
-
-    			<div class="grid_3"><span>Comic 12
-    				<p>
-    					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna leo, placerat eget iaculis at, convallis vitae purus. Sed sapien massa, elementum id accumsan quis, fringilla volutpat urna. Mauris nec leo vitae odio ornare aliquet eu in elit. Sed dui nibh, congue at egestas ut, congue quis leo. Fusce dictum fermentum fermentum. Nunc aliquam pharetra odio, vel malesuada neque convallis a. In nec dolor nulla.
-    				</p>
-    			</span></div>
-
-    			<div class="grid_4"><span>Comic 13
-    				<p>
-    					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna leo, placerat eget iaculis at, convallis vitae purus. Sed sapien massa, elementum id accumsan quis, fringilla volutpat urna. Mauris nec leo vitae odio ornare aliquet eu in elit. Sed dui nibh, congue at egestas ut, congue quis leo. Fusce dictum fermentum fermentum. Nunc aliquam pharetra odio, vel malesuada neque convallis a. In nec dolor nulla.
-    				</p>
-    			</span></div>
-
-    			<div class="grid_4"><span>Comic 14
-    				<p>
-    					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna leo, placerat eget iaculis at, convallis vitae purus. Sed sapien massa, elementum id accumsan quis, fringilla volutpat urna. Mauris nec leo vitae odio ornare aliquet eu in elit. Sed dui nibh, congue at egestas ut, congue quis leo. Fusce dictum fermentum fermentum. Nunc aliquam pharetra odio, vel malesuada neque convallis a. In nec dolor nulla.
-    				</p>
-    			</span></div>
-
-    			<div class="grid_4"><span>Comic 15
-    				<p>
-    					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna leo, placerat eget iaculis at, convallis vitae purus. Sed sapien massa, elementum id accumsan quis, fringilla volutpat urna. Mauris nec leo vitae odio ornare aliquet eu in elit. Sed dui nibh, congue at egestas ut, congue quis leo. Fusce dictum fermentum fermentum. Nunc aliquam pharetra odio, vel malesuada neque convallis a. In nec dolor nulla.
-    				</p>
-    			</span></div>
-
-    			<div class="grid_4"><span>Comic 16
-    				<p>
-    					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna leo, placerat eget iaculis at, convallis vitae purus. Sed sapien massa, elementum id accumsan quis, fringilla volutpat urna. Mauris nec leo vitae odio ornare aliquet eu in elit. Sed dui nibh, congue at egestas ut, congue quis leo. Fusce dictum fermentum fermentum. Nunc aliquam pharetra odio, vel malesuada neque convallis a. In nec dolor nulla.
-    				</p>
-    			</span></div> -->
     	</section>
 
     	<footer>
