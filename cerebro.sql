@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 09, 2013 at 12:00 AM
--- Server version: 5.5.25
+-- Generation Time: Apr 13, 2013 at 07:33 PM
+-- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `author` (
   `lastname` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`authorID`),
   UNIQUE KEY `name_index` (`firstname`,`lastname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=265 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=329 ;
 
 --
 -- Dumping data for table `author`
@@ -47,14 +47,19 @@ INSERT INTO `author` (`authorID`, `firstname`, `lastname`) VALUES
 (89, 'Andy', 'Kubert'),
 (205, 'Ben', 'Templesmith'),
 (90, 'Brad', 'Anderson'),
+(265, 'Brian K.', 'Vaughan'),
 (224, 'Brian K.', 'Vaughn'),
+(297, 'Brian Michael', 'Bendis'),
 (194, 'Charles Paul', 'Wilson III'),
 (187, 'Charlie', 'Kirchoff'),
+(298, 'Chris', 'Bachalo'),
+(325, 'Chris', 'Eliopoulos'),
 (214, 'Chris', 'Samnee'),
 (159, 'Christopher', 'Sebela'),
 (34, 'Clayton', 'Cowles'),
 (5, 'Cory', 'Petit'),
 (259, 'Dave', 'Stewart'),
+(322, 'David', 'Aja'),
 (82, 'David', 'Finch'),
 (4, 'Dean', 'White'),
 (96, 'Dexter', 'Soy'),
@@ -65,6 +70,7 @@ INSERT INTO `author` (`authorID`, `firstname`, `lastname`) VALUES
 (169, 'Filipe', 'Andrade'),
 (225, 'Fiona', 'Staples'),
 (228, 'Fonografiks', 'NULL'),
+(269, 'Fonographiks', 'NULL'),
 (38, 'Frank', 'D''Armata'),
 (17, 'Frank', 'Martin'),
 (85, 'Frank', 'Quietly'),
@@ -90,7 +96,11 @@ INSERT INTO `author` (`authorID`, `firstname`, `lastname`) VALUES
 (123, 'Karl', 'Kesel'),
 (192, 'Kelly', 'Yates'),
 (30, 'Kelly Sue', 'DeConnick'),
+(273, 'Kieron', 'Gillen'),
 (185, 'Mark', 'Buckingham'),
+(321, 'Matt', 'Fraction'),
+(324, 'Matt', 'Hollingsworth'),
+(276, 'Matthew', 'Wilson'),
 (223, 'Matthew Dow', 'Smith'),
 (260, 'Michael', 'Heisler'),
 (45, 'Mico', 'Suayan'),
@@ -119,12 +129,15 @@ INSERT INTO `author` (`authorID`, `firstname`, `lastname`) VALUES
 (31, 'Stefano', 'Caselli'),
 (138, 'Terry', 'Dodson'),
 (204, 'Tim', 'Hamilton'),
+(307, 'Tim', 'Townsend'),
 (72, 'Tomeu', 'Morey'),
 (200, 'Tommy Lee', 'Edwards'),
 (88, 'Tony', 'Avina'),
 (78, 'Tony', 'Daniel'),
 (195, 'Tony', 'Lee'),
 (69, 'Tony S.', 'Daniel'),
+(277, 'VC''s Clayton', 'Cowles'),
+(301, 'VC''s Joe', 'Caramagna'),
 (163, 'Veronica', 'Gandini'),
 (127, 'Wil', 'Quintana'),
 (122, 'Will', 'Quintana');
@@ -144,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `authorship` (
   UNIQUE KEY `constraint_name` (`roleID`,`authorID`,`comicID`),
   KEY `authorID` (`authorID`),
   KEY `comicID` (`comicID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=281 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=345 ;
 
 --
 -- Dumping data for table `authorship`
@@ -177,6 +190,9 @@ INSERT INTO `authorship` (`authorshipID`, `comicID`, `roleID`, `authorID`) VALUE
 (140, 21, 1, 132),
 (142, 22, 1, 134),
 (152, 23, 1, 134),
+(290, 38, 1, 156),
+(298, 39, 1, 156),
+(306, 40, 1, 156),
 (181, 26, 1, 169),
 (190, 27, 1, 169),
 (199, 28, 1, 185),
@@ -189,7 +205,12 @@ INSERT INTO `authorship` (`authorshipID`, `comicID`, `roleID`, `authorID`) VALUE
 (248, 33, 1, 225),
 (256, 34, 1, 225),
 (264, 35, 1, 225),
+(282, 37, 1, 225),
 (272, 36, 1, 257),
+(314, 41, 1, 298),
+(322, 42, 1, 298),
+(330, 43, 1, 298),
+(338, 44, 1, 322),
 (98, 18, 2, 3),
 (108, 19, 2, 3),
 (118, 20, 2, 3),
@@ -198,6 +219,10 @@ INSERT INTO `authorship` (`authorshipID`, `comicID`, `roleID`, `authorID`) VALUE
 (250, 33, 2, 3),
 (258, 34, 2, 3),
 (266, 35, 2, 3),
+(284, 37, 2, 3),
+(316, 41, 2, 3),
+(324, 42, 2, 3),
+(332, 43, 2, 3),
 (4, 9, 2, 4),
 (12, 10, 2, 4),
 (23, 11, 2, 4),
@@ -226,6 +251,10 @@ INSERT INTO `authorship` (`authorshipID`, `comicID`, `roleID`, `authorID`) VALUE
 (224, 30, 2, 198),
 (233, 31, 2, 198),
 (274, 36, 2, 259),
+(292, 38, 2, 276),
+(300, 39, 2, 276),
+(308, 40, 2, 276),
+(340, 44, 2, 324),
 (74, 16, 3, 3),
 (244, 32, 3, 3),
 (252, 33, 3, 3),
@@ -270,6 +299,9 @@ INSERT INTO `authorship` (`authorshipID`, `comicID`, `roleID`, `authorID`) VALUE
 (194, 27, 3, 142),
 (166, 24, 3, 156),
 (185, 26, 3, 156),
+(294, 38, 3, 156),
+(302, 39, 3, 156),
+(310, 40, 3, 156),
 (203, 28, 3, 185),
 (206, 28, 3, 187),
 (207, 28, 3, 192),
@@ -281,8 +313,13 @@ INSERT INTO `authorship` (`authorshipID`, `comicID`, `roleID`, `authorID`) VALUE
 (220, 29, 3, 205),
 (229, 30, 3, 214),
 (238, 31, 3, 223),
+(286, 37, 3, 225),
 (276, 36, 3, 261),
 (279, 36, 3, 264),
+(318, 41, 3, 298),
+(326, 42, 3, 298),
+(334, 43, 3, 298),
+(342, 44, 3, 322),
 (8, 9, 4, 3),
 (16, 10, 4, 3),
 (27, 11, 4, 3),
@@ -308,9 +345,17 @@ INSERT INTO `authorship` (`authorshipID`, `comicID`, `roleID`, `authorID`) VALUE
 (262, 34, 4, 3),
 (270, 35, 4, 3),
 (278, 36, 4, 3),
+(288, 37, 4, 3),
+(320, 41, 4, 3),
+(328, 42, 4, 3),
+(336, 43, 4, 3),
+(344, 44, 4, 3),
 (205, 28, 4, 187),
 (237, 31, 4, 187),
 (228, 30, 4, 198),
+(296, 38, 4, 276),
+(304, 39, 4, 276),
+(312, 40, 4, 276),
 (7, 9, 5, 3),
 (15, 10, 5, 3),
 (26, 11, 5, 3),
@@ -339,6 +384,14 @@ INSERT INTO `authorship` (`authorshipID`, `comicID`, `roleID`, `authorID`) VALUE
 (261, 34, 5, 3),
 (269, 35, 5, 3),
 (277, 36, 5, 3),
+(287, 37, 5, 3),
+(295, 38, 5, 3),
+(303, 39, 5, 3),
+(311, 40, 5, 3),
+(319, 41, 5, 3),
+(343, 44, 5, 3),
+(327, 42, 5, 307),
+(335, 43, 5, 307),
 (11, 10, 6, 2),
 (3, 9, 6, 3),
 (22, 11, 6, 3),
@@ -361,6 +414,12 @@ INSERT INTO `authorship` (`authorshipID`, `comicID`, `roleID`, `authorID`) VALUE
 (257, 34, 6, 3),
 (265, 35, 6, 3),
 (273, 36, 6, 3),
+(283, 37, 6, 3),
+(291, 38, 6, 3),
+(299, 39, 6, 3),
+(307, 40, 6, 3),
+(315, 41, 6, 3),
+(339, 44, 6, 3),
 (32, 12, 6, 31),
 (43, 13, 6, 31),
 (52, 14, 6, 51),
@@ -368,6 +427,8 @@ INSERT INTO `authorship` (`authorshipID`, `comicID`, `roleID`, `authorID`) VALUE
 (79, 17, 6, 79),
 (160, 23, 6, 134),
 (153, 23, 6, 145),
+(323, 42, 6, 307),
+(331, 43, 6, 307),
 (5, 9, 7, 5),
 (13, 10, 7, 5),
 (24, 11, 7, 5),
@@ -396,6 +457,14 @@ INSERT INTO `authorship` (`authorshipID`, `comicID`, `roleID`, `authorID`) VALUE
 (259, 34, 7, 228),
 (267, 35, 7, 228),
 (275, 36, 7, 260),
+(285, 37, 7, 269),
+(293, 38, 7, 277),
+(301, 39, 7, 277),
+(309, 40, 7, 277),
+(317, 41, 7, 301),
+(325, 42, 7, 301),
+(333, 43, 7, 301),
+(341, 44, 7, 325),
 (1, 9, 8, 1),
 (9, 10, 8, 1),
 (20, 11, 8, 1),
@@ -426,7 +495,15 @@ INSERT INTO `authorship` (`authorshipID`, `comicID`, `roleID`, `authorID`) VALUE
 (247, 33, 8, 224),
 (255, 34, 8, 224),
 (263, 35, 8, 224),
-(271, 36, 8, 256);
+(271, 36, 8, 256),
+(281, 37, 8, 265),
+(289, 38, 8, 273),
+(297, 39, 8, 273),
+(305, 40, 8, 273),
+(313, 41, 8, 297),
+(321, 42, 8, 297),
+(329, 43, 8, 297),
+(337, 44, 8, 321);
 
 -- --------------------------------------------------------
 
@@ -446,7 +523,7 @@ CREATE TABLE IF NOT EXISTS `collector` (
   UNIQUE KEY `username_index` (`username`),
   UNIQUE KEY `email_index` (`email`),
   KEY `permissionID` (`permissionID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
 
 --
 -- Dumping data for table `collector`
@@ -456,7 +533,8 @@ INSERT INTO `collector` (`firstname`, `lastname`, `username`, `email`, `permissi
 ('Laurinda', 'Weisse', 'lweisse', 'testing', NULL, 5, 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3'),
 ('test', 'test', 'test', 'test', NULL, 22, 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3'),
 ('blah', 'blah', 'blah', 'blah', NULL, 23, '5bf1fd927dfb8679496a2e6cf00cbe50c1c87145'),
-('llw', 'llw', 'llw', 'llw', NULL, 24, '29b50a9a7dca2f2683410214fc14e604178fb765');
+('llw', 'llw', 'llw', 'llw', NULL, 24, '29b50a9a7dca2f2683410214fc14e604178fb765'),
+('Caitlin', 'Geier', 'lonecayt', 'geier.ac@gmail.com', NULL, 25, '64875fcccaac069fcb3e0e201e7d5b9166641608');
 
 -- --------------------------------------------------------
 
@@ -482,7 +560,7 @@ CREATE TABLE IF NOT EXISTS `comic` (
   KEY `publisherID` (`publisherID`),
   KEY `seriesID` (`seriesID`,`familyID`,`publisherID`),
   KEY `monthid` (`monthid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=37 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=45 ;
 
 --
 -- Dumping data for table `comic`
@@ -491,7 +569,7 @@ CREATE TABLE IF NOT EXISTS `comic` (
 INSERT INTO `comic` (`seriesID`, `subtitle`, `volume`, `number`, `limitedseries`, `pubyear`, `familyID`, `publisherID`, `comicID`, `isbn`, `adddate`, `monthid`) VALUES
 (4, NULL, 1, 11, NULL, 2013, NULL, 3, 1, 985301166, '2013-03-27 16:01:01', NULL),
 (3, NULL, 1, 26, NULL, 2013, 1, 1, 2, 2147483647, '2013-03-27 16:05:08', NULL),
-(5, NULL, 1, 26, NULL, 2012, NULL, 2, 3, 1617682148, '2013-03-27 16:09:32', NULL),
+(5, NULL, 1, 2, NULL, 2012, NULL, 2, 3, 1617682148, '2013-04-13 17:33:15', NULL),
 (2, NULL, 1, 9, NULL, 2013, 1, 1, 4, 5960607900, '2013-03-27 16:17:19', NULL),
 (2, NULL, 1, 5, NULL, 2013, 1, 1, 5, NULL, '2013-03-27 16:19:03', NULL),
 (2, NULL, 1, 6, NULL, 2013, 1, 1, 7, NULL, '2013-03-27 16:20:07', NULL),
@@ -523,7 +601,15 @@ INSERT INTO `comic` (`seriesID`, `subtitle`, `volume`, `number`, `limitedseries`
 (4, NULL, 1, 8, 'Yes', 2012, 11, 3, 33, 0, '2013-04-08 04:36:03', 12),
 (4, NULL, 1, 9, 'Yes', 2013, 11, 3, 34, 0, '2013-04-08 04:37:01', 1),
 (4, NULL, 1, 10, 'Yes', 2013, 11, 3, 35, 0, '2013-04-08 04:38:18', 2),
-(33, 'Float Out', 1, 1, 'Yes', 2010, 11, 31, 36, 0, '2013-04-08 04:44:21', 6);
+(33, 'Float Out', 1, 1, 'Yes', 2010, 11, 31, 36, 0, '2013-04-08 04:44:21', 6),
+(4, NULL, 1, 12, 'No', 2013, 11, 3, 37, 0, '2013-04-13 15:19:06', 4),
+(35, NULL, 2, 3, 'No', 2013, 2, 1, 38, 0, '2013-04-13 15:24:34', 5),
+(35, NULL, 2, 1, 'No', 2013, 2, 1, 39, 0, '2013-04-13 15:32:38', 3),
+(35, NULL, 2, 2, 'No', 2013, 2, 1, 40, 0, '2013-04-13 15:33:51', 4),
+(38, 'The New Revolution', 3, 1, 'No', 2013, 1, 1, 41, 0, '2013-04-13 15:37:39', 4),
+(38, 'Poink is the New Bamf', 3, 2, 'No', 2013, 1, 1, 42, 0, '2013-04-13 15:51:38', 4),
+(38, NULL, 3, 4, 'No', 2013, 1, 1, 43, 0, '2013-04-13 15:54:42', 6),
+(41, NULL, 4, 9, 'No', 2013, 11, 1, 44, 0, '2013-04-13 16:04:52', 6);
 
 -- --------------------------------------------------------
 
@@ -538,7 +624,7 @@ CREATE TABLE IF NOT EXISTS `family` (
   PRIMARY KEY (`familyID`),
   UNIQUE KEY `familyname_index` (`familyname`),
   KEY `publisherID` (`publisherID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=38 ;
 
 --
 -- Dumping data for table `family`
@@ -679,7 +765,7 @@ CREATE TABLE IF NOT EXISTS `publisher` (
   `publisherID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`publisherID`),
   UNIQUE KEY `publishername` (`publishername`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=40 ;
 
 --
 -- Dumping data for table `publisher`
@@ -752,7 +838,7 @@ CREATE TABLE IF NOT EXISTS `series` (
   PRIMARY KEY (`seriesID`),
   UNIQUE KEY `seriestitle` (`seriestitle`),
   KEY `publisherID` (`publisherID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=34 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=42 ;
 
 --
 -- Dumping data for table `series`
@@ -769,7 +855,10 @@ INSERT INTO `series` (`seriestitle`, `seriesID`, `publisherID`) VALUES
 ('Batman', 13, 11),
 ('Captain Marvel', 15, 1),
 ('Doctor Who', 25, 23),
-('Serenity', 33, 31);
+('Serenity', 33, 31),
+('Young Avengers', 35, 1),
+('Uncanny X-Men', 38, 1),
+('Hawkeye', 41, 1);
 
 -- --------------------------------------------------------
 
