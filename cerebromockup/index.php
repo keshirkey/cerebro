@@ -30,7 +30,7 @@ or die("Unable to select database: " . mysql_error());
         	</div>
 
         	<div id="logo">
-        		<img src="images/cerebro_logo.gif" alt="Cerebro Logo" height="116" width="250">
+        		<img src="images/cerebro_logo.gif" alt="Cerebro Logo">
         	</div>
 
         	<nav>
@@ -121,21 +121,22 @@ echo('<div class="grid_1"><span>');
 ?>
 
 <div class="cover">
-    <img src="../frontend/static/images/Amazing_Spider-Man_Vol_1_688.jpg" height="400">
+    <img src="../frontend/static/images/Amazing_Spider-Man_Vol_1_688.jpg">
 </div>
 
 <div id="textbox">
     <p class="alignleft">
-
 <?php
 echo($series_row[0]);
 echo('</p><p class="alignright">');
+echo('Vol. ');
 echo($row[3]);
-echo(", &nbsp");
+echo(',&nbsp; &#35;');
 echo($row[4]);
-echo("</p>");
-echo('<div class="clear"></div></div>');
-echo("</span></div>");
+echo('</p>');
+echo('<div class="clear"></div>');
+echo('</div>');
+echo('</span></div>');
 
 
 if (isset($_SESSION['collectorid']) ){
