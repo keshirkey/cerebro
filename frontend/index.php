@@ -48,15 +48,15 @@ $sort = get_sort('sort');
 }
     
     
-if ($sort == "recent-add"]) {
+if ($sort == "add"]) {
 $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY adddate DESC";
 }
 
-elseif ($sort == "newest-review") {
+elseif ($sort == "review") {
 $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY ";
 }
 
-elseif ($sort == "recent-publish") {
+elseif ($sort == "publish") {
 $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY pubyear DESC, monthid DESC";
 }
      
