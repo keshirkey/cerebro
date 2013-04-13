@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 13, 2013 at 07:33 PM
+-- Generation Time: Apr 13, 2013 at 09:28 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -648,7 +648,48 @@ CREATE TABLE IF NOT EXISTS `image` (
   `image` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`imageID`),
   KEY `comicID` (`comicID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36 ;
+
+--
+-- Dumping data for table `image`
+--
+
+INSERT INTO `image` (`imageID`, `comicID`, `image`) VALUES
+(1, 8, 'static/images/Daredevil_Vol_3_24.jpg'),
+(2, 7, 'static/images/All-New_X-Men_Vol_1_6.jpg'),
+(3, 4, 'static/images/All-New_X-Men_Vol_1_9.jpg'),
+(4, 5, 'static/images/All-New_X-Men_Vol_1_5.jpg'),
+(5, 2, 'static/images/Wolverine_and_the_X-Men_Vol_1_26.jpg'),
+(6, 32, 'static/images/Saga07.jpg'),
+(7, 33, 'static/images/Saga08.jpg'),
+(8, 3, 'static/images/lookouts02.jpg'),
+(9, 10, 'static/images/Avengers_Vol_5_1_(new).jpg'),
+(10, 11, 'static/images/Avengers_Vol_5_2.jpg'),
+(11, 9, 'static/images/Avengers_Vol_5_3.jpg'),
+(12, 12, 'static/images/Avengers_Assemble_Vol_2_10.jpg'),
+(13, 13, 'static/images/Avengers_Assemble_Vol_2_11.jpg'),
+(14, 14, 'static/images/Avengers_Assemble_Vol_2_12.jpg'),
+(15, 15, 'static/images/Avengers_Assemble_Vol_2_13.jpg'),
+(16, 18, 'static/images/Captain_Marvel_Vol_7_1.jpg'),
+(17, 19, 'static/images/Captain_Marvel_Vol_7_2.jpg'),
+(18, 20, 'static/images/Captain_Marvel_Vol_7_3.jpg'),
+(19, 21, 'static/images/Captain_Marvel_Vol_7_4.jpg'),
+(20, 22, 'static/images/Captain_Marvel_Vol_7_5.jpg'),
+(21, 23, 'static/images/Captain_Marvel_Vol_7_6.jpg'),
+(22, 24, 'static/images/Captain_Marvel_Vol_7_7.jpg'),
+(23, 25, 'static/images/Captain_Marvel_Vol_7_8.jpg'),
+(24, 26, 'static/images/Captain_Marvel_Vol_7_9.jpg'),
+(25, 27, 'static/images/Captain_Marvel_Vol_7_10.jpg'),
+(26, 39, 'static/images/Young_Avengers_Vol_2_1.jpg'),
+(27, 40, 'static/images/Young_Avengers_Vol_2_2.jpg'),
+(28, 38, 'static/images/Young_Avengers_Vol_2_3_Textless.jpg'),
+(29, 41, 'static/images/Uncanny_X-Men_Vol_3_1.jpg'),
+(30, 42, 'static/images/Uncanny_X-Men_Vol_3_2.jpg'),
+(31, 43, 'static/images/Uncanny_X-Men_Vol_3_4.jpg'),
+(32, 44, 'static/images/Hawkeye_Vol_4_9.jpg'),
+(33, 16, 'static/images/Batman_Cover_698.jpg'),
+(34, 17, 'static/images/Batman_700.jpg'),
+(35, 36, 'static/images/Serenity_Float_Out.jpg');
 
 -- --------------------------------------------------------
 
