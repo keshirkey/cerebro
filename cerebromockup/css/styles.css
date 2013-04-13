@@ -21,7 +21,6 @@ h1 {
 	width: 75%;
 	min-width: 75%;
 	min-height: 100%;
-	background-color: #D2EEEB;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 125px;
@@ -34,7 +33,7 @@ h1 {
 }
 
 header {
-	background-color:grey;
+	background-color: #cccccc;
 	position: fixed;
 	height: 116px;
 	top: 0;
@@ -45,7 +44,7 @@ footer {
 	position: absolute;
 	bottom: 0;
 	height: 25px;
-	background-color: grey;
+	background-color: #cccccc;
 	margin-top: 25px;
 }
 
@@ -116,10 +115,6 @@ nav ul li {
 	padding-left: 7%;
 }
 
-.grid_1 span {
-	background-color: grey;
-}
-
 .grid_1,
 .grid_2,
 .grid_3,
@@ -129,7 +124,7 @@ nav ul li {
 	position: relative;
 	margin-left: 1%;
 	margin-right: 1%;
-	background-color:#A5F1EA;
+	background-color:grey;
 }
 
 #maincontent .grid_1,
@@ -159,6 +154,24 @@ nav ul li {
 	display: inline;
 }
 
+.alignleft {
+	float: left;
+}
+
+.alignright {
+	float: right;
+}
+
+.clear {
+	clear: both;
+}
+
+.grid_1 h3,
+.grid_1 p {
+	clear: both;
+	display: inline;
+}
+
 #pright {
 	padding-left: 50%;
 }
@@ -170,6 +183,11 @@ nav ul li {
 #rowtwo {
 	position: relative;
 	margin-top: 5px;
+}
+
+.cover img {
+	padding-left: 17.5px;
+	padding-top: 15px;
 }
 
 footer p {
