@@ -35,7 +35,36 @@ if ( isset($_SESSION['username']) ) {
    echo('<p><a href="logout.php">Logout</a></p>'."\n");
    
 }
-$result = mysql_query("SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY pubyear DESC, monthid DESC");
+
+//clean user input and put into sort variable
+if (!isset($_GET['sort']) {
+
+function get_sort($var) {
+    if (!isset($_GET[$var]) && strlen($_GET[$var]) < 1) {return false;}
+    return mysql_real_escape_string($_GET[$var]);
+    }
+    
+$sort = get_sort('sort');
+}
+    
+    
+if ($sort == "recent-add"]) {
+$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY adddate DESC";
+}
+
+elseif ($sort == "newest-review") {
+$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY ";
+}
+
+elseif ($sort == "recent-publish") {
+$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY pubyear DESC, monthid DESC";
+}
+     
+else {
+$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY pubyear DESC, monthid DESC";
+}
+
+$result = mysql_query($query);
 
 while ($row = mysql_fetch_row($result) ) {
 $seriesID = $row[0];
