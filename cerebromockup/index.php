@@ -10,6 +10,7 @@ if (!$db_server) die("Unable to connect to MySQL: " . mysql_error());
 //choose database
 mysql_select_db($db_database)
 or die("Unable to select database: " . mysql_error());
+
 ?>
 
 <!DOCTYPE html>
@@ -19,6 +20,11 @@ or die("Unable to select database: " . mysql_error());
     <title>Cerebro - Your Brain on Comics</title>
     <base href="http://localhost:8888/cerebro/cerebromockup/">
     <link rel="stylesheet" type="text/css" href="css/styles.css" title="Default Stylesheet" media="all"/>
+    <script type="text/javascript">
+        $(document).ready(function(){ 
+            $('#publisher :selected').text);
+        });
+    </script>
  </head>
  <body>
  	<div id="wholecontainer">
@@ -56,18 +62,58 @@ or die("Unable to select database: " . mysql_error());
     			</ul>
 
     			<div id="filters">
-    				<select>
-    					<option value="publisher">- Publisher -</option>
+    			<form name="filters" method="post" action="index.php">
+    				<select name="publisher" id = "publisher" onchange="submit();">
+    				 
+    				<?php 
+    					    //populate publisher dropdown from database
+                            //display blank option if no POST data
+                            if (!isset($_POST['publisher']) || $_POST['publisher'] == "") {echo('<option value="" selected = "selected">- Publisher -</option>\n');}
+                            $query = "SELECT publisherID, publishername FROM publisher WHERE publishername IS NOT NULL";
+                            $result = mysql_query($query);
+                            //output as dropdown options
+                            while ($row = mysql_fetch_row($result)) {
+                                //determine if a selected option should be kept in dropdown
+                                if ($row[0] == $_POST['publisher']) {$selected = "selected = \"selected\"";}
+                                else {$selected = "";}
+                                echo('<option value="'.$row[0].'"'.$selected.'>'.$row[1].'</option>');
+                                echo("\n");
+                            }
+    				    ?>
+    				
     				</select>
 
-    				<select>
-    					<option value="family">- Family -</option>
+    				<select name="family" id="family" onchange="submit();">
+    					
+                        <?php 
+    					    //populate family dropdown from database
+                            //display blank option if no POST data
+                            if (!isset($_POST['family']) || $_POST['family'] == "") {echo('<option value="" selected = "selected">- Family -</option>');echo("\n");}
+                            $query = "SELECT familyID, familyname FROM family WHERE familyname IS NOT NULL";
+                            $result = mysql_query($query);
+                            //output as dropdown options
+                            while ($row = mysql_fetch_row($result)) {
+                                //determine if a selected option should be kept in dropdown
+                                if ($row[0] == $_POST['family']) {$selected = "selected = \"selected\"";}
+                                else {$selected = "";}
+                                echo('<option value="'.$row[0].'"'.$selected.'>'.$row[1].'</option>');
+                                echo("\n");
+                            }
+    				    ?>
+                            
     				</select>
 
     				<select>
     					<option value="ratings">- Ratings -</option>
+    					<option value = "5">5 stars</option>
+    					<option value = "4">4 stars</option>
+    					<option value = "3">3 stars</option>
+    					<option value = "2">2 stars</option>
+    					<option value = "1">1 stars</option>
     				</select>
     			</div>
+    			</form>
+    			<a href="index.php">Clear filters</a>
     		</div>
 
     		<hr>
@@ -93,8 +139,19 @@ function get_sort($var) {
     
 $sort = get_sort('sort');
 }
+
+//check for POST data from filters and put into variables    
     
-//check the value of the sort variable and set query based on it    
+if (isset($_POST['publisher'])) {$pubselectID = get_post('publisher');}
+
+if (isset($_POST['family'])) {$famselectID = get_post('family');}
+
+function get_post($var) {
+    if (!isset($_POST[$var]) && strlen($_POST[$var]) < 1) {return false;}
+    return mysql_real_escape_string($_POST[$var]);
+    }
+    
+//check the value of the sort variable and filter variables and set query based on it    
 if ($sort == "add") {
 $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY adddate DESC";
 }
@@ -106,10 +163,19 @@ $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubye
 elseif ($sort == "publish") {
 $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY pubyear DESC, monthid DESC";
 }
-     
+
+elseif (isset($pubselectID) && $pubselectID > 0) {
+    $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic WHERE publisherID = '$pubselectID'";
+}
+
+elseif (isset($famselectID) && $famselectID > 0) {
+    $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic WHERE familyID = '$famselectID'";
+}
+ 
 else {
 $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY pubyear DESC, monthid DESC";
 }
+    
 
 //run the query and output
 $result = mysql_query($query);
