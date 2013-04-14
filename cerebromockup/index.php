@@ -20,11 +20,6 @@ or die("Unable to select database: " . mysql_error());
     <title>Cerebro - Your Brain on Comics</title>
     <base href="http://localhost:8888/cerebro/cerebromockup/">
     <link rel="stylesheet" type="text/css" href="css/styles.css" title="Default Stylesheet" media="all"/>
-    <script type="text/javascript">
-        $(document).ready(function(){ 
-            $('#publisher :selected').text);
-        });
-    </script>
  </head>
  <body>
  	<div id="wholecontainer">
@@ -36,7 +31,7 @@ or die("Unable to select database: " . mysql_error());
         	</div>
 
         	<div id="logo">
-        		<img src="images/cerebro_logo.gif" alt="Cerebro Logo">
+        		<img src="images/cerebro_logo.gif" alt="Cerebro Logo" height="116" width="250">
         	</div>
 
         	<nav>
@@ -152,15 +147,15 @@ function get_post($var) {
     }
     
 //check the value of the sort variable and filter variables and set query based on it    
-if ($sort == "add") {
+if (isset($sort) && $sort == "add") {
 $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY adddate DESC";
 }
 
-elseif ($sort == "review") {
+elseif (isset($sort) && $sort == "review") {
 $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY ";
 }
 
-elseif ($sort == "publish") {
+elseif (isset($sort) && $sort == "publish") {
 $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY pubyear DESC, monthid DESC";
 }
 
@@ -187,22 +182,21 @@ echo('<div class="grid_1"><span>');
 ?>
 
 <div class="cover">
-    <img src="../frontend/static/images/Amazing_Spider-Man_Vol_1_688.jpg">
+    <img src="../frontend/static/images/Amazing_Spider-Man_Vol_1_688.jpg" height="400">
 </div>
 
 <div id="textbox">
     <p class="alignleft">
+
 <?php
 echo($series_row[0]);
 echo('</p><p class="alignright">');
-echo('Vol. ');
 echo($row[3]);
-echo(',&nbsp; &#35;');
+echo(", &nbsp");
 echo($row[4]);
-echo('</p>');
-echo('<div class="clear"></div>');
-echo('</div>');
-echo('</span></div>');
+echo("</p>");
+echo('<div class="clear"></div></div>');
+echo("</span></div>");
 
 
 if (isset($_SESSION['collectorid']) ){
