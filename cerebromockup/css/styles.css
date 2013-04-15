@@ -78,7 +78,6 @@ footer  {
 
 #searchwrap img {
 	display: inline-block;
-	width: 20px;
 	padding-left: 5px;
 	margin-bottom: -5px;
 }
@@ -146,14 +145,49 @@ nav ul li {
 	padding-right: 1.5%;
 }
 
-#maincontent ul,
-#filters {
+#maincontent ul {
 	display: inline;
 }
 
-#pleft,
-#pright {
-	display: inline;
+#filtertext .alignleft {
+	float: left;
+}
+
+#filtertext .alignright {
+	float: right;
+	padding-right: 30%;
+}
+
+#filtertext .clear {
+	clear: both;
+}
+
+#filters .alignleft {
+	float: left;
+}
+
+#filters .alignright {
+	float: right;
+}
+
+#filters .clear {
+	clear: both;
+}
+
+#filtersleft {
+	margin-top: -0.5px;
+}
+
+#clearlink .alignright a {
+	float: right;
+}
+
+#clearlink a {
+	font-size: 0.75em;
+}
+
+.clear {
+	clear: both;
 }
 
 .cover img {
@@ -162,37 +196,31 @@ nav ul li {
 	padding-top: 5%;
 }
 
-.alignleft {
+#comicinfo .alignleft {
 	float: left;
 	padding-left: 5%;
+	width: 70%;
 }
 
-.alignright {
+#comicinfo .alignright {
 	float: right;
 	padding-right: 5%;
+	width: 30%;
 }
 
-.clear {
+#comicinfo .clear {
 	clear: both;
+}
+
+#comicinfo .rowone {
+	width: 100%;
+	background-color: grey;
 }
 
 .grid_1 h3,
 .grid_1 p {
 	clear: both;
 	display: inline;
-}
-
-#pright {
-	padding-left: 50%;
-}
-
-#filters {
-	padding-left: 42%;
-}
-
-#rowtwo {
-	position: relative;
-	margin-top: 5px;
 }
 
 footer p {

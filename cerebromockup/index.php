@@ -26,12 +26,13 @@ or die("Unable to select database: " . mysql_error());
     	<header>
     		<div id="header">
     		<div id="searchwrap">
-        		<input id="searchbox" type="search" /><img src="images/searchicon.png" alt="Search Icon" height="19" width="19">
+        		<input id="searchbox" type="search" />
+                <img src="images/searchicon.png" alt="Search Icon" height="19" width="19">
         		<a href="advancedsearch.html">Advanced Search</a>
         	</div>
 
         	<div id="logo">
-        		<img src="images/cerebro_logo.gif" alt="Cerebro Logo" height="116" width="250">
+        		<img src="images/cerebro_logo.gif" alt="Cerebro Logo">
         	</div>
 
         	<nav>
@@ -45,22 +46,24 @@ or die("Unable to select database: " . mysql_error());
     	</header>
     	
     	<section id="maincontent">
-    		<div id="rowone">
-    			<p id="pleft">Sort by most recently:</p> <p id="pright">Filter by:</p>
-    		</div>
+    		<div id="filtertext">
+                <p class="alignleft">Sort by most recently:</p> 
+                <p class="alignright">Filter by:</p>
+                <div class="clear"></div>
+            </div>
     		
-    		<div id="rowtwo">
-    			<ul>
-    				<li><a href="index.php?sort=publish">Published</a></li>
-    				<li><a href="index.php?sort=add">Added</a></li>
-    				<li><a href="index.php?sort=review">Reviewed</a></li>
-    			</ul>
+    		<div id="filters">
+                <ul id="filtersleft" class="alignleft">
+                    <li><a href="index.php?sort=publish">Published</a></li>
+                    <li><a href="index.php?sort=add">Added</a></li>
+                    <li><a href="index.php?sort=review">Reviewed</a></li>
+                </ul>
 
-    			<div id="filters">
-    			<form name="filters" method="post" action="index.php">
-    				<select name="publisher" id = "publisher" onchange="submit();">
+    			<div id="filtersright" class="alignright">
+                    <form name="filters" method="post" action="index.php">
+                        <select name="publisher" id = "publisher" onchange="submit();">
     				 
-    				<?php 
+    				    <?php 
     					    //populate publisher dropdown from database
                             //display blank option if no POST data
                             if (!isset($_POST['publisher']) || $_POST['publisher'] == "") {echo('<option value="" selected = "selected">- Publisher -</option>\n');}
@@ -76,42 +79,52 @@ or die("Unable to select database: " . mysql_error());
                             }
     				    ?>
     				
-    				</select>
+    				    </select>
 
-    				<select name="family" id="family" onchange="submit();">
+    				    <select name="family" id="family" onchange="submit();">
     					
-                        <?php 
-    					    //populate family dropdown from database
-                            //display blank option if no POST data
-                            if (!isset($_POST['family']) || $_POST['family'] == "") {echo('<option value="" selected = "selected">- Family -</option>');echo("\n");}
-                            $query = "SELECT familyID, familyname FROM family WHERE familyname IS NOT NULL";
-                            $result = mysql_query($query);
-                            //output as dropdown options
-                            while ($row = mysql_fetch_row($result)) {
-                                //determine if a selected option should be kept in dropdown
-                                if ($row[0] == $_POST['family']) {$selected = "selected = \"selected\"";}
-                                else {$selected = "";}
-                                echo('<option value="'.$row[0].'"'.$selected.'>'.$row[1].'</option>');
-                                echo("\n");
-                            }
-    				    ?>
+                            <?php 
+    					       //populate family dropdown from database
+                                //display blank option if no POST data
+                                if (!isset($_POST['family']) || $_POST['family'] == "") {echo('<option value="" selected = "selected">- Family -</option>');echo("\n");}
+                                $query = "SELECT familyID, familyname FROM family WHERE familyname IS NOT NULL";
+                                $result = mysql_query($query);
+                                //output as dropdown options
+                                while ($row = mysql_fetch_row($result)) {
+                                    //determine if a selected option should be kept in dropdown
+                                    if ($row[0] == $_POST['family']) {$selected = "selected = \"selected\"";}
+                                    else {$selected = "";}
+                                    echo('<option value="'.$row[0].'"'.$selected.'>'.$row[1].'</option>');
+                                    echo("\n");
+                                }
+    				        ?>
                             
-    				</select>
+    				    </select>
 
-    				<select>
-    					<option value="ratings">- Ratings -</option>
-    					<option value = "5">5 stars</option>
-    					<option value = "4">4 stars</option>
-    					<option value = "3">3 stars</option>
-    					<option value = "2">2 stars</option>
-    					<option value = "1">1 stars</option>
-    				</select>
-    			</div>
-    			</form>
-    			<a href="index.php">Clear filters</a>
-    		</div>
+    				    <select>
+    					   <option value="ratings">- Ratings -</option>
+    					   <option value = "5">5 stars</option>
+    					   <option value = "4">4 stars</option>
+    					   <option value = "3">3 stars</option>
+    					   <option value = "2">2 stars</option>
+    					   <option value = "1">1 stars</option>
+    				    </select>
+                    </form>
+                </div>
+
+                <div class="clear"></div>
+
+                <div id="clearlink" class="alignright">
+                    <a href="index.php">Clear Filters</a>
+
+
+                </div>
+            </div>
+
+            <div class="clear"></div>
 
     		<hr>
+
 <?php
 if (!isset($_SESSION['username'])){
  echo('<p><a href="registration.php">Register</a></p>');
@@ -182,21 +195,29 @@ echo('<div class="grid_1"><span>');
 ?>
 
 <div class="cover">
-    <img src="../frontend/static/images/Amazing_Spider-Man_Vol_1_688.jpg" height="400">
+    <img src="../frontend/static/images/Amazing_Spider-Man_Vol_1_688.jpg">
 </div>
 
-<div id="textbox">
-    <p class="alignleft">
-
+<div id="comicinfo">
+    <div class="rowone"><h4><span class="alignleft">
 <?php
 echo($series_row[0]);
-echo('</p><p class="alignright">');
+echo('</span></h4></div>');
+echo('<div class="rowone"><span class="alignright">');
+echo('Vol. ');
 echo($row[3]);
-echo(", &nbsp");
+echo(',&nbsp; &#35;');
 echo($row[4]);
-echo("</p>");
-echo('<div class="clear"></div></div>');
-echo("</span></div>");
+echo('</span></div>');
+echo('<div class="rowtwo"><span class="alignleft">');
+echo('(#) reviews');
+echo('</span></div>');
+echo('<div class="rowtwo"><span class="alignright">');
+echo('(stars)');
+echo('</span></div>');
+echo('<div class="clear"></div>');
+echo('</div>');
+echo('</span></div>');
 
 
 if (isset($_SESSION['collectorid']) ){
