@@ -116,10 +116,7 @@ nav ul li {
 	padding-left: 7%;
 }
 
-.grid_1,
-.grid_2,
-.grid_3,
-.grid_4 {
+.grid_1 {
 	display: inline;
 	float: left;
 	position: relative;
@@ -128,10 +125,7 @@ nav ul li {
 	background-color: #cccccc;
 }
 
-#maincontent .grid_1,
-#maincontent .grid_2,
-#maincontent .grid_3,
-#maincontent .grid_4 {
+#maincontent .grid_1 {
 	width: 23.0%;
 	position: static;
 }
@@ -198,23 +192,33 @@ nav ul li {
 
 #comicinfo .alignleft {
 	float: left;
-	padding-left: 5%;
-	width: 70%;
+	width: 67%;
 }
 
 #comicinfo .alignright {
 	float: right;
-	padding-right: 5%;
-	width: 30%;
+	text-align: right;
+	width: 33%;
 }
 
 #comicinfo .clear {
 	clear: both;
 }
 
-#comicinfo .rowone {
-	width: 100%;
-	background-color: grey;
+#comicinfo {
+	width: 90%;
+	margin-left: 5%;
+	margin-right: 5%;
+	margin-bottom: 5%;
+}
+
+#comicinfo .rowtwo .alignleft,
+#comicinfo .rowtwo .alignright {
+	padding-top: 5%;
+}
+
+#comicbox {
+	padding-bottom: 5%;
 }
 
 .grid_1 h3,

@@ -11,6 +11,28 @@ if (!$db_server) die("Unable to connect to MySQL: " . mysql_error());
 mysql_select_db($db_database)
 or die("Unable to select database: " . mysql_error());
 
+//PAGINATION STUFF
+//set $pagenum to be the value in the URL/GET array
+if(isset($_GET['pagenum'])) {$pagenum = $_GET['pagenum']+0;}
+//check if page # is set, if not set to 1
+if (!(isset($pagenum))) {$pagenum = 1;}
+
+//count the number of rows that exist in the database
+$pagequery = mysql_query("SELECT * FROM comic");
+$rows = mysql_num_rows($pagequery);
+
+//how many to display on the page
+$page_rows = 8;
+
+//calculate what the last page will be
+$last = ceil($rows/$page_rows);
+
+//check if page number is bigger than last or smaller than first
+if ($pagenum < 1) {$pagenum = 1;}
+elseif ($pagenum > $last) {$pagenum = $last;}
+
+//setting a range using the limit function to insert into query later
+$max = 'limit '.($pagenum - 1) * $page_rows.','.$page_rows;
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +41,10 @@ or die("Unable to select database: " . mysql_error());
     <meta charset="UTF-8">
     <title>Cerebro - Your Brain on Comics</title>
     <base href="http://localhost:8888/cerebro/cerebromockup/">
-    <link rel="stylesheet" type="text/css" href="css/styles.css" title="Default Stylesheet" media="all"/>
+    <link rel="stylesheet" type="text/css" href="css/styles.css" title="Default Stylesheet" media="all" />
+    <link rel="stylesheet" type="text/css" href="css/formalize.css" title="Form Stylesheet" media="all" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="jquery.formalize.js"></script>
  </head>
  <body>
  	<div id="wholecontainer">
@@ -161,27 +186,27 @@ function get_post($var) {
     
 //check the value of the sort variable and filter variables and set query based on it    
 if (isset($sort) && $sort == "add") {
-$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY adddate DESC";
+$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY adddate DESC $max";
 }
 
 elseif (isset($sort) && $sort == "review") {
-$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY ";
+$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY  $max";
 }
 
 elseif (isset($sort) && $sort == "publish") {
-$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY pubyear DESC, monthid DESC";
+$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY pubyear DESC, monthid DESC $max"; /*rating stuff goes here when figured out*/
 }
 
 elseif (isset($pubselectID) && $pubselectID > 0) {
-    $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic WHERE publisherID = '$pubselectID'";
+    $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic WHERE publisherID = '$pubselectID' $max";
 }
 
 elseif (isset($famselectID) && $famselectID > 0) {
-    $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic WHERE familyID = '$famselectID'";
+    $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic WHERE familyID = '$famselectID' $max";
 }
  
 else {
-$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY pubyear DESC, monthid DESC";
+$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY pubyear DESC, monthid DESC $max";
 }
     
 
@@ -191,7 +216,7 @@ while ($row = mysql_fetch_row($result) ) {
 $seriesID = $row[0];
 $query = mysql_query("SELECT seriestitle FROM series WHERE seriesID = '$seriesID'");
 $series_row = mysql_fetch_row($query);
-echo('<div class="grid_1"><span>');
+echo('<div id="comicbox" class="grid_1"><span>');
 ?>
 
 <div class="cover">
@@ -237,6 +262,44 @@ echo $owned;
     }
 }
 
+//output the pagination links
+echo ('<p style="font-size: 26px;">--Page '.$pagenum.' of '.$last.'--</p>');
+
+//first page should not display first or previous links
+if ($pagenum == 1) {}
+else {
+    //pass sort parameter if it has been set
+    if(isset($sort)) {
+    echo ("<a href='{$_SERVER['PHP_SELF']}?pagenum=1&sort=$sort'> <<-First</a>");
+    echo (" ");
+    $previous = $pagenum-1;
+    echo ("<a href='{$_SERVER['PHP_SELF']}?pagenum=$previous&sort=$sort'> <-Previous</a>");
+    }
+    else {
+    echo ("<a href='{$_SERVER['PHP_SELF']}?pagenum=1'> <<-First</a>");
+    echo (" ");
+    $previous = $pagenum-1;
+    echo ("<a href='{$_SERVER['PHP_SELF']}?pagenum=$previous'> <-Previous</a>");
+    }
+}
+
+//last page should not display last or next links
+if ($pagenum == $last) {}
+else {
+    //pass sort parameter if it has been set
+    if (isset($sort)) {
+    $next = $pagenum+1;
+    echo ("<a href='{$_SERVER['PHP_SELF']}?pagenum=$next&sort=$sort'>Next -></a>");
+    echo (" ");
+    echo ("<a href='{$_SERVER['PHP_SELF']}?pagenum=$last&sort=$sort'>Last ->></a>");
+    }
+    else {
+    $next = $pagenum+1;
+    echo ("<a href='{$_SERVER['PHP_SELF']}?pagenum=$next'>Next -></a>");
+    echo (" ");
+    echo ("<a href='{$_SERVER['PHP_SELF']}?pagenum=$last'>Last ->></a>");
+    }
+}
 ?>
     	</section>
 
