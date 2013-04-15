@@ -42,7 +42,6 @@ $max = 'limit '.($pagenum - 1) * $page_rows.','.$page_rows;
     <title>Cerebro - Your Brain on Comics</title>
     <base href="http://localhost:8888/cerebro/cerebromockup/">
     <link rel="stylesheet" type="text/css" href="css/styles.css" title="Default Stylesheet" media="all" />
-    <link rel="stylesheet" type="text/css" href="css/formalize.css" title="Form Stylesheet" media="all" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="js/jquery.formalize.js"></script>
  </head>
@@ -77,15 +76,14 @@ $max = 'limit '.($pagenum - 1) * $page_rows.','.$page_rows;
                 <div class="clear"></div>
             </div>
     		
-    		<div id="filters">
-                <ul id="filtersleft" class="alignleft">
-                    <li><a href="index.php?sort=publish">Published</a></li>
-                    <li><a href="index.php?sort=add">Added</a></li>
-                    <li><a href="index.php?sort=review">Reviewed</a></li>
-                </ul>
+    		<form name="filters" method="post" action="index.php">
+            <div id="filtersleft" class="alignleft">
+                <input type="submit" name="publish" value="Published"></input>
+                <input type="submit" name="add" value="Added"></input>
+                <input type="submit" name="review" value="Reviewed"></input>
 
     			<div id="filtersright" class="alignright">
-                    <form name="filters" method="post" action="index.php">
+
                         <select name="publisher" id = "publisher" onchange="submit();">
     				 
     				    <?php 
@@ -134,7 +132,7 @@ $max = 'limit '.($pagenum - 1) * $page_rows.','.$page_rows;
     					   <option value = "2">2 stars</option>
     					   <option value = "1">1 stars</option>
     				    </select>
-                    </form>
+            </form>
                 </div>
 
                 <div class="clear"></div>
