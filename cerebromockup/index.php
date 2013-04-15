@@ -43,8 +43,8 @@ $max = 'limit '.($pagenum - 1) * $page_rows.','.$page_rows;
     <base href="http://localhost:8888/cerebro/cerebromockup/">
     <link rel="stylesheet" type="text/css" href="css/styles.css" title="Default Stylesheet" media="all" />
     <link rel="stylesheet" type="text/css" href="css/formalize.css" title="Form Stylesheet" media="all" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script src="jquery.formalize.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="js/jquery.formalize.js"></script>
  </head>
  <body>
  	<div id="wholecontainer">
@@ -57,14 +57,14 @@ $max = 'limit '.($pagenum - 1) * $page_rows.','.$page_rows;
         	</div>
 
         	<div id="logo">
-        		<img src="images/cerebro_logo.gif" alt="Cerebro Logo">
+        		<a href="index.php"><img src="images/cerebro_logo.gif" alt="Cerebro Logo"></a>
         	</div>
 
         	<nav>
             	<ul>
-                	<li><a href="index.html">Home</a></li>
+                	<li><a href="index.php">Home</a></li>
                 	<li><a href="about.html">About</a></li>
-                	<li><a href="login.html">Log In</a></li>
+                	<li><a href="signin.php">Log In</a></li>
             	</ul>
         	</nav>
         	</div>
