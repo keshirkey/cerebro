@@ -177,11 +177,42 @@ if (isset($_POST['publisher'])) {$pubselectID = get_post('publisher');}
 
 if (isset($_POST['family'])) {$famselectID = get_post('family');}
 
+if (isset($_POST['publish'])) {$publish = get_post('publish');}
+
+if (isset($_POST['add'])) {$publish = get_post('add');}
+
+if (isset($_POST['review'])) {$publish = get_post('review');}
+
 function get_post($var) {
     if (!isset($_POST[$var]) && strlen($_POST[$var]) < 1) {return false;}
     return mysql_real_escape_string($_POST[$var]);
     }
     
+$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic";
+
+if (isset($pubselectID) && $pubselectID > 0) {
+    $query .= " WHERE publisherID = '$pubselectID'";
+}
+
+if (isset($famselectID) && $famselectID > 0) {
+    $query .= " AND familyID = '$famselectID'";
+}
+
+/*if (isset($reviewID) && $reviewID > 0) {
+    $query .= "AND reviewID = '$reviewID'";
+} */
+
+if (isset($publish)) {
+    $query .= " ORDER BY pubyear DESC, monthid";
+}
+
+if (isset($add)) {
+    $query .= " ORDER BY adddate DESC";
+}
+
+$query .= " $max";
+
+/*
 //check the value of the sort variable and filter variables and set query based on it    
 if (isset($sort) && $sort == "add") {
 $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY adddate DESC $max";
@@ -192,7 +223,7 @@ $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubye
 }
 
 elseif (isset($sort) && $sort == "publish") {
-$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY pubyear DESC, monthid DESC $max"; /*rating stuff goes here when figured out*/
+$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY pubyear DESC, monthid DESC $max";
 }
 
 elseif (isset($pubselectID) && $pubselectID > 0) {
@@ -206,7 +237,7 @@ elseif (isset($famselectID) && $famselectID > 0) {
 else {
 $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY pubyear DESC, monthid DESC $max";
 }
-    
+*/    
 
 //run the query and output
 $result = mysql_query($query);
