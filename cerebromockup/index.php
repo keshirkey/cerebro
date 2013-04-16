@@ -1,5 +1,6 @@
 <?php
 session_start();
+//--CONNECT TO DATABASE STUFF--
 //load data from login.php and connect to mysql server
 require_once 'login.php'; 
 $db_server = mysql_connect($db_hostname, $db_username, $db_password);
@@ -11,7 +12,7 @@ if (!$db_server) die("Unable to connect to MySQL: " . mysql_error());
 mysql_select_db($db_database)
 or die("Unable to select database: " . mysql_error());
 
-//PAGINATION STUFF
+//--PAGINATION STUFF--
 //set $pagenum to be the value in the URL/GET array
 if(isset($_GET['pagenum'])) {$pagenum = $_GET['pagenum']+0;}
 //check if page # is set, if not set to 1
@@ -35,6 +36,7 @@ elseif ($pagenum > $last) {$pagenum = $last;}
 $max = 'limit '.($pagenum - 1) * $page_rows.','.$page_rows;
 ?>
 
+<!-- HTML STARTS HERE -->
 <!DOCTYPE html>
  <head>
  	<html lang="en">
@@ -49,6 +51,7 @@ $max = 'limit '.($pagenum - 1) * $page_rows.','.$page_rows;
  	<div id="wholecontainer">
     	<header>
     		<div id="header">
+    		<!-- search bar -->
     		<div id="searchwrap">
         		<input id="searchbox" type="search" />
                 <img src="images/searchicon.png" alt="Search Icon" height="19" width="19">
@@ -59,6 +62,7 @@ $max = 'limit '.($pagenum - 1) * $page_rows.','.$page_rows;
         		<a href="index.php"><img src="images/cerebro_logo.gif" alt="Cerebro Logo"></a>
         	</div>
 
+        	<!-- nav links -->
         	<nav>
             	<ul>
                 	<li><a href="index.php">Home</a></li>
@@ -76,11 +80,12 @@ $max = 'limit '.($pagenum - 1) * $page_rows.','.$page_rows;
                 <div class="clear"></div>
             </div>
     		
+    		<!-- dynamic filters -->
     		<form name="filters" method="post" action="index.php">
             <div id="filtersleft" class="alignleft">
-                <input type="submit" name="publish" value="Published"></input>
-                <input type="submit" name="add" value="Added"></input>
-                <input type="submit" name="review" value="Reviewed"></input>
+                <input type="submit" name="sort" value="Published"></input>
+                <input type="submit" name="sort" value="Added"></input>
+                <input type="submit" name="sort" value="Reviewed"></input>
 
     			<div id="filtersright" class="alignright">
 
@@ -89,13 +94,13 @@ $max = 'limit '.($pagenum - 1) * $page_rows.','.$page_rows;
     				    <?php 
     					    //populate publisher dropdown from database
                             //display blank option if no POST data
-                            if (!isset($_POST['publisher']) || $_POST['publisher'] == "") {echo('<option value="" selected = "selected">- Publisher -</option>\n');}
+                            if (!isset($_POST['publisher']) && !isset($_GET['publisher']) || $_POST['publisher'] == "" && !isset($_GET['publisher'])) {echo('<option value="" selected = "selected">- Publisher -</option>\n');}
                             $query = "SELECT publisherID, publishername FROM publisher WHERE publishername IS NOT NULL";
                             $result = mysql_query($query);
                             //output as dropdown options
                             while ($row = mysql_fetch_row($result)) {
                                 //determine if a selected option should be kept in dropdown
-                                if ($row[0] == $_POST['publisher']) {$selected = "selected = \"selected\"";}
+                                if ($row[0] == $_POST['publisher'] || $row[0] == $_GET['publisher']) {$selected = "selected = \"selected\"";}
                                 else {$selected = "";}
                                 echo('<option value="'.$row[0].'"'.$selected.'>'.$row[1].'</option>');
                                 echo("\n");
@@ -109,7 +114,7 @@ $max = 'limit '.($pagenum - 1) * $page_rows.','.$page_rows;
                             <?php 
     					       //populate family dropdown from database
                                 //display blank option if no POST data
-                                if (!isset($_POST['family']) || $_POST['family'] == "") {echo('<option value="" selected = "selected">- Family -</option>');echo("\n");}
+                                if (!isset($_POST['family']) && !isset($_GET['family']) || $_POST['family'] == "") {echo('<option value="" selected = "selected">- Family -</option>');echo("\n");}
                                 $query = "SELECT familyID, familyname FROM family WHERE familyname IS NOT NULL";
                                 $result = mysql_query($query);
                                 //output as dropdown options
@@ -132,15 +137,13 @@ $max = 'limit '.($pagenum - 1) * $page_rows.','.$page_rows;
     					   <option value = "2">2 stars</option>
     					   <option value = "1">1 stars</option>
     				    </select>
-            </form>
+                    </form>
                 </div>
 
                 <div class="clear"></div>
 
                 <div id="clearlink" class="alignright">
                     <a href="index.php">Clear Filters</a>
-
-
                 </div>
             </div>
 
@@ -149,6 +152,7 @@ $max = 'limit '.($pagenum - 1) * $page_rows.','.$page_rows;
     		<hr>
 
 <?php
+//--SESSSION/LOGIN STUFF--
 if (!isset($_SESSION['username'])){
  echo('<p><a href="registration.php">Register</a></p>');
  echo('<p><a href="signin.php">Log In</a></p>');
@@ -160,38 +164,79 @@ if ( isset($_SESSION['username']) ) {
    
 }
 
-//clean user input and put into sort variable
-if (isset($_GET['sort'])) {
-
-function get_sort($var) {
-    if (!isset($_GET[$var]) && strlen($_GET[$var]) < 1) {return false;}
-    return mysql_real_escape_string($_GET[$var]);
-    }
-    
-$sort = get_sort('sort');
-}
-
-//check for POST data from filters and put into variables    
+//--FILTER DATA STUFF--
+//check for GET or POST data from filters and put into variables    
     
 if (isset($_POST['publisher'])) {$pubselectID = get_post('publisher');}
 
 if (isset($_POST['family'])) {$famselectID = get_post('family');}
 
-if (isset($_POST['publish'])) {$publish = get_post('publish');}
+if (isset($_POST['review'])) {$review = get_post('review');}
 
-if (isset($_POST['add'])) {$publish = get_post('add');}
+if (isset($_POST['sort'])) {$sort = get_post('sort');}
 
-if (isset($_POST['review'])) {$publish = get_post('review');}
+if (isset($_GET['publisher'])) {$pubselectID = get_sort('publisher');}
+
+if (isset($_GET['family'])) {$famselectID = get_sort('family');}
+
+if (isset($_GET['sort1'])) {$publish = get_sort('sort1');}
+
+if (isset($_GET['sort2'])) {$add = get_sort('sort2');}
 
 function get_post($var) {
     if (!isset($_POST[$var]) && strlen($_POST[$var]) < 1) {return false;}
     return mysql_real_escape_string($_POST[$var]);
     }
     
-$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic";
+function get_sort($var) {
+    if (!isset($_GET[$var]) && strlen($_GET[$var]) < 1) {return false;}
+    return mysql_real_escape_string($_GET[$var]);
+    }
+    
+//--MORE PAGINATION--
+//output the pagination links
+echo ('<p style="font-size: 26px;">--Page '.$pagenum.' of '.$last.'--</p>');
+
+//first page should not display first or previous links
+if ($pagenum == 1) {}
+else {
+    $firstlink = "<a href='{$_SERVER['PHP_SELF']}?pagenum=1";
+    $prevlink = "<a href='{$_SERVER['PHP_SELF']}?pagenum=$previous";
+    if ($_POST > 0) {
+        $firstlink .= "&publisher=$pubselectID&family=$famselectID&sort1=$publish&sort2=$add";
+        $prevlink .= "&publisher=$pubselectID&family=$famselectID&sort1=$publish&sort2=$add";
+        }
+    $firstlink .= "'> <<-First</a>";
+    $prevlink .= "'> <-Previous</a>";
+    $previous = $pagenum-1;
+    echo ($firstlink);
+    echo (" ");
+    echo($prevlink);
+}
+
+//last page should not display last or next links
+if ($pagenum == $last) {}
+else {
+    $next = $pagenum+1;
+    $nextlink = "<a href='{$_SERVER['PHP_SELF']}?pagenum=$next";
+    $lastlink = "<a href='{$_SERVER['PHP_SELF']}?pagenum=$last";
+    if ($_POST > 0) {
+        $nextlink .= "&publisher=$pubselectID&family=$famselectID&sort1=$publish&sort2=$add";
+        $lastlink .= "&publisher=$pubselectID&family=$famselectID&sort1=$publish&sort2=$add";
+        }
+    $nextlink .="'>Next -></a>";
+    $lastlink .="'>Last ->></a>";
+    echo ($nextlink);
+    echo (" ");
+    echo ($lastlink);
+    }
+
+//--MAIN QUERY--
+//construct the query based on what has been selected    
+$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic WHERE comicID IS NOT NULL";
 
 if (isset($pubselectID) && $pubselectID > 0) {
-    $query .= " WHERE publisherID = '$pubselectID'";
+    $query .= " AND publisherID = '$pubselectID'";
 }
 
 if (isset($famselectID) && $famselectID > 0) {
@@ -202,42 +247,16 @@ if (isset($famselectID) && $famselectID > 0) {
     $query .= "AND reviewID = '$reviewID'";
 } */
 
-if (isset($publish)) {
+if (isset($sort) && $sort == "Published") {
     $query .= " ORDER BY pubyear DESC, monthid";
 }
 
-if (isset($add)) {
+if (isset($sort) && $sort == "Added") {
     $query .= " ORDER BY adddate DESC";
 }
 
-$query .= " $max";
-
-/*
-//check the value of the sort variable and filter variables and set query based on it    
-if (isset($sort) && $sort == "add") {
-$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY adddate DESC $max";
-}
-
-elseif (isset($sort) && $sort == "review") {
-$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY  $max";
-}
-
-elseif (isset($sort) && $sort == "publish") {
-$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY pubyear DESC, monthid DESC $max";
-}
-
-elseif (isset($pubselectID) && $pubselectID > 0) {
-    $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic WHERE publisherID = '$pubselectID' $max";
-}
-
-elseif (isset($famselectID) && $famselectID > 0) {
-    $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic WHERE familyID = '$famselectID' $max";
-}
- 
-else {
-$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic ORDER BY pubyear DESC, monthid DESC $max";
-}
-*/    
+//add $max to the end of the query for pagination
+$query .= " $max";  
 
 //run the query and output
 $result = mysql_query($query);
@@ -246,15 +265,11 @@ $seriesID = $row[0];
 $query = mysql_query("SELECT seriestitle FROM series WHERE seriesID = '$seriesID'");
 $series_row = mysql_fetch_row($query);
 echo('<div id="comicbox" class="grid_1"><span>');
-?>
-
-<div class="cover">
-    <img src="../frontend/static/images/Amazing_Spider-Man_Vol_1_688.jpg">
-</div>
-
-<div id="comicinfo">
-    <div class="rowone"><h4><span class="alignleft">
-<?php
+echo('<div class="cover">'."\n");
+echo('<img src="../frontend/static/images/Amazing_Spider-Man_Vol_1_688.jpg">'."\n");
+echo("</div>\n");
+echo('<div id="comicinfo">'."\n");
+echo('<div class="rowone"><h4><span class="alignleft">'."\n");
 echo($series_row[0]);
 echo('</span></h4></div>');
 echo('<div class="rowone"><span class="alignright">');
@@ -291,44 +306,6 @@ echo $owned;
     }
 }
 
-//output the pagination links
-echo ('<p style="font-size: 26px;">--Page '.$pagenum.' of '.$last.'--</p>');
-
-//first page should not display first or previous links
-if ($pagenum == 1) {}
-else {
-    //pass sort parameter if it has been set
-    if(isset($sort)) {
-    echo ("<a href='{$_SERVER['PHP_SELF']}?pagenum=1&sort=$sort'> <<-First</a>");
-    echo (" ");
-    $previous = $pagenum-1;
-    echo ("<a href='{$_SERVER['PHP_SELF']}?pagenum=$previous&sort=$sort'> <-Previous</a>");
-    }
-    else {
-    echo ("<a href='{$_SERVER['PHP_SELF']}?pagenum=1'> <<-First</a>");
-    echo (" ");
-    $previous = $pagenum-1;
-    echo ("<a href='{$_SERVER['PHP_SELF']}?pagenum=$previous'> <-Previous</a>");
-    }
-}
-
-//last page should not display last or next links
-if ($pagenum == $last) {}
-else {
-    //pass sort parameter if it has been set
-    if (isset($sort)) {
-    $next = $pagenum+1;
-    echo ("<a href='{$_SERVER['PHP_SELF']}?pagenum=$next&sort=$sort'>Next -></a>");
-    echo (" ");
-    echo ("<a href='{$_SERVER['PHP_SELF']}?pagenum=$last&sort=$sort'>Last ->></a>");
-    }
-    else {
-    $next = $pagenum+1;
-    echo ("<a href='{$_SERVER['PHP_SELF']}?pagenum=$next'>Next -></a>");
-    echo (" ");
-    echo ("<a href='{$_SERVER['PHP_SELF']}?pagenum=$last'>Last ->></a>");
-    }
-}
 ?>
     	</section>
 
