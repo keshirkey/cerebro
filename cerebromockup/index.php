@@ -115,7 +115,13 @@ $max = 'limit '.($pagenum - 1) * $page_rows.','.$page_rows;
     					       //populate family dropdown from database
                                 //display blank option if no POST data
                                 if (!isset($_POST['family']) && !isset($_GET['family']) || $_POST['family'] == "") {echo('<option value="" selected = "selected">- Family -</option>');echo("\n");}
-                                $query = "SELECT familyID, familyname FROM family WHERE familyname IS NOT NULL";
+                                if (isset($_POST['publisher'])) {
+                                    $p = get_post('publisher');
+                                    $query = "SELECT familyID, familyname, publisherID FROM family WHERE familyname IS NOT NULL AND publisherID = '$p'";
+                                    }
+                                else {
+                                    $query = "SELECT familyID, familyname FROM family WHERE familyname IS NOT NULL";
+                                    }
                                 $result = mysql_query($query);
                                 //output as dropdown options
                                 while ($row = mysql_fetch_row($result)) {
@@ -200,15 +206,15 @@ echo ('<p style="font-size: 26px;">--Page '.$pagenum.' of '.$last.'--</p>');
 //first page should not display first or previous links
 if ($pagenum == 1) {}
 else {
+    $previous = $pagenum-1;
     $firstlink = "<a href='{$_SERVER['PHP_SELF']}?pagenum=1";
     $prevlink = "<a href='{$_SERVER['PHP_SELF']}?pagenum=$previous";
     if ($_POST > 0) {
-        $firstlink .= "&publisher=$pubselectID&family=$famselectID&sort1=$publish&sort2=$add";
-        $prevlink .= "&publisher=$pubselectID&family=$famselectID&sort1=$publish&sort2=$add";
+        @$firstlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
+        @$prevlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
         }
     $firstlink .= "'> <<-First</a>";
     $prevlink .= "'> <-Previous</a>";
-    $previous = $pagenum-1;
     echo ($firstlink);
     echo (" ");
     echo($prevlink);
@@ -221,8 +227,8 @@ else {
     $nextlink = "<a href='{$_SERVER['PHP_SELF']}?pagenum=$next";
     $lastlink = "<a href='{$_SERVER['PHP_SELF']}?pagenum=$last";
     if ($_POST > 0) {
-        $nextlink .= "&publisher=$pubselectID&family=$famselectID&sort1=$publish&sort2=$add";
-        $lastlink .= "&publisher=$pubselectID&family=$famselectID&sort1=$publish&sort2=$add";
+        @$nextlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
+        @$lastlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
         }
     $nextlink .="'>Next -></a>";
     $lastlink .="'>Last ->></a>";
