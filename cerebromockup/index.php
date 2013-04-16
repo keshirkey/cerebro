@@ -119,6 +119,10 @@ $max = 'limit '.($pagenum - 1) * $page_rows.','.$page_rows;
                                     $p = get_post('publisher');
                                     $query = "SELECT familyID, familyname, publisherID FROM family WHERE familyname IS NOT NULL AND publisherID = '$p'";
                                     }
+                                elseif (isset($_GET['publisher'])) {
+                                    $p = get_sort('publisher');
+                                    $query = "SELECT familyID, familyname, publisherID FROM family WHERE familyname IS NOT NULL AND publisherID = '$p'";
+                                    }
                                 else {
                                     $query = "SELECT familyID, familyname FROM family WHERE familyname IS NOT NULL";
                                     }
@@ -185,9 +189,7 @@ if (isset($_GET['publisher'])) {$pubselectID = get_sort('publisher');}
 
 if (isset($_GET['family'])) {$famselectID = get_sort('family');}
 
-if (isset($_GET['sort1'])) {$publish = get_sort('sort1');}
-
-if (isset($_GET['sort2'])) {$add = get_sort('sort2');}
+if (isset($_GET['sort'])) {$sort = get_sort('sort');}
 
 function get_post($var) {
     if (!isset($_POST[$var]) && strlen($_POST[$var]) < 1) {return false;}
@@ -198,7 +200,7 @@ function get_sort($var) {
     if (!isset($_GET[$var]) && strlen($_GET[$var]) < 1) {return false;}
     return mysql_real_escape_string($_GET[$var]);
     }
-    
+       
 //--MORE PAGINATION--
 //output the pagination links
 echo ('<p style="font-size: 26px;">--Page '.$pagenum.' of '.$last.'--</p>');
