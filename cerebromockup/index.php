@@ -20,7 +20,7 @@ or die("Unable to select database: " . mysql_error());
  	<html lang="en">
     <meta charset="UTF-8">
     <title>Cerebro - Your Brain on Comics</title>
-    <base href="http://localhost:8888/cerebro/cerebromockup/">
+    <base href="http://localhost/SI664/cerebromockup/">
     <link rel="stylesheet" type="text/css" href="css/styles.css" title="Default Stylesheet" media="all" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="js/jquery.formalize.js"></script>
@@ -273,6 +273,7 @@ else {
 //run the query and output
 $result = mysql_query($query);
 while ($row = mysql_fetch_row($result) ) {
+$comicID = $row[7];
 $seriesID = $row[0];
 $query = mysql_query("SELECT seriestitle FROM series WHERE seriesID = '$seriesID'");
 $series_row = mysql_fetch_row($query);
@@ -289,17 +290,14 @@ echo('Vol. ');
 echo($row[3]);
 echo(',&nbsp; &#35;');
 echo($row[4]);
+//Attempts at dynamic linking
+echo "<a href='comic.php?comicID=" . $comicID . "'> Full information </a>";
 echo('</span></div>');
 echo('<div class="rowtwo"><span class="alignleft">');
 echo('(#) reviews');
 echo('</span></div>');
 echo('<div class="rowtwo"><span class="alignright">');
-echo('(stars)');
-echo('</span></div>');
-echo('<div class="clear"></div>');
-echo('</div>');
-echo('</span></div>');
-
+echo('(stars)'."\n");
 
 if (isset($_SESSION['collectorid']) ){
  $string = "SELECT ownedID FROM owned WHERE comicID = '$row[7]' AND collectorID = '".addslashes($_SESSION['collectorid'])."' ";
@@ -313,11 +311,13 @@ if (isset($_SESSION['collectorid']) ){
  else {
     $owned = "not owned";
     }
-echo $owned;	
-	
+echo $owned;
     }
+echo('</span></div>');
+echo('<div class="clear"></div>');
+echo('</div>');
+echo('</span></div>');
 }
-
 ?>
     	</section>
 
