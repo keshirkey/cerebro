@@ -45,7 +45,16 @@ or die("Unable to select database: " . mysql_error());
             	<ul>
                 	<li><a href="index.php">Home</a></li>
                 	<li><a href="about.html">About</a></li>
+					<?php if (!isset($_SESSION['username'])){ ?>
                 	<li><a href="signin.php">Log In</a></li>
+					<li><a href="registration.php"></a></li>
+					<?php } ?>
+					<?php if ( isset($_SESSION['username'])){ ?>
+					<li><a href="logout.php">Logout</a></li>
+					<!-- Welcome user not quite working yet -->
+					<li>Welcome <?php '.htmlentities($_SESSION["username"]). ' ?></li>
+					<?php } ?>
+					   
             	</ul>
         	</nav>
         	</div>
@@ -141,15 +150,11 @@ or die("Unable to select database: " . mysql_error());
 
 <?php
 //--SESSSION/LOGIN STUFF--
-if (!isset($_SESSION['username'])){
- echo('<p><a href="registration.php">Register</a></p>');
- echo('<p><a href="signin.php">Log In</a></p>');
-}
+
 //will allow identification of users via session; currently displaying only this when session is set
+//remove once it works in navigation bar
 if ( isset($_SESSION['username']) ) {
-   echo('<p>Welcome '.htmlentities($_SESSION['username']). ' You have logged in.</p>'."\n");
-   echo('<p><a href="logout.php">Logout</a></p>'."\n");
-   
+   echo('<p>Welcome '.htmlentities($_SESSION['username']). ' You have logged in.</p>'."\n");    
 }
 
 //--FILTER DATA STUFF--
