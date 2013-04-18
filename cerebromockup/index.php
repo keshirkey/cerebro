@@ -12,28 +12,6 @@ if (!$db_server) die("Unable to connect to MySQL: " . mysql_error());
 mysql_select_db($db_database)
 or die("Unable to select database: " . mysql_error());
 
-//--PAGINATION STUFF--
-//set $pagenum to be the value in the URL/GET array
-if(isset($_GET['pagenum'])) {$pagenum = $_GET['pagenum']+0;}
-//check if page # is set, if not set to 1
-if (!(isset($pagenum))) {$pagenum = 1;}
-
-//count the number of rows that exist in the database
-$pagequery = mysql_query("SELECT * FROM comic");
-$rows = mysql_num_rows($pagequery);
-
-//how many to display on the page
-$page_rows = 8;
-
-//calculate what the last page will be
-$last = ceil($rows/$page_rows);
-
-//check if page number is bigger than last or smaller than first
-if ($pagenum < 1) {$pagenum = 1;}
-elseif ($pagenum > $last) {$pagenum = $last;}
-
-//setting a range using the limit function to insert into query later
-$max = 'limit '.($pagenum - 1) * $page_rows.','.$page_rows;
 ?>
 
 <!-- HTML STARTS HERE -->
@@ -201,6 +179,58 @@ function get_sort($var) {
     return mysql_real_escape_string($_GET[$var]);
     }
        
+
+//--MAIN QUERY--
+//construct the query based on what has been selected    
+$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic WHERE comicID IS NOT NULL";
+
+if (isset($pubselectID) && $pubselectID > 0) {
+    $query .= " AND publisherID = '$pubselectID'";
+}
+
+if (isset($famselectID) && $famselectID > 0) {
+    $query .= " AND familyID = '$famselectID'";
+}
+
+/*if (isset($reviewID) && $reviewID > 0) {
+    $query .= "AND reviewID = '$reviewID'";
+} */
+
+if (isset($sort) && $sort == "Published") {
+    $query .= " ORDER BY pubyear DESC, monthid";
+}
+
+if (isset($sort) && $sort == "Added") {
+    $query .= " ORDER BY adddate DESC";
+}
+
+//--PAGINATION STUFF--
+//set $pagenum to be the value in the URL/GET array
+if(isset($_GET['pagenum'])) {$pagenum = $_GET['pagenum']+0;}
+//check if page # is set, if not set to 1
+if (!(isset($pagenum))) {$pagenum = 1;}
+
+//count number of rows from query with filters
+$count = mysql_query($query);
+$num_rows = mysql_num_rows($count);
+
+//how many to display on the page
+$page_rows = 8;
+
+//calculate what the last page will be
+$last = ceil($num_rows/$page_rows);
+
+//check if page number is bigger than last or smaller than first
+if ($pagenum < 1) {$pagenum = 1;}
+elseif ($pagenum > $last) {$pagenum = $last;}
+
+//setting a range using the limit function to insert into query later
+$max = 'limit '.($pagenum - 1) * $page_rows.','.$page_rows;
+
+//add $max to the end of the query for pagination
+$query .= " $max";  
+
+
 //--MORE PAGINATION--
 //output the pagination links
 echo ('<p style="font-size: 26px;">--Page '.$pagenum.' of '.$last.'--</p>');
@@ -239,32 +269,6 @@ else {
     echo ($lastlink);
     }
 
-//--MAIN QUERY--
-//construct the query based on what has been selected    
-$query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID FROM comic WHERE comicID IS NOT NULL";
-
-if (isset($pubselectID) && $pubselectID > 0) {
-    $query .= " AND publisherID = '$pubselectID'";
-}
-
-if (isset($famselectID) && $famselectID > 0) {
-    $query .= " AND familyID = '$famselectID'";
-}
-
-/*if (isset($reviewID) && $reviewID > 0) {
-    $query .= "AND reviewID = '$reviewID'";
-} */
-
-if (isset($sort) && $sort == "Published") {
-    $query .= " ORDER BY pubyear DESC, monthid";
-}
-
-if (isset($sort) && $sort == "Added") {
-    $query .= " ORDER BY adddate DESC";
-}
-
-//add $max to the end of the query for pagination
-$query .= " $max";  
 
 //run the query and output
 $result = mysql_query($query);
