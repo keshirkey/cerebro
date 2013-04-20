@@ -20,7 +20,7 @@ or die("Unable to select database: " . mysql_error());
  	<html lang="en">
     <meta charset="UTF-8">
     <title>Cerebro - Your Brain on Comics</title>
-    <base href="http://localhost/cerebro/cerebromockup/">
+    <base href="http://localhost:8888/cerebro/cerebromockup/">
     <link rel="stylesheet" type="text/css" href="static/css/styles.css" title="Default Stylesheet" media="all" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="/static/js/jquery.formalize.js"></script>
@@ -296,10 +296,10 @@ echo('<div id="comicbox" class="grid_1"><span>'); ?>
 <?php
 echo('<div class="cover">'."\n");
 if ($image_row[0] == NULL) {
-    echo('<img src="static/images/filler/'.rand(1,2).'.gif" alt="No Cover Image Available">'."\n");
+    echo('<a href="comic.php?comicID='.$comicID.'"><img src="static/images/filler/'.rand(1,2).'.gif" alt="No Cover Image Available"></a>'."\n");
     }
 else {
-    echo('<img src="'.$image_row[0].'">'."\n");
+    echo('<a href="comic.php?comicID='.$comicID.'"><img src="'.$image_row[0].'" alt="Comic cover image"/></a>'."\n");
     }
 echo("</div>\n");
 echo('<div id="comicinfo">'."\n");
