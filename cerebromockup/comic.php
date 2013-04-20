@@ -6,7 +6,13 @@ if (!$db_server) die("Unable to connect to MySQL: " . mysql_error());
 mysql_select_db($db_database)
 or die("Unable to select database: " . mysql_error());
 
-$comicID=htmlentities($_GET['comicID']);
+$comicID=get_from_url('comicID');
+
+//clean input
+function get_from_url($var) {
+    if (!isset($_GET[$var]) && strlen($_GET[$var]) < 1) {return false;}
+    return mysql_real_escape_string($_GET[$var]);
+    }
 
 $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID, subtitle, isbn, adddate, limitedseries FROM comic WHERE comicID = $comicID";
 
@@ -39,11 +45,18 @@ $query3 = mysql_query("SELECT familyname FROM family WHERE familyID = '$familyID
 $family_row = mysql_fetch_row($query3);
 $query4 = mysql_query("SELECT name FROM months WHERE monthid = '$monthid'");
 $month_row = mysql_fetch_row($query4);
+$image_query = mysql_query("SELECT image FROM image WHERE comicID = '$comicID'");
+$image_row = mysql_fetch_row($image_query);
 
 echo('<div id="comicbox" class="grid_1"><span>');
 echo('<div class="cover">'."\n");
 //change this to dynamic 
-echo('<img src="../frontend/static/images/Amazing_Spider-Man_Vol_1_688.jpg">'."\n");
+if ($image_row[0] == NULL) {
+    echo('<a href="comic.php?comicID='.$comicID.'"><img src="static/images/filler_woman.gif"></a>'."\n");
+    }
+else {
+    echo('<a href="comic.php?comicID='.$comicID.'"><img src="'.$image_row[0].'"></a>'."\n");
+    }
 echo("</div>\n");
 echo('<div id="comicinfo">'."\n");
 echo('<div class="rowone"><h4><span class="alignleft">'."\n");
@@ -130,8 +143,8 @@ echo('</span></div>');
  	<html lang="en">
     <meta charset="UTF-8">
     <title>Cerebro - Your Brain on Comics</title>
-    <base href="http://localhost/SI664/cerebromockup/">
-    <link rel="stylesheet" type="text/css" href="css/styles.css" title="Default Stylesheet" media="all" />
+    <base href="http://localhost:8888/cerebro/cerebromockup/">
+    <link rel="stylesheet" type="text/css" href="static/css/styles.css" title="Default Stylesheet" media="all" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="js/jquery.formalize.js"></script>
  </head>
@@ -142,12 +155,12 @@ echo('</span></div>');
     		<!-- search bar -->
     		<div id="searchwrap">
         		<input id="searchbox" type="search" />
-                <img src="images/searchicon.png" alt="Search Icon" height="19" width="19">
+                <img src="static/images/searchicon.png" alt="Search Icon" height="19" width="19">
         		<a href="advancedsearch.html">Advanced Search</a>
         	</div>
 
         	<div id="logo">
-        		<a href="index.php"><img src="images/cerebro_logo.gif" alt="Cerebro Logo"></a>
+        		<a href="index.php"><img src="static/images/cerebro_logo.gif" alt="Cerebro Logo"></a>
         	</div>
 
         	<!-- nav links -->
