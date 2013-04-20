@@ -21,9 +21,10 @@ if (isset($famselectID) && $famselectID > 0) {
 /*if (isset($reviewID) && $reviewID > 0) {
     $query .= "AND reviewID = '$reviewID'";
 } */
-
+Magellan#1
 //run the query and output
 $result = mysql_query($query);
+
 while ($row = mysql_fetch_row($result) ) {
 $comicID = $row[7];
 $seriesID = $row[0];
@@ -71,6 +72,7 @@ if($row[9] != 0 OR NULL){
 }
 echo('<div class="rowtwo"><span class="alignleft">');
 //Do we want this in? Probably need to format it nicely if we do
+
 echo('Added On: '.$row[10]."\n");
 //Add an "In my library" feature that draws on owned
 echo('<div class="rowtwo"><span class="alignleft">');
@@ -92,6 +94,29 @@ if (isset($_SESSION['collectorid']) ){
  else {
     $owned = "not owned";
     }
+}
+
+//adding artists/authors to the record - MESSY
+
+$query5 = "SELECT author.firstname, author.lastname, author.authorID, role.rolename, role.roleID, authorship.comicID 
+	FROM authorship JOIN author ON author.authorID = authorship.authorID
+	JOIN role ON role.roleID = authorship.roleID WHERE authorship.comicID = '$comicID'";
+//WHERE statement is broken again.
+	// $comicID is working fine. 
+$result2 = mysql_query($query5);
+
+while($row2 = mysql_fetch_row($result2)){
+$roleID = $row2[4];
+$authorID = $row2[2];
+$query = mysql_query("SELECT rolename FROM role WHERE roleID = '$roleID'");
+$role_row = mysql_fetch_row($query);
+$try = mysql_query("SELECT firstname, lastname FROM author WHERE authorID = '$authorID'");
+$authorID_row = mysql_fetch_row($try);
+$first = $row2[0];
+	
+//echo ($role_row[0].': '.$authorID_row[0].$authorID_row[1]."\n");
+echo ($row2[3].': '.$row2[0].$row2[1]);
+
 }
 
 echo('<div class="clear"></div>');
@@ -130,12 +155,22 @@ echo('</span></div>');
             	<ul>
                 	<li><a href="index.php">Home</a></li>
                 	<li><a href="about.html">About</a></li>
+					<?php if (!isset($_SESSION['username'])){ ?>
                 	<li><a href="signin.php">Log In</a></li>
+					<li><a href="registration.php"></a></li>
+					<?php } ?>
+					<?php if ( isset($_SESSION['username'])){ ?>
+					<li><a href="logout.php">Logout</a></li>
+					<!-- Welcome user not quite working yet -->
+					<li>Welcome <?php '.htmlentities($_SESSION["username"]). ' ?></li>
+					<?php } ?>
+					   
             	</ul>
         	</nav>
         	</div>
     	</header>
-	    <footer>
+	    
+		<footer>
         	<p>&copy; 2013 Go Team Venture!</p>
     	</footer>
 	</div>
