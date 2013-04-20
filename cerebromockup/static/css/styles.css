@@ -230,6 +230,55 @@ footer p {
 	text-align: center;
 }
 
+/*--------- Hover buttons ---------*/
+
+.actions .review-button a {
+    text-decoration: none;
+    font-size: 14px;
+    text-align: center;
+    text-color: #000;
+}
+.actions .review-button {
+    text-align: center;
+    padding: 5px;
+    background-color: #E1E1E1;
+    border: 1px solid #000;
+    border-radius: 3px;
+    margin: 15px 5px 5px 5px;
+    top: 50px;
+    visibility: hidden;
+}
+.grid_1:hover .actions .review-button {
+    visibility: visible
+}
+    
+/*--------- Hover buttons Modal boxes ---------*/
+
+/* Z-index of #mask must lower than #boxes .window */
+#mask {
+  //position:absolute;
+  z-index:9000;
+  background-color:#000;
+  display:none;
+}
+  
+#boxes .window {
+  position:fixed;
+  width:440px;
+  height:200px;
+  display:none;
+  z-index:9999;
+  padding:20px;
+}
+
+
+/* Customize your modal window here, you can add background image too */
+#boxes #review-dialog {
+  width:375px; 
+  height:203px;
+  background: #CCC;
+}
+
 /*----- Formalize CSS --------*/
 .input_tiny {
   width: 50px;

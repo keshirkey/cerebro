@@ -20,7 +20,7 @@ or die("Unable to select database: " . mysql_error());
  	<html lang="en">
     <meta charset="UTF-8">
     <title>Cerebro - Your Brain on Comics</title>
-    <base href="http://localhost:8888/cerebro/cerebromockup/">
+    <base href="http://localhost/cerebro/cerebromockup/">
     <link rel="stylesheet" type="text/css" href="static/css/styles.css" title="Default Stylesheet" media="all" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="/static/js/jquery.formalize.js"></script>
@@ -285,10 +285,18 @@ $query = mysql_query("SELECT seriestitle FROM series WHERE seriesID = '$seriesID
 $image_query = mysql_query("SELECT image FROM image WHERE comicID = '$comicID'");
 $image_row = mysql_fetch_row($image_query);
 $series_row = mysql_fetch_row($query);
-echo('<div id="comicbox" class="grid_1"><span>');
+echo('<div id="comicbox" class="grid_1"><span>'); ?>
+
+<div class="actions">
+    <a class="review-button" href="#review-dialog" name="modal">
+        <span>Review</span>
+    </a>           
+</div>
+
+<?php
 echo('<div class="cover">'."\n");
 if ($image_row[0] == NULL) {
-    echo('<img src="static/images/filler_woman.gif">'."\n");
+    echo('<img src="static/images/filler/'.rand(1,2).'.gif" alt="No Cover Image Available">'."\n");
     }
 else {
     echo('<img src="'.$image_row[0].'">'."\n");
@@ -304,7 +312,6 @@ echo($row[3]);
 echo(',&nbsp; &#35;');
 echo($row[4]);
 //Attempts at dynamic linking
-echo "<a href='comic.php?comicID=" . $comicID . "'> Full information </a>";
 echo('</span></div>');
 echo('<div class="rowtwo"><span class="alignleft">');
 echo('(#) reviews');
@@ -325,13 +332,22 @@ if (isset($_SESSION['collectorid']) ){
     $owned = "not owned";
     }
 echo $owned;
-    }
+    } ?>
+        <div id="boxes">
+            <div id="review-dialog" class="window">
+                <b>Testing of Modal Window</b>
+                <a href="#" class="close">cancel</a>
+            </div>
+            <div id="mask"></div>
+        </div>   
+<?php
 echo('</span></div>');
 echo('<div class="clear"></div>');
 echo('</div>');
 echo('</span></div>');
 }
 ?>
+
     	</section>
 
     	<footer>
@@ -339,4 +355,55 @@ echo('</span></div>');
     	</footer>
 	</div>
  </body>
+ <script>
+
+            $(document).ready(function() {	
+
+                //select all the a tag with name equal to modal
+                $('a[name=modal]').click(function(e) {
+                    //Cancel the link behavior
+                    e.preventDefault();
+                    //Get the A tag
+                    var id = $(this).attr('href');
+                
+                    //Get the screen height and width
+                    var maskHeight = $(document).height();
+                    var maskWidth = $(window).width();
+                
+                    //Set height and width to mask to fill up the whole screen
+                    $('#mask').css({'width':maskWidth,'height':maskHeight});
+                    
+                    //transition effect		
+                    $('#mask').fadeIn(500);	
+                    $('#mask').fadeTo("fast",0.6);	
+                
+                    //Get the window height and width
+                    var winH = $(window).height();
+                    var winW = $(window).width();
+                          
+                    //Set the popup window to center
+                    $(id).css('top',  winH/2-$(id).height()/2);
+                    $(id).css('left', winW/2-$(id).width()/2);
+                
+                    //transition effect
+                    $(id).fadeIn(500); 
+                
+                });
+                
+                //if close button is clicked
+                $('.window .close').click(function (e) {
+                    //Cancel the link behavior
+                    e.preventDefault();
+                    $('#mask, .window').hide();
+                });		
+                
+                //if mask is clicked
+                $('#mask').click(function () {
+                    $(this).hide();
+                    $('.window').hide();
+                });			
+                
+            });
+
+        </script>
 </html>
