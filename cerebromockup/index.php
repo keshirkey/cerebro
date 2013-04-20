@@ -21,7 +21,7 @@ or die("Unable to select database: " . mysql_error());
     <meta charset="UTF-8">
     <title>Cerebro - Your Brain on Comics</title>
     <base href="http://localhost:8888/cerebro/cerebromockup/">
-    <link rel="stylesheet" type="text/css" href="css/styles.css" title="Default Stylesheet" media="all" />
+    <link rel="stylesheet" type="text/css" href="static/css/styles.css" title="Default Stylesheet" media="all" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="js/jquery.formalize.js"></script>
  </head>
@@ -32,12 +32,12 @@ or die("Unable to select database: " . mysql_error());
     		<!-- search bar -->
     		<div id="searchwrap">
         		<input id="searchbox" type="search" />
-                <img src="images/searchicon.png" alt="Search Icon" height="19" width="19">
+                <img src="static/images/searchicon.png" alt="Search Icon" height="19" width="19">
         		<a href="advancedsearch.html">Advanced Search</a>
         	</div>
 
         	<div id="logo">
-        		<a href="index.php"><img src="images/cerebro_logo.gif" alt="Cerebro Logo"></a>
+        		<a href="index.php"><img src="static/images/cerebro_logo.gif" alt="Cerebro Logo"></a>
         	</div>
 
         	<!-- nav links -->
