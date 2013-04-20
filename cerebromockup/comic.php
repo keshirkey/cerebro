@@ -6,7 +6,7 @@ if (!$db_server) die("Unable to connect to MySQL: " . mysql_error());
 mysql_select_db($db_database)
 or die("Unable to select database: " . mysql_error());
 
-$comicID=$_GET['comicID'];
+$comicID=htmlentities($_GET['comicID']);
 
 $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID, subtitle, isbn, adddate, limitedseries FROM comic WHERE comicID = $comicID";
 
@@ -21,7 +21,7 @@ if (isset($famselectID) && $famselectID > 0) {
 /*if (isset($reviewID) && $reviewID > 0) {
     $query .= "AND reviewID = '$reviewID'";
 } */
-Magellan#1
+
 //run the query and output
 $result = mysql_query($query);
 
@@ -42,6 +42,7 @@ $month_row = mysql_fetch_row($query4);
 
 echo('<div id="comicbox" class="grid_1"><span>');
 echo('<div class="cover">'."\n");
+//change this to dynamic 
 echo('<img src="../frontend/static/images/Amazing_Spider-Man_Vol_1_688.jpg">'."\n");
 echo("</div>\n");
 echo('<div id="comicinfo">'."\n");
@@ -96,13 +97,12 @@ if (isset($_SESSION['collectorid']) ){
     }
 }
 
-//adding artists/authors to the record - MESSY
+//adding artists/authors to the record 
 
-$query5 = "SELECT author.firstname, author.lastname, author.authorID, role.rolename, role.roleID, authorship.comicID 
+$query5 = "SELECT author.firstname, author.lastname, author.authorID, role.rolename, role.roleID
 	FROM authorship JOIN author ON author.authorID = authorship.authorID
-	JOIN role ON role.roleID = authorship.roleID WHERE authorship.comicID = '$comicID'";
-//WHERE statement is broken again.
-	// $comicID is working fine. 
+	JOIN role ON role.roleID = authorship.roleID WHERE authorship.comicID = '$comicID' ";
+
 $result2 = mysql_query($query5);
 
 while($row2 = mysql_fetch_row($result2)){
@@ -115,8 +115,8 @@ $authorID_row = mysql_fetch_row($try);
 $first = $row2[0];
 	
 //echo ($role_row[0].': '.$authorID_row[0].$authorID_row[1]."\n");
-echo ($row2[3].': '.$row2[0].$row2[1]);
-
+echo ($row2[3].': '.$row2[0].'&nbsp;'.$row2[1]);
+echo('<div class="rowtwo"><span class="alignleft">');
 }
 
 echo('<div class="clear"></div>');
