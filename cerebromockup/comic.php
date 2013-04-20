@@ -54,6 +54,7 @@ echo('<div class="cover">'."\n");
 if ($image_row[0] == NULL) {
     echo('<a href="comic.php?comicID='.$comicID.'"><img src="static/images/filler_woman.gif"></a>'."\n");
     }
+	
 else {
     echo('<a href="comic.php?comicID='.$comicID.'"><img src="'.$image_row[0].'"></a>'."\n");
     }
@@ -63,6 +64,7 @@ echo('<div class="rowone"><h4><span class="alignleft">'."\n");
 echo($series_row[0]);
 echo('<div class="rowone"><h4><span class="alignleft">'."\n");
 //display subtitle
+Magellan#1
 if($row[8] != NULL){
 	echo($row[8]);
 	echo('<div class="rowone"><h4><span class="alignleft">'."\n");
@@ -114,22 +116,13 @@ if (isset($_SESSION['collectorid']) ){
 
 $query5 = "SELECT author.firstname, author.lastname, author.authorID, role.rolename, role.roleID
 	FROM authorship JOIN author ON author.authorID = authorship.authorID
-	JOIN role ON role.roleID = authorship.roleID WHERE authorship.comicID = '$comicID' ";
+	JOIN role ON role.roleID = authorship.roleID WHERE authorship.comicID = '$comicID' AND author.firstname IS NOT NULL";
 
 $result2 = mysql_query($query5);
 
 while($row2 = mysql_fetch_row($result2)){
-$roleID = $row2[4];
-$authorID = $row2[2];
-$query = mysql_query("SELECT rolename FROM role WHERE roleID = '$roleID'");
-$role_row = mysql_fetch_row($query);
-$try = mysql_query("SELECT firstname, lastname FROM author WHERE authorID = '$authorID'");
-$authorID_row = mysql_fetch_row($try);
-$first = $row2[0];
-	
-//echo ($role_row[0].': '.$authorID_row[0].$authorID_row[1]."\n");
-echo ($row2[3].': '.$row2[0].'&nbsp;'.$row2[1]);
-echo('<div class="rowtwo"><span class="alignleft">');
+	echo ($row2[3].': '.$row2[0].'&nbsp;'.$row2[1]);
+	echo('<div class="rowtwo"><span class="alignleft">');
 }
 
 echo('<div class="clear"></div>');
@@ -143,7 +136,7 @@ echo('</span></div>');
  	<html lang="en">
     <meta charset="UTF-8">
     <title>Cerebro - Your Brain on Comics</title>
-    <base href="http://localhost:8888/cerebro/cerebromockup/">
+    <base href="http://localhost/SI664/cerebromockup/">
     <link rel="stylesheet" type="text/css" href="static/css/styles.css" title="Default Stylesheet" media="all" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="js/jquery.formalize.js"></script>
