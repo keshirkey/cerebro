@@ -20,7 +20,7 @@ or die("Unable to select database: " . mysql_error());
  	<html lang="en">
     <meta charset="UTF-8">
     <title>Cerebro - Your Brain on Comics</title>
-    <base href="http://localhost/SI664/cerebromockup/">
+    <base href="http://localhost:8888/cerebro/cerebromockup/">
     <link rel="stylesheet" type="text/css" href="css/styles.css" title="Default Stylesheet" media="all" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="js/jquery.formalize.js"></script>
@@ -275,16 +275,24 @@ else {
     }
 
 
+
 //run the query and output
 $result = mysql_query($query);
 while ($row = mysql_fetch_row($result) ) {
 $comicID = $row[7];
 $seriesID = $row[0];
 $query = mysql_query("SELECT seriestitle FROM series WHERE seriesID = '$seriesID'");
+$image_query = mysql_query("SELECT image FROM image WHERE comicID = '$comicID'");
+$image_row = mysql_fetch_row($image_query);
 $series_row = mysql_fetch_row($query);
 echo('<div id="comicbox" class="grid_1"><span>');
 echo('<div class="cover">'."\n");
-echo('<img src="../frontend/static/images/Amazing_Spider-Man_Vol_1_688.jpg">'."\n");
+if ($image_row[0] == NULL) {
+    echo('<img src="static/images/filler_woman.gif">'."\n");
+    }
+else {
+    echo('<img src="'.$image_row[0].'">'."\n");
+    }
 echo("</div>\n");
 echo('<div id="comicinfo">'."\n");
 echo('<div class="rowone"><h4><span class="alignleft">'."\n");
