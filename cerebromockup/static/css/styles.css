@@ -7,7 +7,7 @@ html{
 }
 
 body {
-	margin: 0 0 50px;
+	margin: 0 0 51px;
 	overflow-y: scroll;
 	background-color:#ffffff;
 }
@@ -34,6 +34,7 @@ h1 {
 
 header {
 	background-color: #cccccc;
+  border-bottom: 1px solid grey;
 	position: fixed;
 	height: 116px;
 	top: 0;
@@ -42,6 +43,7 @@ header {
 
 footer {
 	position: absolute;
+  border-top: 1px solid grey;
 	bottom: 0;
 	height: 45px;
 	background-color: #cccccc;
