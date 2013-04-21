@@ -68,15 +68,17 @@ or die("Unable to select database: " . mysql_error());
             </div>
     		
     		<!-- dynamic filters -->
-    		<form name="filters" method="post" action="index.php">
-            <div id="filtersleft" class="alignleft">
-                <input type="submit" name="sort" value="Published"></input>
-                <input type="submit" name="sort" value="Added"></input>
-                <input type="submit" name="sort" value="Reviewed"></input>
+            <div id="filters">
+                <form name="filters" method="post" action="index.php">
+                <div id="filtersleft" class="alignleft">
+                    <input type="submit" name="sort" value="Published"></input>
+                    <input type="submit" name="sort" value="Added"></input>
+                    <input type="submit" name="sort" value="Reviewed"></input>
+                </div>
 
-    			<div id="filtersright" class="alignright">
+                <div id="filtersright" class="alignright">
 
-                        <select name="publisher" id = "publisher" onchange="submit();">
+                    <select name="publisher" id = "publisher" onchange="submit();">
     				 
     				    <?php 
     					    //populate publisher dropdown from database
