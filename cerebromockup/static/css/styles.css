@@ -148,7 +148,7 @@ nav ul li {
 
 #filtertext .alignright {
 	float: right;
-	padding-right: 30%;
+	padding-right: 25%;
 }
 
 #filtertext .clear {
@@ -171,6 +171,10 @@ nav ul li {
 	margin-top: -0.5px;
 }
 
+#filtersleft {
+  padding-left: 4%;
+}
+
 #clearlink .alignright a {
 	float: right;
 }
@@ -181,6 +185,10 @@ nav ul li {
 
 .clear {
 	clear: both;
+}
+
+#pages p {
+  font-size: 18px;
 }
 
 .cover img {

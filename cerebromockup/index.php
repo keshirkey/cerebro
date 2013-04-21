@@ -51,9 +51,11 @@ or die("Unable to select database: " . mysql_error());
 					<?php } ?>
 					<?php if ( isset($_SESSION['username'])){ ?>
 					<li><a href="logout.php">Logout</a></li>
+                    <?php } ?>
 					<!-- Welcome user not quite working yet -->
-					<li>Welcome <?php '.htmlentities($_SESSION["username"]). ' ?></li>
-					<?php } ?>
+                    <?php if ( isset($_SESSION['username'])){ ?>
+					<li><?php echo ('<p>Welcome '.htmlentities($_SESSION['username']).
+                     ' You have logged in.</p>'."\n"); }?></li>
 					   
             	</ul>
         	</nav>
@@ -151,13 +153,6 @@ or die("Unable to select database: " . mysql_error());
     		<hr>
 
 <?php
-//--SESSSION/LOGIN STUFF--
-
-//will allow identification of users via session; currently displaying only this when session is set
-//remove once it works in navigation bar
-if ( isset($_SESSION['username']) ) {
-   echo('<p>Welcome '.htmlentities($_SESSION['username']). ' You have logged in.</p>'."\n");    
-}
 
 //--FILTER DATA STUFF--
 //check for GET or POST data from filters and put into variables    
@@ -240,7 +235,7 @@ $query .= " $max";
 
 //--MORE PAGINATION--
 //output the pagination links
-echo ('<p style="font-size: 26px;">--Page '.$pagenum.' of '.$last.'--</p>');
+echo ('<p id="pages">--Page '.$pagenum.' of '.$last.'--</p>');
 
 //first page should not display first or previous links
 if ($pagenum == 1) {}
