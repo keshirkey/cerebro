@@ -236,6 +236,7 @@ $query .= " $max";
 //output the pagination links
 
 //first page should not display first or previous links
+echo ('<div id="pagestop">');
 echo ('<div id="pagesleft"><span class="alignleft">');
 if ($pagenum == 1) {}
 else {
@@ -274,11 +275,11 @@ else {
 echo ('</span></div>');
 
 echo ('<div id="pagescenter"><span class="aligncenter">');
-echo ('<p id="pages">--Page '.$pagenum.' of '.$last.'--</p>');
+echo ('<p id="pages">Page '.$pagenum.' of '.$last.'</p>');
 echo ('</span></div>');
 
 echo ('<div class="clear">');
-echo ('</div>');
+echo ('</div></div>');
 
 
 
@@ -359,6 +360,7 @@ echo('</span></div>');
 //output the pagination links
 
 //first page should not display first or previous links
+echo ('<div id="pagesbottom">');
 echo ('<div id="pagesleft"><span class="alignleft">');
 if ($pagenum == 1) {}
 else {
@@ -397,11 +399,11 @@ else {
 echo ('</span></div>');
 
 echo ('<div id="pagescenter"><span class="aligncenter">');
-echo ('<p id="pages">--Page '.$pagenum.' of '.$last.'--</p>');
+echo ('<p id="pages">Page '.$pagenum.' of '.$last.'</p>');
 echo ('</span></div>');
 
 echo ('<div class="clear">');
-echo ('</div>');
+echo ('</div></div>');
 ?>
 
     	</section>
