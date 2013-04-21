@@ -150,7 +150,6 @@ or die("Unable to select database: " . mysql_error());
 
             <div class="clear"></div>
 
-    		<hr>
 
 <?php
 
