@@ -235,9 +235,9 @@ $query .= " $max";
 
 //--MORE PAGINATION--
 //output the pagination links
-echo ('<p id="pages">--Page '.$pagenum.' of '.$last.'--</p>');
 
 //first page should not display first or previous links
+echo ('<div id="pagesleft"><span class="alignleft">');
 if ($pagenum == 1) {}
 else {
     $previous = $pagenum-1;
@@ -253,8 +253,10 @@ else {
     echo (" ");
     echo($prevlink);
 }
+echo ('</span></div>');
 
 //last page should not display last or next links
+echo ('<div id="pagesright"><span class="alignright">');
 if ($pagenum == $last) {}
 else {
     $next = $pagenum+1;
@@ -269,7 +271,15 @@ else {
     echo ($nextlink);
     echo (" ");
     echo ($lastlink);
-    }
+}
+echo ('</span></div>');
+
+echo ('<div id="pagescenter"><span class="aligncenter">');
+echo ('<p id="pages">--Page '.$pagenum.' of '.$last.'--</p>');
+echo ('</span></div>');
+
+echo ('<div class="clear">');
+echo ('</div>');
 
 
 
@@ -343,6 +353,56 @@ echo('<div class="clear"></div>');
 echo('</div>');
 echo('</span></div>');
 }
+?>
+
+<?php
+//--MORE PAGINATION--
+//output the pagination links
+
+//first page should not display first or previous links
+echo ('<div id="pagesleft"><span class="alignleft">');
+if ($pagenum == 1) {}
+else {
+    $previous = $pagenum-1;
+    $firstlink = "<a href='{$_SERVER['PHP_SELF']}?pagenum=1";
+    $prevlink = "<a href='{$_SERVER['PHP_SELF']}?pagenum=$previous";
+    if ($_POST > 0) {
+        @$firstlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
+        @$prevlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
+        }
+    $firstlink .= "'> <<-First</a>";
+    $prevlink .= "'> <-Previous</a>";
+    echo ($firstlink);
+    echo (" ");
+    echo($prevlink);
+}
+echo ('</span></div>');
+
+//last page should not display last or next links
+echo ('<div id="pagesright"><span class="alignright">');
+if ($pagenum == $last) {}
+else {
+    $next = $pagenum+1;
+    $nextlink = "<a href='{$_SERVER['PHP_SELF']}?pagenum=$next";
+    $lastlink = "<a href='{$_SERVER['PHP_SELF']}?pagenum=$last";
+    if ($_POST > 0) {
+        @$nextlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
+        @$lastlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
+        }
+    $nextlink .="'>Next -></a>";
+    $lastlink .="'>Last ->></a>";
+    echo ($nextlink);
+    echo (" ");
+    echo ($lastlink);
+}
+echo ('</span></div>');
+
+echo ('<div id="pagescenter"><span class="aligncenter">');
+echo ('<p id="pages">--Page '.$pagenum.' of '.$last.'--</p>');
+echo ('</span></div>');
+
+echo ('<div class="clear">');
+echo ('</div>');
 ?>
 
     	</section>
