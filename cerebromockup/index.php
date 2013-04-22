@@ -311,7 +311,7 @@ echo('<div class="rowtwo"><span class="alignleft">');
 echo('(#) reviews');
 echo('</span></div>');
 echo('<div class="rowtwo"><span class="alignright">');
-echo('(stars)'."\n");
+echo('<img src="static/images/stars/stars.png">'."\n");
 
 if (isset($_SESSION['collectorid']) ){
  $string = "SELECT ownedID FROM owned WHERE comicID = '$row[7]' AND collectorID = '".addslashes($_SESSION['collectorid'])."' ";
