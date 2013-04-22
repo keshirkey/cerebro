@@ -313,8 +313,6 @@ elseif(isset($_POST['owned']) && $_POST['owned'] == "notowned") {
 }
 mysql_query($query);
 ?>         
-         
-    </form>
     </a>
 
     <a class="review-button" href="#review-dialog" name="modal">
@@ -325,7 +323,8 @@ mysql_query($query);
     <span>Add to List</span>
     </a>
     </div>
-
+    </form>
+    
 <?php
 echo('<div class="cover">'."\n");
 if ($image_row[0] == NULL) {
@@ -350,7 +349,7 @@ echo('<div class="rowtwo"><span class="alignleft">');
 echo('(#) reviews');
 echo('</span></div>');
 echo('<div class="rowtwo"><span class="alignright">');
-echo('<img src="static/images/stars/stars.png">'."\n");
+echo('(stars)'."\n");
 
 if (isset($_SESSION['collectorid']) ){
  $string = "SELECT ownedID FROM owned WHERE comicID = '$row[7]' AND collectorID = '".addslashes($_SESSION['collectorid'])."' ";
@@ -386,7 +385,7 @@ echo('</span></div></div>');
 //output the pagination links
 
 //first page should not display first or previous links
-echo ('<div id="pagestop">');
+echo ('<div id="pagesbottom">');
 echo ('<div id="pagesleft"><span class="alignleft">');
 if ($pagenum == 1) {}
 else {
@@ -431,6 +430,7 @@ echo ('</span></div>');
 echo ('<div class="clear">');
 echo ('</div></div>');
 ?>
+
     	</section>
 
     	<footer>
