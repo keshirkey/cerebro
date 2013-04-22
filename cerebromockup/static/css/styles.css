@@ -20,6 +20,7 @@ h1 {
 
 /*--------- Hover buttons ---------*/
 
+
 .actions .review-button a {
     text-decoration: none;
     font-size: 14px;
@@ -38,9 +39,19 @@ h1 {
     /* fixed issue with button hiding behind image */
     position: relative;
 }
+
+
 .grid_1:hover .actions .review-button {
     visibility: visible;
 }
+
+.owned-button {
+    margin-bottom: -10px;
+    margin-right: -10px;
+    margin-left: -10px;
+    background: #000;
+}
+
     
 /*--------- Hover buttons Modal boxes ---------*/
 
