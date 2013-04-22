@@ -301,7 +301,7 @@ else {
 
 echo ('<input type="hidden" name="collectorID" value="5"></input>');      
 echo ('<input type="hidden" name="comicID" value="'.$row[7].'"></input>');  
-echo ('<input type="image" src="'.$owned.'" width="25" height="25" name="owned" value="'.$b_value.'" />'."\n");
+echo ('<input class="owned-button" type="image" src="'.$owned.'" width="30" height="30" name="owned" value="'.$b_value.'" />'."\n");
 
 $collectorID = $_POST['collectorID'];
 $comicID = $_POST['comicID'];
