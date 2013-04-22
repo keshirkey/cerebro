@@ -279,13 +279,52 @@ $image_query = mysql_query("SELECT image FROM image WHERE comicID = '$comicID'")
 $image_row = mysql_fetch_row($image_query);
 $series_row = mysql_fetch_row($query);
 echo('<div id="comicgrid">');
-echo('<div id="comicbox" class="grid_1"><span>'); ?>
+echo('<div id="comicbox" class="grid_1"><span>'); 
 
-<div class="actions">
+
+echo('<div class="actions">'."\n");
+echo('<form name="owned" method="post" action="index.php">'."\n");
+echo('<a class="review-button" href="#">'."\n");
+
+$string = "SELECT ownedID FROM owned WHERE comicID = '$row[7]' AND collectorID = 5";
+$result3 = mysql_query($string);
+$owned_result = mysql_num_rows($result3);
+
+if ($owned_result > 0) {
+    $owned = "static/images/owned.png";
+    $b_value = "owned";
+}
+else {
+    $owned = "static/images/not-owned.png";
+    $b_value = "notowned";
+}
+
+echo ('<input type="hidden" name="collectorID" value="5"></input>');      
+echo ('<input type="hidden" name="comicID" value="'.$row[7].'"></input>');  
+echo ('<input type="image" src="'.$owned.'" width="25" height="25" name="owned" value="'.$b_value.'" />'."\n");
+
+$collectorID = $_POST['collectorID'];
+$comicID = $_POST['comicID'];
+if(isset($_POST['owned']) && $_POST['owned'] == "owned") {
+    $query = "DELETE FROM owned WHERE collectorID = '$collectorID'";
+}
+elseif(isset($_POST['owned']) && $_POST['owned'] == "notowned") {
+    $query = "INSERT INTO owned (comicID, collectorID) VALUES ('$comicID', '$collectorID')";
+}
+mysql_query($query);
+?>         
+         
+    </form>
+    </a>
+
     <a class="review-button" href="#review-dialog" name="modal">
         <span>Review</span>
-    </a>           
-</div>
+    </a>
+
+    <a class="review-button" href="#review-dialog" name="modal">
+    <span>Add to List</span>
+    </a>
+    </div>
 
 <?php
 echo('<div class="cover">'."\n");
