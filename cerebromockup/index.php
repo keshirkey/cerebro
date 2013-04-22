@@ -41,9 +41,14 @@ or die("Unable to select database: " . mysql_error());
         	</div>
 
         	<!-- nav links -->
-        	<nav>
+        	<ul id="username">
+                <?php if ( isset($_SESSION['username'])){ ?>
+                <li><?php echo ('<p> Welcome ' .htmlentities($_SESSION['username']). '!</p>'); }?></li>
+            </ul>
+
+            <nav>
             	<ul>
-                	<li><a href="index.php">Home</a></li>
+                    <li><a href="index.php">Home</a></li>
                 	<li><a href="about.html">About</a></li>
 					<?php if (!isset($_SESSION['username'])){ ?>
                 	<li><a href="signin.php">Log In</a></li>
@@ -52,10 +57,6 @@ or die("Unable to select database: " . mysql_error());
 					<?php if ( isset($_SESSION['username'])){ ?>
 					<li><a href="logout.php">Logout</a></li>
                     <?php } ?>
-					<!-- Welcome user not quite working yet -->
-                    <?php if ( isset($_SESSION['username'])){ ?>
-					<li><?php echo ('<p>Welcome '.htmlentities($_SESSION['username']).
-                     ' You have logged in.</p>'."\n"); }?></li>
 					   
             	</ul>
         	</nav>
@@ -232,8 +233,8 @@ else {
         @$firstlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
         @$prevlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
         }
-    $firstlink .= "'> <<-First</a>";
-    $prevlink .= "'> <-Previous</a>";
+    $firstlink .= "'> &#171; First</a>";
+    $prevlink .= "'> &lsaquo; Previous</a>";
     echo ($firstlink);
     echo (" ");
     echo($prevlink);
@@ -251,8 +252,8 @@ else {
         @$nextlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
         @$lastlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
         }
-    $nextlink .="'>Next -></a>";
-    $lastlink .="'>Last ->></a>";
+    $nextlink .="'>Next &rsaquo;</a>";
+    $lastlink .="'>Last &#187;</a>";
     echo ($nextlink);
     echo (" ");
     echo ($lastlink);
@@ -277,6 +278,7 @@ $query = mysql_query("SELECT seriestitle FROM series WHERE seriesID = '$seriesID
 $image_query = mysql_query("SELECT image FROM image WHERE comicID = '$comicID'");
 $image_row = mysql_fetch_row($image_query);
 $series_row = mysql_fetch_row($query);
+echo('<div id="comicgrid">');
 echo('<div id="comicbox" class="grid_1"><span>'); ?>
 
 <div class="actions">
@@ -336,7 +338,7 @@ echo $owned;
 echo('</span></div>');
 echo('<div class="clear"></div>');
 echo('</div>');
-echo('</span></div>');
+echo('</span></div></div>');
 }
 ?>
 
@@ -356,8 +358,8 @@ else {
         @$firstlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
         @$prevlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
         }
-    $firstlink .= "'> <<-First</a>";
-    $prevlink .= "'> <-Previous</a>";
+    $firstlink .= "'> &#171; First</a>";
+    $prevlink .= "'> &lsaquo; Previous</a>";
     echo ($firstlink);
     echo (" ");
     echo($prevlink);
@@ -375,8 +377,8 @@ else {
         @$nextlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
         @$lastlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
         }
-    $nextlink .="'>Next -></a>";
-    $lastlink .="'>Last ->></a>";
+    $nextlink .="'>Next &rsaquo;</a>";
+    $lastlink .="'>Last &#187;</a>";
     echo ($nextlink);
     echo (" ");
     echo ($lastlink);

@@ -32,8 +32,10 @@ h1 {
     border: 1px solid #000;
     border-radius: 3px;
     margin: 15px 5px 5px 5px;
-    top: 50px;
+    /*top: 50px;*/
     visibility: hidden;
+    /* fixed issue with button hiding behind image */
+    position: relative;
 }
 .grid_1:hover .actions .review-button {
     visibility: visible;
@@ -74,6 +76,18 @@ h1 {
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 125px;
+}
+
+a:link,
+a:hover,
+a:visited,
+a:active {
+  text-decoration: none;
+  color: #2B9DCD;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 /*------------- Header ---------------*/
@@ -149,6 +163,14 @@ footer  {
 	z-index: 10;
 }
 
+#username {
+  list-style-type: none;
+  margin-top: 20px;
+  margin-bottom: -50px;
+  float: right;
+  margin-right: 107px;
+}
+
 nav {
 	float: right;
 	width: 20.0%;
@@ -170,6 +192,10 @@ nav ul li {
 }
 
 /*----------- Filters & Pagination ------------*/
+#filters {
+  width: 100%;
+}
+
 #filtertext .alignleft {
   float: left;
 }
@@ -219,9 +245,12 @@ nav ul li {
   font-size: 18px;
 }
 
+#pagestop {
+  text-align: center;
+}
+
 #pagestop #pagesleft .alignleft {
   float: left;
-  padding-top: 7px;
 }
 
 #pagestop #pagescenter .aligncenter {
@@ -233,7 +262,30 @@ nav ul li {
 
 #pagestop #pagesright .alignright {
   float: right;
-  padding-top: 7px;
+}
+
+.clear {
+  clear: both;
+}
+
+#pagesbottom {
+  text-align: center;
+  float: left;
+}
+
+#pagesbottom #pagesleft .alignleft {
+  float: left;
+}
+
+#pagesbottom #pagescenter .aligncenter {
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+#pagesbottom #pagesright .alignright {
+  float: right;
 }
 
 .clear {
@@ -241,6 +293,11 @@ nav ul li {
 }
 
 /*---------------- Comic Boxes --------------*/
+#comicgrid {
+  width: 100%;
+  margin-left: 27px;
+}
+
 .grid_1 {
 	display: inline;
 	float: left;
