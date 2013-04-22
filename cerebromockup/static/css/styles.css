@@ -34,7 +34,6 @@ h1 {
     margin: 15px 5px 5px 5px;
     top: 50px;
     visibility: hidden;
-    z-index: 2;
 }
 .grid_1:hover .actions .review-button {
     visibility: visible;
@@ -254,6 +253,7 @@ nav ul li {
 
 #maincontent .grid_1 {
 	width: 22.0%;
+  max-width: 22.0%;
 	position: static;
 }
 
@@ -270,10 +270,16 @@ nav ul li {
 	display: inline;
 }
 
+#comicbox {
+  width: 296px;
+  height: 520px;
+  margin-bottom: 30px;
+}
+
 .cover img {
-	width: 88%;
-	margin-left: 5.5%;
-  z-index: 1;
+	width: 260px;
+  height: 396px;
+	margin-left: 16px;
   border: 1px solid grey;
 }
 
@@ -297,15 +303,12 @@ nav ul li {
 	margin-left: 5%;
 	margin-right: 5%;
 	margin-bottom: 5%;
+  margin-top: -10px;
 }
 
 #comicinfo .rowtwo .alignleft,
 #comicinfo .rowtwo .alignright {
 	padding-top: 5%;
-}
-
-#comicbox {
-	padding-bottom: 5%;
 }
 
 .grid_1 h3,
@@ -317,6 +320,9 @@ nav ul li {
 footer p {
 	text-align: center;
 }
+
+/*-------------Individual Comic Page -----------------*/
+
 
 /*------------- Formalize CSS (for cross-browser form styling) -------------*/
 .input_tiny {
