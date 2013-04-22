@@ -277,6 +277,7 @@ nav ul li {
 
 #pagesbottom #pagesleft .alignleft {
   float: left;
+  margin-bottom: 7px;
 }
 
 #pagesbottom #pagescenter .aligncenter {
@@ -288,6 +289,7 @@ nav ul li {
 
 #pagesbottom #pagesright .alignright {
   float: right;
+  margin-bottom: 7px;
 }
 
 .clear {
@@ -368,6 +370,11 @@ nav ul li {
 #comicinfo .rowtwo .alignleft,
 #comicinfo .rowtwo .alignright {
 	padding-top: 5%;
+}
+
+.rowtwo img {
+  width: 80px;
+  margin-top: 2.5px;
 }
 
 .grid_1 h3,
