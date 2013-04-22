@@ -88,6 +88,7 @@ a:active {
 
 a:hover {
   text-decoration: underline;
+  color: #EC0D8F;
 }
 
 /*------------- Header ---------------*/
