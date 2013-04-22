@@ -24,7 +24,12 @@
         	</div>
 
         	<!-- nav links -->
-        	<nav>
+        	<ul id="username">
+                <?php if ( isset($_SESSION['username'])){ ?>
+                <li><?php echo (htmlentities($_SESSION['username'])); }?></li>
+            </ul>
+
+            <nav>
             	<ul>
                 	<li><a href="index.php">Home</a></li>
                 	<li><a href="about.html">About</a></li>

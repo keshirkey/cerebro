@@ -347,7 +347,7 @@ echo('</span></div></div>');
 //output the pagination links
 
 //first page should not display first or previous links
-echo ('<div id="pagesbottom">');
+echo ('<div id="pagestop">');
 echo ('<div id="pagesleft"><span class="alignleft">');
 if ($pagenum == 1) {}
 else {
@@ -392,7 +392,6 @@ echo ('</span></div>');
 echo ('<div class="clear">');
 echo ('</div></div>');
 ?>
-
     	</section>
 
     	<footer>

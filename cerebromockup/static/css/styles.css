@@ -376,6 +376,11 @@ nav ul li {
 	display: inline;
 }
 
+.space {
+  float: left;
+  height: 100px;
+}
+
 footer p {
 	text-align: center;
 }
