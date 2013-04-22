@@ -85,13 +85,13 @@ or die("Unable to select database: " . mysql_error());
     				    <?php 
     					    //populate publisher dropdown from database
                             //display blank option if no POST data
-                            if (!isset($_POST['publisher']) && !isset($_GET['publisher']) || $_POST['publisher'] == "" && !isset($_GET['publisher'])) {echo('<option value="" selected = "selected">- Publisher -</option>\n');}
+                            if (!isset($_REQUEST['publisher']) || $_GET['publisher'] == "") {echo('<option value="" selected = "selected">- Publisher -</option>'."\n");}
                             $query = "SELECT publisherID, publishername FROM publisher WHERE publishername IS NOT NULL";
                             $result = mysql_query($query);
                             //output as dropdown options
                             while ($row = mysql_fetch_row($result)) {
                                 //determine if a selected option should be kept in dropdown
-                                if ($row[0] == $_POST['publisher'] || $row[0] == $_GET['publisher']) {$selected = "selected = \"selected\"";}
+                                if ($row[0] == $_REQUEST['publisher']) {$selected = "selected = \"selected\"";}
                                 else {$selected = "";}
                                 echo('<option value="'.$row[0].'"'.$selected.'>'.$row[1].'</option>');
                                 echo("\n");
@@ -105,13 +105,9 @@ or die("Unable to select database: " . mysql_error());
                             <?php 
     					       //populate family dropdown from database
                                 //display blank option if no POST data
-                                if (!isset($_POST['family']) && !isset($_GET['family']) || $_POST['family'] == "") {echo('<option value="" selected = "selected">- Family -</option>');echo("\n");}
-                                if (isset($_POST['publisher'])) {
+                                if (!isset($_REQUEST['family']) || $_GET['family'] == "") {echo('<option value="" selected = "selected">- Family -</option>');echo("\n");}
+                                if (isset($_REQUEST['publisher']) && $_REQUEST['publisher'] != "") {
                                     $p = get_post('publisher');
-                                    $query = "SELECT familyID, familyname, publisherID FROM family WHERE familyname IS NOT NULL AND publisherID = '$p'";
-                                    }
-                                elseif (isset($_GET['publisher'])) {
-                                    $p = get_sort('publisher');
                                     $query = "SELECT familyID, familyname, publisherID FROM family WHERE familyname IS NOT NULL AND publisherID = '$p'";
                                     }
                                 else {
@@ -121,7 +117,7 @@ or die("Unable to select database: " . mysql_error());
                                 //output as dropdown options
                                 while ($row = mysql_fetch_row($result)) {
                                     //determine if a selected option should be kept in dropdown
-                                    if ($row[0] == $_POST['family']) {$selected = "selected = \"selected\"";}
+                                    if ($row[0] == $_REQUEST['family']) {$selected = "selected = \"selected\"";}
                                     else {$selected = "";}
                                     echo('<option value="'.$row[0].'"'.$selected.'>'.$row[1].'</option>');
                                     echo("\n");
@@ -156,28 +152,17 @@ or die("Unable to select database: " . mysql_error());
 //--FILTER DATA STUFF--
 //check for GET or POST data from filters and put into variables    
     
-if (isset($_POST['publisher'])) {$pubselectID = get_post('publisher');}
+if (isset($_REQUEST['publisher'])) {$pubselectID = get_post('publisher');}
 
-if (isset($_POST['family'])) {$famselectID = get_post('family');}
+if (isset($_REQUEST['family'])) {$famselectID = get_post('family');}
 
-if (isset($_POST['review'])) {$review = get_post('review');}
+if (isset($_REQUEST['review'])) {$review = get_post('review');}
 
-if (isset($_POST['sort'])) {$sort = get_post('sort');}
-
-if (isset($_GET['publisher'])) {$pubselectID = get_sort('publisher');}
-
-if (isset($_GET['family'])) {$famselectID = get_sort('family');}
-
-if (isset($_GET['sort'])) {$sort = get_sort('sort');}
+if (isset($_REQUEST['sort'])) {$sort = get_post('sort');}
 
 function get_post($var) {
-    if (!isset($_POST[$var]) && strlen($_POST[$var]) < 1) {return false;}
-    return mysql_real_escape_string($_POST[$var]);
-    }
-    
-function get_sort($var) {
-    if (!isset($_GET[$var]) && strlen($_GET[$var]) < 1) {return false;}
-    return mysql_real_escape_string($_GET[$var]);
+    if (!isset($_REQUEST[$var]) && strlen($_REQUEST[$var]) < 1) {return false;}
+    return mysql_real_escape_string($_REQUEST[$var]);
     }
        
 
@@ -243,7 +228,7 @@ else {
     $previous = $pagenum-1;
     $firstlink = "<a href='{$_SERVER['PHP_SELF']}?pagenum=1";
     $prevlink = "<a href='{$_SERVER['PHP_SELF']}?pagenum=$previous";
-    if ($_POST > 0) {
+     if ($_REQUEST > 0) {
         @$firstlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
         @$prevlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
         }
@@ -262,7 +247,7 @@ else {
     $next = $pagenum+1;
     $nextlink = "<a href='{$_SERVER['PHP_SELF']}?pagenum=$next";
     $lastlink = "<a href='{$_SERVER['PHP_SELF']}?pagenum=$last";
-    if ($_POST > 0) {
+    if ($_REQUEST > 0) {
         @$nextlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
         @$lastlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
         }
@@ -367,7 +352,7 @@ else {
     $previous = $pagenum-1;
     $firstlink = "<a href='{$_SERVER['PHP_SELF']}?pagenum=1";
     $prevlink = "<a href='{$_SERVER['PHP_SELF']}?pagenum=$previous";
-    if ($_POST > 0) {
+     if ($_REQUEST > 0) {
         @$firstlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
         @$prevlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
         }
@@ -386,7 +371,7 @@ else {
     $next = $pagenum+1;
     $nextlink = "<a href='{$_SERVER['PHP_SELF']}?pagenum=$next";
     $lastlink = "<a href='{$_SERVER['PHP_SELF']}?pagenum=$last";
-    if ($_POST > 0) {
+    if ($_REQUEST > 0) {
         @$nextlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
         @$lastlink .= "&publisher=$pubselectID&family=$famselectID&sort=$sort";
         }
