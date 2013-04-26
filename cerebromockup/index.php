@@ -17,13 +17,7 @@ or die("Unable to select database: " . mysql_error());
 <!-- HTML STARTS HERE -->
 <!DOCTYPE html>
  <head>
- 	<html lang="en">
-    <meta charset="UTF-8">
-    <title>Cerebro - Your Brain on Comics</title>
-    <base href="http://localhost:8888/cerebro/cerebromockup/">
-    <link rel="stylesheet" type="text/css" href="static/css/styles.css" title="Default Stylesheet" media="all" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="/static/js/jquery.formalize.js"></script>
+ 	<?php include 'header.php';?>
  </head>
  <body>
  	<div id="wholecontainer">
@@ -303,13 +297,13 @@ echo ('<input type="hidden" name="collectorID" value="5"></input>');
 echo ('<input type="hidden" name="comicID" value="'.$row[7].'"></input>');  
 echo ('<input class="owned-button" type="image" src="'.$owned.'" width="30" height="30" name="owned" value="'.$b_value.'" />'."\n");
 
-$collectorID = $_POST['collectorID'];
-$comicID = $_POST['comicID'];
+$hiddencollectorID = $_POST['collectorID'];
+$hiddencomicID = $_POST['comicID'];
 if(isset($_POST['owned']) && $_POST['owned'] == "owned") {
-    $query = "DELETE FROM owned WHERE collectorID = '$collectorID'";
+    $query = "DELETE FROM owned WHERE collectorID = '$hiddencollectorID'";
 }
 elseif(isset($_POST['owned']) && $_POST['owned'] == "notowned") {
-    $query = "INSERT INTO owned (comicID, collectorID) VALUES ('$comicID', '$collectorID')";
+    $query = "INSERT INTO owned (comicID, collectorID) VALUES ('$hiddencomicID', '$hiddencollectorID')";
 }
 mysql_query($query);
 ?>         

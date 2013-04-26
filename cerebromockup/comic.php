@@ -1,12 +1,6 @@
 <!DOCTYPE html>
  <head>
- 	<html lang="en">
-    <meta charset="UTF-8">
-    <title>Cerebro - Your Brain on Comics</title>
-    <base href="http://localhost:8888/cerebro/cerebromockup/">
-    <link rel="stylesheet" type="text/css" href="static/css/styles.css" title="Default Stylesheet" media="all" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="js/jquery.formalize.js"></script>
+ 	<?php include 'header.php';?>
  </head>
  <body>
  	<div id="wholecontainer">
@@ -24,12 +18,7 @@
         	</div>
 
         	<!-- nav links -->
-        	<ul id="username">
-                <?php if ( isset($_SESSION['username'])){ ?>
-                <li><?php echo (htmlentities($_SESSION['username'])); }?></li>
-            </ul>
-
-            <nav>
+        	<nav>
             	<ul>
                 	<li><a href="index.php">Home</a></li>
                 	<li><a href="about.html">About</a></li>
@@ -57,27 +46,15 @@ if (!$db_server) die("Unable to connect to MySQL: " . mysql_error());
 mysql_select_db($db_database)
 or die("Unable to select database: " . mysql_error());
 
-$comicID=get_from_url('comicID');
+$comicID = get_post('comicID');
 
 //clean input
-function get_from_url($var) {
-    if (!isset($_GET[$var]) && strlen($_GET[$var]) < 1) {return false;}
-    return mysql_real_escape_string($_GET[$var]);
+function get_post($var) {
+    if (!isset($_REQUEST[$var]) && strlen($_REQUEST[$var]) < 1) {return false;}
+    return mysql_real_escape_string($_REQUEST[$var]);
     }
 
 $query = "SELECT seriesID, publisherID, familyID, volume, number, monthid, pubyear, comicID, subtitle, isbn, adddate, limitedseries FROM comic WHERE comicID = $comicID";
-
-if (isset($pubselectID) && $pubselectID > 0) {
-    $query .= " AND publisherID = '$pubselectID'";
-}
-
-if (isset($famselectID) && $famselectID > 0) {
-    $query .= " AND familyID = '$famselectID'";
-}
-
-/*if (isset($reviewID) && $reviewID > 0) {
-    $query .= "AND reviewID = '$reviewID'";
-} */
 
 //run the query and output
 $result = mysql_query($query);
@@ -99,18 +76,18 @@ $month_row = mysql_fetch_row($query4);
 $image_query = mysql_query("SELECT image FROM image WHERE comicID = '$comicID'");
 $image_row = mysql_fetch_row($image_query);
 
-echo('<div id="comicbox" class="grid_1"><span>');
+echo('<div id="comicbox_page" class="grid_2"><span>');
 echo('<div class="cover">'."\n");
 //change this to dynamic 
 if ($image_row[0] == NULL) {
-    echo('<a href="comic.php?comicID='.$comicID.'"><img src="static/images/filler_woman.gif"></a>'."\n");
+    echo('<a href="comic.php?comicID='.$comicID.'"><img src="static/images/filler/'.rand(1,2).'.gif" alt="No Cover Image Available"></a>'."\n");
     }
     
 else {
     echo('<a href="comic.php?comicID='.$comicID.'"><img src="'.$image_row[0].'"></a>'."\n");
     }
 echo("</div></div>\n");
-echo('<div id="comicinfo">'."\n");
+echo('<div id="comicpageinfo">'."\n");
 echo('<div class="rowone"><h4><span class="alignleft">'."\n");
 echo($series_row[0]);
 echo('<div class="rowone"><h4><span class="alignleft">'."\n");
@@ -126,9 +103,9 @@ echo($row[3]);
 echo(',&nbsp; &#35;');
 echo($row[4]);
 echo('</span></div>');
-echo('Publisher: '.$publisher_row[0]."\n");
+echo('<div class="rowone"><span class="alignright">Publisher: '.$publisher_row[0]."</div>\n");
 echo('<div class="rowone"><span class="alignleft">');
-echo('Family: '.$family_row[0]);
+echo('Family: '.$family_row[0].'</div>');
 echo('<div class="rowtwo"><span class="alignleft">');
 echo('Publication Date: '.$month_row[0]."\n");
 echo($row[6]);
@@ -153,6 +130,7 @@ if (isset($_SESSION['collectorid']) ){
  $string = "SELECT ownedID FROM owned WHERE comicID = $comicID AND collectorID = '".addslashes($_SESSION['collectorid'])."' ";
  $result3=mysql_query($string);
  $owned_result = mysql_num_rows($result3);
+    }
 
  if ($owned_result > 0) {
     $owned = "In My Library";
@@ -165,21 +143,20 @@ if (isset($_SESSION['collectorid']) ){
 
 //adding artists/authors to the record 
 
-$query5 = "SELECT author.firstname, author.lastname, author.authorID, role.rolename, role.roleID
+$query_author = "SELECT author.firstname, author.lastname, author.authorID, role.rolename, role.roleID
     FROM authorship JOIN author ON author.authorID = authorship.authorID
     JOIN role ON role.roleID = authorship.roleID WHERE authorship.comicID = '$comicID' AND author.firstname IS NOT NULL";
 
-$result2 = mysql_query($query5);
+$result_author = mysql_query($query_author);
 
-while($row2 = mysql_fetch_row($result2)){
-    echo ($row2[3].': '.$row2[0].'&nbsp;'.$row2[1]);
+while( $row_author = mysql_fetch_row($result_author) ){
+    echo ('<span style="text-transform: uppercase;">'.$row_author[3].'</span>: '.$row_author[0].'&nbsp;'.$row_author[1]);
     echo('<div class="rowtwo"><span class="alignleft">');
 }
 
 echo('<div class="clear"></div>');
-echo('</div>');
 echo('</span></div>');
-}
+
 ?>
         </section>
 	    
