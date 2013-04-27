@@ -1,14 +1,20 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.1
+-- version 3.5.7
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 20, 2013 at 08:30 AM
--- Server version: 5.5.25
--- PHP Version: 5.4.4
+-- Generation Time: Apr 27, 2013 at 04:50 AM
+-- Server version: 5.5.29
+-- PHP Version: 5.4.10
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `cerebro`
@@ -26,13 +32,14 @@ CREATE TABLE `author` (
   `lastname` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`authorID`),
   UNIQUE KEY `name_index` (`firstname`,`lastname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=427 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=379 ;
 
 --
 -- Dumping data for table `author`
 --
 
 INSERT INTO `author` (`authorID`, `firstname`, `lastname`) VALUES
+(3, NULL, NULL),
 (19, 'Adi', 'Granov'),
 (132, 'Al', 'Barrionuevo'),
 (334, 'Alex', 'Ross'),
@@ -68,8 +75,8 @@ INSERT INTO `author` (`authorID`, `firstname`, `lastname`) VALUES
 (134, 'Emma', 'Rios'),
 (169, 'Filipe', 'Andrade'),
 (225, 'Fiona', 'Staples'),
-(228, 'Fonografiks', 'NULL'),
-(269, 'Fonographiks', 'NULL'),
+(228, 'Fonografiks', NULL),
+(269, 'Fonographiks', NULL),
 (38, 'Frank', 'D''Armata'),
 (17, 'Frank', 'Martin'),
 (85, 'Frank', 'Quietly'),
@@ -111,7 +118,6 @@ INSERT INTO `author` (`authorID`, `firstname`, `lastname`) VALUES
 (29, 'Morry', 'Hollowell'),
 (219, 'Neil', 'Uyetake'),
 (54, 'Nic', 'Klein'),
-(3, 'NULL', 'NULL'),
 (257, 'Patric', 'Reynolds'),
 (256, 'Patton', 'Oswalt'),
 (378, 'Pere', 'Perez'),
@@ -638,7 +644,7 @@ CREATE TABLE `collector` (
   UNIQUE KEY `username_index` (`username`),
   UNIQUE KEY `email_index` (`email`),
   KEY `permissionID` (`permissionID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
 
 --
 -- Dumping data for table `collector`
@@ -649,7 +655,8 @@ INSERT INTO `collector` (`firstname`, `lastname`, `username`, `email`, `permissi
 ('test', 'test', 'test', 'test', NULL, 22, 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3'),
 ('blah', 'blah', 'blah', 'blah', NULL, 23, '5bf1fd927dfb8679496a2e6cf00cbe50c1c87145'),
 ('llw', 'llw', 'llw', 'llw', NULL, 24, '29b50a9a7dca2f2683410214fc14e604178fb765'),
-('Caitlin', 'Geier', 'lonecayt', 'geier.ac@gmail.com', NULL, 25, '64875fcccaac069fcb3e0e201e7d5b9166641608');
+('Caitlin', 'Geier', 'lonecayt', 'geier.ac@gmail.com', NULL, 25, '64875fcccaac069fcb3e0e201e7d5b9166641608'),
+('Kristen', 'Shirkey', 'keshirkey', 'keshirkey@gmail.com', NULL, 26, '2dc28987ec7bef100c36bb0c0bd904586da6470a');
 
 -- --------------------------------------------------------
 
@@ -751,7 +758,7 @@ CREATE TABLE `family` (
   PRIMARY KEY (`familyID`),
   UNIQUE KEY `familyname_index` (`familyname`),
   KEY `publisherID` (`publisherID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=50 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=49 ;
 
 --
 -- Dumping data for table `family`
@@ -763,7 +770,7 @@ INSERT INTO `family` (`familyname`, `publisherID`, `familyID`) VALUES
 ('Batman', 11, 9),
 (NULL, 1, 11),
 ('Bat-family', 11, 39),
-('NULL', 31, 48);
+(NULL, 31, 48);
 
 -- --------------------------------------------------------
 
@@ -899,7 +906,7 @@ CREATE TABLE `owned` (
   PRIMARY KEY (`ownedID`),
   KEY `comicID` (`comicID`),
   KEY `collectorID` (`collectorID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `owned`
@@ -935,7 +942,7 @@ CREATE TABLE `publisher` (
   `publisherID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`publisherID`),
   UNIQUE KEY `publishername` (`publishername`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=52 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
 
 --
 -- Dumping data for table `publisher`
@@ -1008,7 +1015,7 @@ CREATE TABLE `series` (
   PRIMARY KEY (`seriesID`),
   UNIQUE KEY `seriestitle` (`seriestitle`),
   KEY `publisherID` (`publisherID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=54 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
 
 --
 -- Dumping data for table `series`
@@ -1091,9 +1098,9 @@ INSERT INTO `tagtype` (`tagtypeID`, `tagtype`) VALUES
 -- Constraints for table `authorship`
 --
 ALTER TABLE `authorship`
-  ADD CONSTRAINT `authorship_ibfk_3` FOREIGN KEY (`comicID`) REFERENCES `comic` (`comicID`),
   ADD CONSTRAINT `authorship_ibfk_1` FOREIGN KEY (`authorID`) REFERENCES `author` (`authorID`),
-  ADD CONSTRAINT `authorship_ibfk_2` FOREIGN KEY (`roleID`) REFERENCES `role` (`roleID`);
+  ADD CONSTRAINT `authorship_ibfk_2` FOREIGN KEY (`roleID`) REFERENCES `role` (`roleID`),
+  ADD CONSTRAINT `authorship_ibfk_3` FOREIGN KEY (`comicID`) REFERENCES `comic` (`comicID`);
 
 --
 -- Constraints for table `collector`
@@ -1105,9 +1112,9 @@ ALTER TABLE `collector`
 -- Constraints for table `comic`
 --
 ALTER TABLE `comic`
-  ADD CONSTRAINT `comic_ibfk_3` FOREIGN KEY (`monthid`) REFERENCES `months` (`monthID`),
   ADD CONSTRAINT `comic_ibfk_1` FOREIGN KEY (`publisherID`) REFERENCES `publisher` (`publisherID`),
-  ADD CONSTRAINT `comic_ibfk_2` FOREIGN KEY (`seriesID`) REFERENCES `series` (`seriesID`);
+  ADD CONSTRAINT `comic_ibfk_2` FOREIGN KEY (`seriesID`) REFERENCES `series` (`seriesID`),
+  ADD CONSTRAINT `comic_ibfk_3` FOREIGN KEY (`monthid`) REFERENCES `months` (`monthID`);
 
 --
 -- Constraints for table `family`
@@ -1125,30 +1132,30 @@ ALTER TABLE `image`
 -- Constraints for table `in_list`
 --
 ALTER TABLE `in_list`
-  ADD CONSTRAINT `in_list_ibfk_3` FOREIGN KEY (`collectorID`) REFERENCES `collector` (`collectorID`),
   ADD CONSTRAINT `in_list_ibfk_1` FOREIGN KEY (`comicID`) REFERENCES `comic` (`comicID`),
-  ADD CONSTRAINT `in_list_ibfk_2` FOREIGN KEY (`listID`) REFERENCES `list` (`listID`);
+  ADD CONSTRAINT `in_list_ibfk_2` FOREIGN KEY (`listID`) REFERENCES `list` (`listID`),
+  ADD CONSTRAINT `in_list_ibfk_3` FOREIGN KEY (`collectorID`) REFERENCES `collector` (`collectorID`);
 
 --
 -- Constraints for table `list`
 --
 ALTER TABLE `list`
-  ADD CONSTRAINT `list_ibfk_2` FOREIGN KEY (`tagID`) REFERENCES `tag` (`tagID`),
-  ADD CONSTRAINT `list_ibfk_1` FOREIGN KEY (`collectorID`) REFERENCES `collector` (`collectorID`);
+  ADD CONSTRAINT `list_ibfk_1` FOREIGN KEY (`collectorID`) REFERENCES `collector` (`collectorID`),
+  ADD CONSTRAINT `list_ibfk_2` FOREIGN KEY (`tagID`) REFERENCES `tag` (`tagID`);
 
 --
 -- Constraints for table `owned`
 --
 ALTER TABLE `owned`
-  ADD CONSTRAINT `owned_ibfk_2` FOREIGN KEY (`collectorID`) REFERENCES `collector` (`collectorID`),
-  ADD CONSTRAINT `owned_ibfk_1` FOREIGN KEY (`comicID`) REFERENCES `comic` (`comicID`);
+  ADD CONSTRAINT `owned_ibfk_1` FOREIGN KEY (`comicID`) REFERENCES `comic` (`comicID`),
+  ADD CONSTRAINT `owned_ibfk_2` FOREIGN KEY (`collectorID`) REFERENCES `collector` (`collectorID`);
 
 --
 -- Constraints for table `review`
 --
 ALTER TABLE `review`
-  ADD CONSTRAINT `review_ibfk_2` FOREIGN KEY (`comicID`) REFERENCES `comic` (`comicID`),
-  ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`collectorID`) REFERENCES `collector` (`collectorID`);
+  ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`collectorID`) REFERENCES `collector` (`collectorID`),
+  ADD CONSTRAINT `review_ibfk_2` FOREIGN KEY (`comicID`) REFERENCES `comic` (`comicID`);
 
 --
 -- Constraints for table `series`
@@ -1166,6 +1173,10 @@ ALTER TABLE `tag`
 -- Constraints for table `tagged`
 --
 ALTER TABLE `tagged`
-  ADD CONSTRAINT `tagged_ibfk_3` FOREIGN KEY (`tagID`) REFERENCES `tag` (`tagID`),
   ADD CONSTRAINT `tagged_ibfk_1` FOREIGN KEY (`comicID`) REFERENCES `comic` (`comicID`),
-  ADD CONSTRAINT `tagged_ibfk_2` FOREIGN KEY (`collectorID`) REFERENCES `collector` (`collectorID`);
+  ADD CONSTRAINT `tagged_ibfk_2` FOREIGN KEY (`collectorID`) REFERENCES `collector` (`collectorID`),
+  ADD CONSTRAINT `tagged_ibfk_3` FOREIGN KEY (`tagID`) REFERENCES `tag` (`tagID`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
