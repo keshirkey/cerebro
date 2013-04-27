@@ -1,3 +1,12 @@
+<?php
+require_once "login.php";
+session_start();
+$db_server = mysql_connect($db_hostname, $db_username, $db_password);
+if (!$db_server) die("Unable to connect to MySQL: " . mysql_error()); 
+mysql_select_db($db_database)
+or die("Unable to select database: " . mysql_error());
+?>
+
 <!DOCTYPE html>
  <head>
  	<?php include 'header.php';?>
@@ -18,33 +27,30 @@
         	</div>
 
         	<!-- nav links -->
-        	<nav>
-            	<ul>
-                	<li><a href="index.php">Home</a></li>
-                	<li><a href="about.html">About</a></li>
-					<?php if (!isset($_SESSION['username'])){ ?>
-                	<li><a href="signin.php">Log In</a></li>
-					<li><a href="registration.php"></a></li>
-					<?php } ?>
-					<?php if ( isset($_SESSION['username'])){ ?>
-					<li><a href="logout.php">Logout</a></li>
-					<!-- Welcome user not quite working yet -->
-					<li>Welcome <?php '.htmlentities($_SESSION["username"]). ' ?></li>
-					<?php } ?>
-					   
-            	</ul>
-        	</nav>
-        	</div>
+        	<ul id="username">
+                <?php if ( isset($_SESSION['username'])){ ?>
+                <li><?php echo ('<p> Welcome ' .htmlentities($_SESSION['username']). '!</p>'); }?></li>
+            </ul>
+
+            <nav>
+                <ul>
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <?php if (!isset($_SESSION['username'])){ ?>
+                    <li><a href="signin.php">Log In</a></li>
+                    <li><a href="registration.php"></a></li>
+                    <?php } ?>
+                    <?php if ( isset($_SESSION['username'])){ ?>
+                    <li><a href="logout.php">Logout</a></li>
+                    <?php } ?>
+                       
+                </ul>
+            </nav>
+            </div>
     	</header>
 
         <section id="maincontent">
 <?php
-require_once "login.php";
-session_start();
-$db_server = mysql_connect($db_hostname, $db_username, $db_password);
-if (!$db_server) die("Unable to connect to MySQL: " . mysql_error()); 
-mysql_select_db($db_database)
-or die("Unable to select database: " . mysql_error());
 
 $comicID = get_post('comicID');
 
@@ -77,55 +83,57 @@ $image_query = mysql_query("SELECT image FROM image WHERE comicID = '$comicID'")
 $image_row = mysql_fetch_row($image_query);
 
 echo('<div id="comicbox_page" class="grid_2"><span>');
-echo('<div class="cover">'."\n");
-//change this to dynamic 
-if ($image_row[0] == NULL) {
-    echo('<a href="comic.php?comicID='.$comicID.'"><img src="static/images/filler/'.rand(1,2).'.gif" alt="No Cover Image Available"></a>'."\n");
-    }
-    
-else {
-    echo('<a href="comic.php?comicID='.$comicID.'"><img src="'.$image_row[0].'"></a>'."\n");
-    }
-echo("</div></div>\n");
 echo('<div id="comicpageinfo">'."\n");
-echo('<div class="rowone"><h4><span class="alignleft">'."\n");
+echo('<div id="seriestitle"><h2>');
 echo($series_row[0]);
-echo('<div class="rowone"><h4><span class="alignleft">'."\n");
+echo('</h2>');
 //display subtitle
-
 if($row[8] != NULL){
+    echo('<div id="subtitle"><h4>');
     echo($row[8]);
-    echo('<div class="rowone"><h4><span class="alignleft">'."\n");
+    echo('</h4></div>');
     }
-echo('<div class="rowone"><span class="alignright">');
+echo('<div id="volnuminfo">');
 echo('Vol. ');
 echo($row[3]);
 echo(',&nbsp; &#35;');
 echo($row[4]);
 echo('</span></div>');
-echo('<div class="rowone"><span class="alignright">Publisher: '.$publisher_row[0]."</div>\n");
-echo('<div class="rowone"><span class="alignleft">');
-echo('Family: '.$family_row[0].'</div>');
-echo('<div class="rowtwo"><span class="alignleft">');
-echo('Publication Date: '.$month_row[0]."\n");
+echo('<div class="cover">'."\n");
+//change this to dynamic 
+if ($image_row[0] == NULL) {
+    echo('<img src="static/images/filler/'.rand(1,2).'.gif" alt="No Cover Image Available"></a>'."\n");
+    }
+    
+else {
+    echo('<img src="'.$image_row[0].'"></a>'."\n");
+    }
+echo('</div></div>'."\n");
+
+echo('<div id="comicextrainfo">');
+echo('<div id="publisher"><strong>Publisher:</strong> '.$publisher_row[0]."</div>\n");
+echo('<div id="family"><strong>Family:</strong> '.$family_row[0].'</div>');
+echo('<div id="pubdate">');
+echo('<strong>Publication Date:</strong> '.$month_row[0]. ' ');
 echo($row[6]);
-echo('<div class="rowtwo"><span class="alignleft">');
+echo('</div>');
+echo('<div id="isbn">');
 //ISBN
 if($row[9] != 0 OR NULL){ 
-    echo('ISBN: '.$row[9]."\n");
+    echo('<strong>ISBN:</strong> '.$row[9]."</div>\n");
 }
-echo('<div class="rowtwo"><span class="alignleft">');
+echo('<div class="rowtwo">');
 //Do we want this in? Probably need to format it nicely if we do
 
-echo('Added On: '.$row[10]."\n");
+echo('<strong>Added On:</strong> '.$row[10]."\n");
 //Add an "In my library" feature that draws on owned
-echo('<div class="rowtwo"><span class="alignleft">');
+echo('<div id="reviews">');
 echo('(#) reviews');
 echo('</span></div>');
-echo('<div class="rowtwo"><span class="alignright">');
-echo('(stars)');
+echo('<div id="stars">');
+echo('<img src="static/images/stars/stars.png">'."\n");
 echo('</span></div>');
-echo('<div class="rowtwo"><span class="alignleft">');
+echo('<div id="owned">');
 if (isset($_SESSION['collectorid']) ){
  $string = "SELECT ownedID FROM owned WHERE comicID = $comicID AND collectorID = '".addslashes($_SESSION['collectorid'])."' ";
  $result3=mysql_query($string);
@@ -150,8 +158,8 @@ $query_author = "SELECT author.firstname, author.lastname, author.authorID, role
 $result_author = mysql_query($query_author);
 
 while( $row_author = mysql_fetch_row($result_author) ){
-    echo ('<span style="text-transform: uppercase;">'.$row_author[3].'</span>: '.$row_author[0].'&nbsp;'.$row_author[1]);
-    echo('<div class="rowtwo"><span class="alignleft">');
+    echo ('<span style="text-transform: uppercase; font-weight: bold;">'.$row_author[3].'</span>: '.$row_author[0].'&nbsp;'.$row_author[1]);
+    echo('<div class="rowtwo"><span class="alignleft"></div>');
 }
 
 echo('<div class="clear"></div>');

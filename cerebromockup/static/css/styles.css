@@ -25,13 +25,13 @@ h1 {
     text-decoration: none;
     font-size: 14px;
     text-align: center;
-    font-color: #000;
+    font-color: #000000;
 }
 .actions .review-button {
     text-align: center;
     padding: 5px;
     background-color: #E1E1E1;
-    border: 1px solid #000;
+    border: 1px solid #000000;
     border-radius: 3px;
     margin: 15px 5px 5px 5px;
     /*top: 50px;*/
@@ -57,9 +57,11 @@ h1 {
 
 /* Z-index of #mask must be lower than #boxes .window */
 #mask {
-  //position:absolute;
-  z-index:9000;
-  background-color:#000;
+  position:absolute;
+  z-index:9000; 
+  top: 0;
+  left: 0; 
+  background-color:#000000;
   display:none;
 }
   
@@ -181,7 +183,7 @@ footer  {
   margin-top: 20px;
   margin-bottom: -50px;
   float: right;
-  margin-right: 107px;
+  margin-right: 104px;
 }
 
 nav {
@@ -283,12 +285,13 @@ nav ul li {
 
 #pagesbottom {
   text-align: center;
+  height: 100px;
+  width: 100%;
   float: left;
 }
 
 #pagesbottom #pagesleft .alignleft {
   float: left;
-  margin-bottom: 7px;
 }
 
 #pagesbottom #pagescenter .aligncenter {
@@ -300,7 +303,6 @@ nav ul li {
 
 #pagesbottom #pagesright .alignright {
   float: right;
-  margin-bottom: 7px;
 }
 
 .clear {
@@ -324,8 +326,8 @@ nav ul li {
 }
 
 #maincontent .grid_1 {
-	width: 22.0%;
-  max-width: 22.0%;
+	width: 290px;
+  max-width: 290px;
 	position: static;
 }
 
@@ -343,15 +345,15 @@ nav ul li {
 }
 
 #comicbox {
-  width: 296px;
-  height: 520px;
+  height: 530px;
   margin-bottom: 30px;
 }
 
 .cover img {
 	width: 260px;
   height: 396px;
-	margin-left: 16px;
+	margin-left: 14px;
+  margin-top: -9px;
   border: 1px solid grey;
 }
 
@@ -385,7 +387,7 @@ nav ul li {
 
 .rowtwo img {
   width: 80px;
-  margin-top: 2.5px;
+  margin-top: 2px;
 }
 
 .grid_1 h3,
@@ -400,6 +402,38 @@ footer p {
 
 /*-------------Individual Comic Page -----------------*/
 
+#comicbox_page {
+  margin-left: 120px;
+}
+
+#comicpageinfo {
+  margin-left: 134px;
+}
+
+#seriestitle h2 {
+  padding-top: 30px;
+}
+
+#subtitle {
+  margin-top: -15px;
+  font-style: italic;
+}
+
+#volnuminfo {
+  margin-top: -13px;
+}
+
+#comicbox_page .cover img {
+  margin-top: 10px;
+  margin-left: 1px;
+  margin-right: 15px;
+  float: left;
+}
+
+#comicextrainfo {
+  float: left;
+  margin-top: 8px;
+}
 
 /*------------- Formalize CSS (for cross-browser form styling) -------------*/
 .input_tiny {

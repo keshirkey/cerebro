@@ -343,9 +343,9 @@ echo('<div class="rowtwo"><span class="alignleft">');
 echo('(#) reviews');
 echo('</span></div>');
 echo('<div class="rowtwo"><span class="alignright">');
-echo('(stars)'."\n");
+echo('<img src="static/images/stars/stars.png">'."\n");
 
-if (isset($_SESSION['collectorid']) ){
+/*if (isset($_SESSION['collectorid']) ){
  $string = "SELECT ownedID FROM owned WHERE comicID = '$row[7]' AND collectorID = '".addslashes($_SESSION['collectorid'])."' ";
  $result3=mysql_query($string);
 
@@ -358,10 +358,10 @@ if (isset($_SESSION['collectorid']) ){
     $owned = "not owned";
     }
 echo $owned;
-    } ?>
+    }*/ ?>
         <div id="boxes">
             <div id="review-dialog" class="window">
-                <b>Testing of Modal Window</b>
+                <b>Modal Window</b>
                 <a href="#" class="close">cancel</a>
             </div>
             <div id="mask"></div>
@@ -418,7 +418,7 @@ else {
 echo ('</span></div>');
 
 echo ('<div id="pagescenter"><span class="aligncenter">');
-echo ('<p id="pages">Page '.$pagenum.' of '.$last.'</p>');
+echo ('<p id="pages"> Page '.$pagenum.' of '.$last.'</p>');
 echo ('</span></div>');
 
 echo ('<div class="clear">');
